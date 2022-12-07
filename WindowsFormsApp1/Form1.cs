@@ -479,62 +479,7 @@ namespace WindowsFormsApp1
             // 시작 하면 Program이 죽을 때 까지 계속 체크
             while (bLoopState)
             {
-                DateTime dTime = DateTime.Now;
-                sb.Append($"{dTime:yyyy/MM/dd hh:mm:ss.FFF,}");
-                for (int i = 0; i < iProcessMaxCnt; i++)
-                {                  
-                    // -mm 분당 추가 되는 파일 테스트 용도 (추후 삭제 필요함)
-                    string strfilename = filename.Append(DateTime.Now.ToString("yyyy-MM-dd-HH")).Append(".csv").ToString();
-                    //if (!logger.GetFileExist(filename.ToString()))
-
-                    if (!logger.GetFileExist(strfilename))
-                    {
-                        //logger.SetFileName(filename.ToString());
-                        // 파일이 생성되어있는상태에서 SetFileName 진행을 안하면... logger sw 생성이 안돼서 exception 발생되네...
-                        // 파일 존재여부로 하면 안되겄는데ㅠ
-                        logger.SetFileName(strfilename);
-
-                        sb2.Append("Time").Append(",");
-                        for (int j = 0; j < iProcessMaxCnt; j++)
-                        {
-                            sb2
-                            .Append("cpu_" + pProcess[j].ProcessName).Append(",")
-                            .Append("mem_" + pProcess[j].ProcessName).Append(",")
-                            .Append("thread_" + pProcess[j].ProcessName).Append(",")
-                            .Append("handle_" + pProcess[j].ProcessName).Append(",");
-                        }
-                        logger.WriteLog(sb2.ToString());
-                        sb2.Clear();
-                    }
-                    else
-                    {
-                        logger.SetFileName(strfilename);
-                    }
-                    strfilename = null;
-                    filename.Clear();
-
-                    var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i].ProcessName);
-                    var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i].ProcessName);
-                    var threadCount = PCM.GetProcessThreadCount(pProcess[i].ProcessName);
-                    var handleCount = PCM.GetProcessHandleCount(pProcess[i].ProcessName);
-
-                    // 4줄로...
-                    //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu: {cpuUsage.ToString()} %");
-                    //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} mem: {memoryUsage.ToString()} %");
-                    //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} threadCnt: {threadCount.ToString()} cnt");
-                    //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} HandleCnt: {handleCount.ToString()} cnt");
-
-                    // 한줄로...
-                    Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (%): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
-                    //Log(listBox1, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (%): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
-
-                    sb.Append(cpuUsage.ToString()).Append(",")
-                        .Append(memoryUsage.ToString()).Append(",")
-                        .Append(threadCount.ToString()).Append(",")
-                        .Append(handleCount.ToString()).Append(",");                    
-                }
-                logger.WriteLog(sb.ToString());
-                sb.Clear();
+                Task.Run(fMonitorAllProcess);
                 Thread.Sleep(iThreadTime);  // Thread 대기 Time
                 if (checkDateTime(dtEndDate))
                 {
@@ -629,6 +574,67 @@ namespace WindowsFormsApp1
             initialMonitorProcess();
             lblStartDateInfo.Text = "";
             lblEndDateInfo.Text = "";
+        }
+
+        private void fMonitorAllProcess()
+        {
+            DateTime dTime = DateTime.Now;
+            sb.Append($"{dTime:yyyy/MM/dd hh:mm:ss.FFF,}");
+            for (int i = 0; i < iProcessMaxCnt; i++)
+            {
+                // -mm 분당 추가 되는 파일 테스트 용도 (추후 삭제 필요함)
+                string strfilename = filename.Append(DateTime.Now.ToString("yyyy-MM-dd-HH")).Append(".csv").ToString();
+                //if (!logger.GetFileExist(filename.ToString()))
+
+                if (!logger.GetFileExist(strfilename))
+                {
+                    //logger.SetFileName(filename.ToString());
+                    // 파일이 생성되어있는상태에서 SetFileName 진행을 안하면... logger sw 생성이 안돼서 exception 발생되네...
+                    // 파일 존재여부로 하면 안되겄는데ㅠ
+                    logger.SetFileName(strfilename);
+
+                    sb2.Append("Time").Append(",");
+                    for (int j = 0; j < iProcessMaxCnt; j++)
+                    {
+                        sb2
+                        .Append("cpu_" + pProcess[j].ProcessName).Append(",")
+                        .Append("mem_" + pProcess[j].ProcessName).Append(",")
+                        .Append("thread_" + pProcess[j].ProcessName).Append(",")
+                        .Append("handle_" + pProcess[j].ProcessName).Append(",");
+                    }
+                    logger.WriteLog(sb2.ToString());
+                    sb2.Clear();
+                }
+                else
+                {
+                    logger.SetFileName(strfilename);
+                }
+                strfilename = null;
+                filename.Clear();
+
+                var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i].ProcessName);
+                var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i].ProcessName);
+                var threadCount = PCM.GetProcessThreadCount(pProcess[i].ProcessName);
+                var handleCount = PCM.GetProcessHandleCount(pProcess[i].ProcessName);
+
+                // 4줄로...
+                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu: {cpuUsage.ToString()} %");
+                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} mem: {memoryUsage.ToString()} %");
+                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} threadCnt: {threadCount.ToString()} cnt");
+                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} HandleCnt: {handleCount.ToString()} cnt");
+
+                // 한줄로...
+                Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (%): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
+                //Log(listBox1, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (%): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
+
+                sb.Append(cpuUsage.ToString()).Append(",")
+                    .Append(memoryUsage.ToString()).Append(",")
+                    .Append(threadCount.ToString()).Append(",")
+                    .Append(handleCount.ToString()).Append(",");
+            }
+            string strData = sb.ToString();
+            logger.WriteLog(sb.ToString());
+            sb.Clear();
         }
     }
 
