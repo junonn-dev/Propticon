@@ -2,9 +2,9 @@
 
 namespace WindowsFormsApp1
 {
-    struct Record<T> where T : struct
+    struct Record 
     {
-        T value;
-        DateTime recordTime;
+        public dynamic value;
+        public DateTime recordTime;
     }
 }

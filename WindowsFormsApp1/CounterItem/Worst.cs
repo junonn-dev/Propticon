@@ -10,11 +10,27 @@ namespace WindowsFormsApp1.CounterItem
     {
         public int worstCount { get; }
 
+        private List<Record> list;
+
         public Worst(int worstCount)
         {
             this.worstCount = worstCount;
         }
 
-        public AddData()
+        public Record GetLastRecord()
+        {
+            return list.Last();
+        }
+
+        public void AddData(Record record)
+        {
+            if (list.Count < worstCount)
+            {
+                list.Add(record);
+                return;
+            }
+
+            if(GetLastRecord().value )
+        }
     }
 }
