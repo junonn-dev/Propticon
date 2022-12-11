@@ -4,30 +4,26 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WindowsFormsApp1.CounterItem;
 
 namespace WindowsFormsApp1
 {
     class PCManager
     {
-        private PerformanceCounter pcMemoryAvailableBytes;
-        private PerformanceCounter pcCPUProcessorTime;
-        private static Dictionary<string, PerformanceCounter> mapProcessProcessorTime;
-        private static Dictionary<string, PerformanceCounter> mapProcessWrokingSet;
-        private static Dictionary<string, PerformanceCounter> mapProcessThreadCount;
-        private static Dictionary<string, PerformanceCounter> mapProcessHandleCount;
-
+        private static Dictionary<string, ProcessCPUCounter> mapProcessProcessorTime;
+        private static Dictionary<string, ProcessWorkingSetCounter> mapProcessWrokingSet;
+        private static Dictionary<string, ProcessThreadCountCounter> mapProcessThreadCount;
+        private static Dictionary<string, ProcessHandleCountCounter> mapProcessHandleCount;
 
         /// <summary>
         /// 내부 필드 초기화만 함, PCManager 생성 후 InitProcessMonitor 호출하여 프로세스 지정해야 함
         /// </summary>
         public PCManager()
         {
-            pcMemoryAvailableBytes = new PerformanceCounter("Memory", "Available MBytes");
-            pcCPUProcessorTime = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-            mapProcessProcessorTime = new Dictionary<string, PerformanceCounter>();
-            mapProcessWrokingSet = new Dictionary<string, PerformanceCounter>();
-            mapProcessThreadCount = new Dictionary<string, PerformanceCounter>();
-            mapProcessHandleCount = new Dictionary<string, PerformanceCounter>();
+            mapProcessProcessorTime = new Dictionary<string, ProcessCPUCounter>();
+            mapProcessWrokingSet = new Dictionary<string, ProcessWorkingSetCounter>();
+            mapProcessThreadCount = new Dictionary<string, ProcessThreadCountCounter>();
+            mapProcessHandleCount = new Dictionary<string, ProcessHandleCountCounter>();
         }
 
         /// <summary>
@@ -35,6 +31,11 @@ namespace WindowsFormsApp1
         /// </summary>
         /// <param name="processNames"></param>
         public PCManager(IEnumerable<string> processNames) : this()
+        {
+            InitProcessMonitor(processNames);
+        }
+
+        public PCManager(IEnumerable<Process> processNames) : this()
         {
             InitProcessMonitor(processNames);
         }
@@ -52,10 +53,10 @@ namespace WindowsFormsApp1
                 {
                     continue;
                 }
-                mapProcessProcessorTime.Add(processName, new PerformanceCounter("Process", "% Processor Time", processName));
-                mapProcessWrokingSet.Add(processName, new PerformanceCounter("Process", "Working Set - Private", processName));
-                mapProcessThreadCount.Add(processName, new PerformanceCounter("Process", "Thread Count", processName));
-                mapProcessHandleCount.Add(processName, new PerformanceCounter("Process", "Handle Count", processName));
+                mapProcessProcessorTime.Add(processName, new ProcessCPUCounter(processName));
+                mapProcessWrokingSet.Add(processName, new ProcessWorkingSetCounter(processName));
+                mapProcessThreadCount.Add(processName, new ProcessThreadCountCounter(processName));
+                mapProcessHandleCount.Add(processName, new ProcessHandleCountCounter(processName));
             }
         }
 
@@ -73,10 +74,10 @@ namespace WindowsFormsApp1
                     continue;
                 }
                 string procName = process.ProcessName;
-                mapProcessProcessorTime.Add(procName, new PerformanceCounter("Process", "% Processor Time", procName));
-                mapProcessWrokingSet.Add(procName, new PerformanceCounter("Process", "Working Set - Private", procName));
-                mapProcessThreadCount.Add(procName, new PerformanceCounter("Process", "Thread Count", procName));
-                mapProcessHandleCount.Add(procName, new PerformanceCounter("Process", "Handle Count", procName));
+                mapProcessProcessorTime.Add(procName, new ProcessCPUCounter(procName));
+                mapProcessWrokingSet.Add(procName, new ProcessWorkingSetCounter(procName));
+                mapProcessThreadCount.Add(procName, new ProcessThreadCountCounter(procName));
+                mapProcessHandleCount.Add(procName, new ProcessHandleCountCounter(procName));
             }
         }
 
@@ -86,8 +87,7 @@ namespace WindowsFormsApp1
             {
                 return -1f;
             }
-            PerformanceCounter pc = mapProcessProcessorTime[processName];
-            return pc.NextValue();
+            return mapProcessProcessorTime[processName].GetNextValue();
         }
 
         public float GetProcessMemoryUsage(string processName)
@@ -96,8 +96,7 @@ namespace WindowsFormsApp1
             {
                 return -1f;
             }
-            PerformanceCounter pc = mapProcessWrokingSet[processName];
-            return pc.NextValue();
+            return mapProcessWrokingSet[processName].GetNextValue();
         }
 
         public int GetProcessThreadCount(string processName)
@@ -106,8 +105,7 @@ namespace WindowsFormsApp1
             {
                 return -1;
             }
-            PerformanceCounter pc = mapProcessThreadCount[processName];
-            return (int)pc.NextValue();
+            return (int)mapProcessThreadCount[processName].GetNextValue();
         }
 
         public int GetProcessHandleCount(string processName)
@@ -116,18 +114,8 @@ namespace WindowsFormsApp1
             {
                 return -1;
             }
-            PerformanceCounter pc = mapProcessHandleCount[processName];
-            return (int)pc.NextValue();
+            return (int)mapProcessHandleCount[processName].GetNextValue();
         }
 
-        public float GetMemoryAvailableBytes()
-        {
-            return pcMemoryAvailableBytes.NextValue();
-        }
-
-        public float GetCPUProcessorTime()
-        {
-            return pcCPUProcessorTime.NextValue();
-        }
     }
 }

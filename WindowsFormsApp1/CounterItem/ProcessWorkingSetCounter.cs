@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1.CounterItem
 {
-    class ProcessCPUCounter : Counter
+    class ProcessWorkingSetCounter : Counter
     {
         public WorstList worstList { get; set; }
 
-        public ProcessCPUCounter(string processName)
+        public ProcessWorkingSetCounter(string processName)
         {
-            performanceCounter = new PerformanceCounter("Process", "% Processor Time", processName);
+            performanceCounter = new PerformanceCounter("Process", "Working Set - Private", processName);
             worstList = new WorstList();
         }
-
     }
 }
