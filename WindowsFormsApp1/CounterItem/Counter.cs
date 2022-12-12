@@ -7,28 +7,51 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1.CounterItem
 {
-    abstract class Counter
+    class Counter
     {
         public float minValue { get; set; }
         public float maxValue { get; set; }
         public double average { get; set; }
         public long recordCount { get; set; }
+        public WorstList worstList { get; set; }
 
-        protected PerformanceCounter performanceCounter;
+        private PerformanceCounter performanceCounter;
 
-        protected Counter()
+        public Counter(string category, string counter, string instance)
         {
+            performanceCounter = new PerformanceCounter(category, counter, instance);
+            worstList = new WorstList();
             minValue = float.MaxValue;
             maxValue = float.MinValue;
         }
 
-        public virtual float GetNextValue()
+        /// <summary>
+        /// Counter 측정 값을 얻어서 통계값을 계산한 후 측정값을 반환
+        /// </summary>
+        /// <returns></returns>
+        public float GetNextValue()
         {
             float value = performanceCounter.NextValue();
             CheckStatisticValue(value);
             return value;
         }
 
+        /// <summary>
+        /// Counter 측정 값을 얻어서 통계값을 계산하고, 입력된 시간에 대해 worst 기록을 함
+        /// </summary>
+        /// <param name="timeStamp"></param>
+        /// <returns></returns>
+        public float GetNextValue(DateTime timeStamp)
+        {
+            var value = GetNextValue();
+            worstList.CheckRecord(value, timeStamp);
+            return value;
+        }
+
+        /// <summary>
+        /// 평균과 최솟값과 최댓값을 업데이트함
+        /// </summary>
+        /// <param name="value"></param>
         private void CheckStatisticValue(float value)
         {
             //Average계산과 RecordCount 증가 순서 주의,

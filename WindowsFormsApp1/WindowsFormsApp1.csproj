@@ -47,10 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CounterItem\Counter.cs" />
-    <Compile Include="CounterItem\ProcessCPUCounter.cs" />
-    <Compile Include="CounterItem\ProcessHandleCountCounter.cs" />
-    <Compile Include="CounterItem\ProcessThreadCountCounter.cs" />
-    <Compile Include="CounterItem\ProcessWorkingSetCounter.cs" />
     <Compile Include="CounterItem\WorstList.cs" />
     <Compile Include="Data\Record.cs" />
     <Compile Include="Form1.cs">
@@ -61,9 +57,7 @@
     </Compile>
     <Compile Include="Ini.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="MeasureItem.cs" />
     <Compile Include="PCManager.cs" />
-    <Compile Include="ProcessCounter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

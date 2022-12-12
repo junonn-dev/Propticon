@@ -11,49 +11,45 @@ namespace WindowsFormsApp1.CounterItem
         private readonly int timeReserve = 10;
         private readonly int worstCount = 5;
 
-        private SortedDictionary<dynamic, List<DateTime>> list;
+        private SortedDictionary<float, List<DateTime>> list;
 
         public WorstList()
         {
-            list = new SortedDictionary<dynamic, List<DateTime>>();
+            list = new SortedDictionary<float, List<DateTime>>();
         }
 
-        public void CheckRecord(Record record)
+        public void CheckRecord(float value, DateTime timeStamp)
         {
             if (list.Count < worstCount)
             {
-                if (!list.ContainsKey(record.value))
+                if (!list.ContainsKey(value))
                 {
-                    list[record.value] = new List<DateTime>(timeReserve);
+                    list[value] = new List<DateTime>(timeReserve);
                 }
-                else if(list[record.value].Count < timeReserve)
+                if(list[value].Count < timeReserve)
                 {
-                    list[record.value].Add(record.recordTime);
+                    list[value].Add(timeStamp);
                 }               
                 return;
             }
 
             var minValue = list.First().Key;
-            if (minValue > record.value)
+            if (minValue > value)
             {
                 return;
             }
-            else if(minValue == record.value)
-            {
-                list[minValue].Add(record.recordTime);
-            }
             else
             {
-                if (!list.ContainsKey(record.value))
+                if (!list.ContainsKey(value))
                 {
-                    list[record.value] = new List<DateTime>(timeReserve);
+                    list[value] = new List<DateTime>(timeReserve);
                 }
-                else if (list[record.value].Count < timeReserve)
+                if (list[value].Count < timeReserve)
                 {
-                    list[record.value].Add(record.recordTime);
+                    list[value].Add(timeStamp);
                 }
                 
-                if(list.Count>= worstCount)
+                if(list.Count> worstCount)
                 {
                     list.Remove(list.First().Key);
                 }

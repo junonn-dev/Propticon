@@ -479,7 +479,7 @@ namespace WindowsFormsApp1
             // 시작 하면 Program이 죽을 때 까지 계속 체크
             while (bLoopState)
             {
-                Task.Run(fMonitorAllProcess);
+                Task.Run((Action)fMonitorAllProcess);
                 Thread.Sleep(iThreadTime);  // Thread 대기 Time
                 if (checkDateTime(dtEndDate))
                 {
@@ -579,7 +579,7 @@ namespace WindowsFormsApp1
         private void fMonitorAllProcess()
         {
             DateTime dTime = DateTime.Now;
-            sb.Append($"{dTime:yyyy/MM/dd hh:mm:ss.FFF,}");
+            sb.Append($"[{dTime:yyyy/MM/dd hh:mm:ss.FFF}],");
             for (int i = 0; i < iProcessMaxCnt; i++)
             {
                 // -mm 분당 추가 되는 파일 테스트 용도 (추후 삭제 필요함)
@@ -598,7 +598,7 @@ namespace WindowsFormsApp1
                     {
                         sb2
                         .Append("cpu_" + pProcess[j].ProcessName).Append(",")
-                        .Append("mem_" + pProcess[j].ProcessName).Append(",")
+                        .Append("mem_" + pProcess[j].ProcessName).Append("(KB),")
                         .Append("thread_" + pProcess[j].ProcessName).Append(",")
                         .Append("handle_" + pProcess[j].ProcessName).Append(",");
                     }
@@ -612,10 +612,12 @@ namespace WindowsFormsApp1
                 strfilename = null;
                 filename.Clear();
 
-                var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i].ProcessName);
-                var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i].ProcessName);
+                var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i].ProcessName, dTime);
+                var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i].ProcessName, dTime);
                 var threadCount = PCM.GetProcessThreadCount(pProcess[i].ProcessName);
                 var handleCount = PCM.GetProcessHandleCount(pProcess[i].ProcessName);
+
+                memoryUsage /= 1024;    //memory kilobyte 변환
 
                 // 4줄로...
                 //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu: {cpuUsage.ToString()} %");
@@ -624,7 +626,7 @@ namespace WindowsFormsApp1
                 //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} HandleCnt: {handleCount.ToString()} cnt");
 
                 // 한줄로...
-                Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (%): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
+                Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
                 //Log(listBox1, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (%): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
 
                 sb.Append(cpuUsage.ToString()).Append(",")
