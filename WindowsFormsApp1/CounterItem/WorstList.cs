@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1.CounterItem
 {
-    class WorstList
+    public class WorstList
     {
         private readonly int timeReserve = 10;
         private readonly int worstCount = 5;

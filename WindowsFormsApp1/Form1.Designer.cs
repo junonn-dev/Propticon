@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblEndDateInfo = new System.Windows.Forms.Label();
             this.lblStartDateInfo = new System.Windows.Forms.Label();
@@ -57,10 +58,15 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lboxProcessLog = new System.Windows.Forms.ListBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tconProcessTab = new System.Windows.Forms.TabControl();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tconProcessTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -88,7 +94,7 @@
             this.lblEndDateInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblEndDateInfo.Location = new System.Drawing.Point(110, 73);
             this.lblEndDateInfo.Name = "lblEndDateInfo";
-            this.lblEndDateInfo.Size = new System.Drawing.Size(173, 21);
+            this.lblEndDateInfo.Size = new System.Drawing.Size(171, 21);
             this.lblEndDateInfo.TabIndex = 13;
             this.lblEndDateInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -98,7 +104,7 @@
             this.lblStartDateInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblStartDateInfo.Location = new System.Drawing.Point(110, 48);
             this.lblStartDateInfo.Name = "lblStartDateInfo";
-            this.lblStartDateInfo.Size = new System.Drawing.Size(173, 21);
+            this.lblStartDateInfo.Size = new System.Drawing.Size(171, 21);
             this.lblStartDateInfo.TabIndex = 12;
             this.lblStartDateInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -122,7 +128,7 @@
             // 
             // BtnMonitorEnd
             // 
-            this.BtnMonitorEnd.Location = new System.Drawing.Point(288, 72);
+            this.BtnMonitorEnd.Location = new System.Drawing.Point(287, 72);
             this.BtnMonitorEnd.Name = "BtnMonitorEnd";
             this.BtnMonitorEnd.Size = new System.Drawing.Size(84, 23);
             this.BtnMonitorEnd.TabIndex = 9;
@@ -132,7 +138,7 @@
             // 
             // BtnMonitorStart
             // 
-            this.BtnMonitorStart.Location = new System.Drawing.Point(288, 47);
+            this.BtnMonitorStart.Location = new System.Drawing.Point(287, 47);
             this.BtnMonitorStart.Name = "BtnMonitorStart";
             this.BtnMonitorStart.Size = new System.Drawing.Size(84, 23);
             this.BtnMonitorStart.TabIndex = 8;
@@ -143,7 +149,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(394, 54);
+            this.label5.Location = new System.Drawing.Point(393, 54);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 12);
             this.label5.TabIndex = 7;
@@ -151,17 +157,21 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(387, 72);
+            this.textBox2.Location = new System.Drawing.Point(386, 72);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(86, 21);
             this.textBox2.TabIndex = 6;
             // 
             // dateTimePickerEndDate
             // 
+            this.dateTimePickerEndDate.CustomFormat = "yyyy-MM-dd HH시 mm분";
+            this.dateTimePickerEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerEndDate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.dateTimePickerEndDate.Location = new System.Drawing.Point(110, 21);
             this.dateTimePickerEndDate.Name = "dateTimePickerEndDate";
-            this.dateTimePickerEndDate.Size = new System.Drawing.Size(173, 21);
+            this.dateTimePickerEndDate.Size = new System.Drawing.Size(171, 21);
             this.dateTimePickerEndDate.TabIndex = 4;
+            this.dateTimePickerEndDate.Value = new System.DateTime(2022, 12, 13, 15, 25, 11, 674);
             this.dateTimePickerEndDate.ValueChanged += new System.EventHandler(this.dateTimePickerEndDate_ValueChanged);
             // 
             // label3
@@ -280,6 +290,7 @@
             this.columnHeader3});
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
+            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(13, 49);
             this.listView1.Name = "listView1";
@@ -340,11 +351,31 @@
             this.lboxProcessLog.Size = new System.Drawing.Size(701, 148);
             this.lboxProcessLog.TabIndex = 4;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(565, 274);
+            this.tabPage2.TabIndex = 0;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tconProcessTab
+            // 
+            this.tconProcessTab.Controls.Add(this.tabPage2);
+            this.tconProcessTab.Location = new System.Drawing.Point(752, 357);
+            this.tconProcessTab.Name = "tconProcessTab";
+            this.tconProcessTab.SelectedIndex = 0;
+            this.tconProcessTab.Size = new System.Drawing.Size(573, 300);
+            this.tconProcessTab.TabIndex = 4;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(761, 716);
+            this.ClientSize = new System.Drawing.Size(1356, 716);
+            this.Controls.Add(this.tconProcessTab);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lboxLog);
             this.Controls.Add(this.groupBox2);
@@ -357,6 +388,7 @@
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tconProcessTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -391,6 +423,10 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ListBox lboxProcessLog;
+        private System.Windows.Forms.Timer timer1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabControl tconProcessTab;
     }
 }
 

@@ -13,6 +13,8 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using static WindowsFormsApp1.Program;
+using WindowsFormsApp1.UserControls;
+using WindowsFormsApp1.Data;
 
 namespace WindowsFormsApp1
 {
@@ -638,6 +640,51 @@ namespace WindowsFormsApp1
             logger.WriteLog(sb.ToString());
             sb.Clear();
         }
+
+        #region For TabControl Handling
+
+        public event EventHandler<DataEventArgs> measureEvent;
+        Dictionary<int, EventHandler<DataEventArgs>>
+
+
+        private async Task OnRaiseMeasureEvent(DataEventArgs e)
+        {
+            
+            EventHandler<DataEventArgs> eventHandler = measureEvent;
+            
+            if (measureEvent != null)
+            {
+                var task = Task.Run(() => eventHandler(this, e));
+                await task;
+            }
+        }
+
+        private void AddProcessTab(int PID)
+        {
+            string strPID = PID.ToString();
+            tconProcessTab.TabPages.Add(strPID, strPID);
+
+            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(measureEvent);
+            tempUserControl.Dock = DockStyle.Fill;
+
+            tconProcessTab.TabPages[strPID].Controls.Add(tempUserControl);
+        }
+
+        private void DeleteProcessTab(int PID)
+        {
+            tconProcessTab.TabPages.RemoveByKey(PID.ToString());
+        }
+
+
+
+
+
+
+
+
+        #endregion
+
+
     }
 
  }

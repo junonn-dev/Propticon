@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="CounterItem\Counter.cs" />
     <Compile Include="CounterItem\WorstList.cs" />
+    <Compile Include="Data\DataEventArgs.cs" />
     <Compile Include="Data\Record.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -60,6 +61,12 @@
     <Compile Include="PCManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\uscRealTimeProcessView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\uscRealTimeProcessView.Designer.cs">
+      <DependentUpon>uscRealTimeProcessView.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -72,6 +79,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\uscRealTimeProcessView.resx">
+      <DependentUpon>uscRealTimeProcessView.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
