@@ -297,6 +297,12 @@ namespace WindowsFormsApp1
             {
                 tabControl1.TabPages.Add(sProcess[iProcessMaxCnt - 1].Pid.ToString());
             }
+
+            foreach (ListViewItem item in listView1.SelectedItems)
+            {
+                AddProcessTab(int.Parse(item.SubItems[1].Text));
+            }
+            
         }
 
         // listview 선택된 process remove
@@ -313,12 +319,20 @@ namespace WindowsFormsApp1
                 MessageBox.Show("선택된 프로세스가 없습니다!");
                 return;
             }
+
+            foreach (ListViewItem item in listView2.SelectedItems)
+            {
+                DeleteProcessTab(int.Parse(item.SubItems[0].Text));
+            }
+
             RemoveSelectedListView();
 
             if(tabControl1.TabPages.Count > 1)
             {
                tabControl1.TabPages.Remove(tabControl1.TabPages[tabControl1.TabPages.Count-1]);
             }
+
+
         }
 
         // listview 선택된 process monitoring start
@@ -642,17 +656,18 @@ namespace WindowsFormsApp1
         }
 
         #region For TabControl Handling
+        //https://stackoverflow.com/questions/2237927/is-there-any-way-to-create-indexed-events-in-c-sharp-or-some-workaround
 
-        public event EventHandler<DataEventArgs> measureEvent;
-        Dictionary<int, EventHandler<DataEventArgs>>
+        //public event EventHandler<DataEventArgs> measureEvent;
+        Dictionary<int, EventHandler<DataEventArgs>> measureEvents = new Dictionary<int, EventHandler<DataEventArgs>>();
 
 
-        private async Task OnRaiseMeasureEvent(DataEventArgs e)
+        private async Task OnRaiseMeasureEvent(int PID, DataEventArgs e)
         {
             
-            EventHandler<DataEventArgs> eventHandler = measureEvent;
+            EventHandler<DataEventArgs> eventHandler = measureEvents[PID];
             
-            if (measureEvent != null)
+            if (eventHandler != null)
             {
                 var task = Task.Run(() => eventHandler(this, e));
                 await task;
@@ -664,7 +679,8 @@ namespace WindowsFormsApp1
             string strPID = PID.ToString();
             tconProcessTab.TabPages.Add(strPID, strPID);
 
-            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(measureEvent);
+            measureEvents[PID] = delegate { };
+            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(measureEvents[PID]);
             tempUserControl.Dock = DockStyle.Fill;
 
             tconProcessTab.TabPages[strPID].Controls.Add(tempUserControl);
@@ -673,6 +689,7 @@ namespace WindowsFormsApp1
         private void DeleteProcessTab(int PID)
         {
             tconProcessTab.TabPages.RemoveByKey(PID.ToString());
+            measureEvents.Remove(PID);
         }
 
 
