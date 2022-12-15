@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using static WindowsFormsApp1.Program;
 using WindowsFormsApp1.UserControls;
 using WindowsFormsApp1.Data;
+using WindowsFormsApp1.CounterItem;
 
 namespace WindowsFormsApp1
 {
@@ -649,6 +650,12 @@ namespace WindowsFormsApp1
                     .Append(memoryUsage.ToString()).Append(",")
                     .Append(threadCount.ToString()).Append(",")
                     .Append(handleCount.ToString()).Append(",");
+
+                string message = $"{dTime:yyyy-MM-dd hh:mm:ss.fff} [{enLogLevel.Info.ToString()}] {pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}";
+                WorstList cpuWorst = PCM.GetProcessCPUWorst(pProcess[i].ProcessName);
+                WorstList memoryWorst = PCM.GetProcessMemoryWorst(pProcess[i].ProcessName);
+                DataEventArgs args = new DataEventArgs(message, cpuWorst, memoryWorst);
+                OnRaiseMeasureEvent(pProcess[i].Id, args);
             }
             string strData = sb.ToString();
             logger.WriteLog(sb.ToString());
@@ -659,18 +666,19 @@ namespace WindowsFormsApp1
         //https://stackoverflow.com/questions/2237927/is-there-any-way-to-create-indexed-events-in-c-sharp-or-some-workaround
 
         //public event EventHandler<DataEventArgs> measureEvent;
-        Dictionary<int, EventHandler<DataEventArgs>> measureEvents = new Dictionary<int, EventHandler<DataEventArgs>>();
+        public Dictionary<int, EventHandler<DataEventArgs>> measureEvents = new Dictionary<int, EventHandler<DataEventArgs>>();
 
 
-        private async Task OnRaiseMeasureEvent(int PID, DataEventArgs e)
+        private void OnRaiseMeasureEvent(int PID, DataEventArgs e)
         {
             
             EventHandler<DataEventArgs> eventHandler = measureEvents[PID];
             
             if (eventHandler != null)
             {
-                var task = Task.Run(() => eventHandler(this, e));
-                await task;
+                eventHandler(this, e);
+                //var task = Task.Run(() => eventHandler(this, e));
+                //await task;
             }
         }
 
@@ -679,9 +687,15 @@ namespace WindowsFormsApp1
             string strPID = PID.ToString();
             tconProcessTab.TabPages.Add(strPID, strPID);
 
-            measureEvents[PID] = delegate { };
-            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(measureEvents[PID]);
+            measureEvents[PID] = null;
+            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this, PID);
             tempUserControl.Dock = DockStyle.Fill;
+
+            string processName = Process.GetProcessById(PID).ToString();
+            var cpuWorst = PCM.GetProcessCPUWorst(processName);
+            var memoryWorst = PCM.GetProcessMemoryWorst(processName);
+            tempUserControl.SetWorstUpdateEventHandler(cpuWorst);
+            tempUserControl.SetWorstUpdateEventHandler(memoryWorst);
 
             tconProcessTab.TabPages[strPID].Controls.Add(tempUserControl);
         }

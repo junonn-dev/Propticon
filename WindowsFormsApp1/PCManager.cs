@@ -143,5 +143,12 @@ namespace WindowsFormsApp1
         {
             return mapProcessProcessorTime[processName].worstList;
         }
+
+        public WorstList GetProcessMemoryWorst(string processName)
+        {
+            return mapProcessWrokingSet[processName].worstList;
+        }
+
+        
     }
 }

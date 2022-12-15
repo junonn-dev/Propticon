@@ -60,13 +60,11 @@
             this.lboxProcessLog = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tconProcessTab = new System.Windows.Forms.TabControl();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tconProcessTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -351,19 +349,8 @@
             this.lboxProcessLog.Size = new System.Drawing.Size(701, 148);
             this.lboxProcessLog.TabIndex = 4;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(565, 274);
-            this.tabPage2.TabIndex = 0;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // tconProcessTab
             // 
-            this.tconProcessTab.Controls.Add(this.tabPage2);
             this.tconProcessTab.Location = new System.Drawing.Point(752, 357);
             this.tconProcessTab.Name = "tconProcessTab";
             this.tconProcessTab.SelectedIndex = 0;
@@ -388,7 +375,6 @@
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tconProcessTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -425,7 +411,6 @@
         private System.Windows.Forms.ListBox lboxProcessLog;
         private System.Windows.Forms.Timer timer1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabControl tconProcessTab;
     }
 }

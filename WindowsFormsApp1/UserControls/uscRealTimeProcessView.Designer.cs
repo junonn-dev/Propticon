@@ -30,14 +30,19 @@
         {
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("CPU Usage", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Memory Usage", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            "item1",
+            "sub1",
+            "sub2",
+            "sub3"}, -1);
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("item2");
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gboxWorstList = new System.Windows.Forms.GroupBox();
-            this.gboxRealTimeLog = new System.Windows.Forms.GroupBox();
             this.lviewWorstList = new System.Windows.Forms.ListView();
             this.chNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chWorstValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.gboxRealTimeLog = new System.Windows.Forms.GroupBox();
             this.lboxRealTimeLog = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -76,17 +81,6 @@
             this.gboxWorstList.TabStop = false;
             this.gboxWorstList.Text = "Worst List";
             // 
-            // gboxRealTimeLog
-            // 
-            this.gboxRealTimeLog.Controls.Add(this.lboxRealTimeLog);
-            this.gboxRealTimeLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gboxRealTimeLog.Location = new System.Drawing.Point(0, 0);
-            this.gboxRealTimeLog.Name = "gboxRealTimeLog";
-            this.gboxRealTimeLog.Size = new System.Drawing.Size(790, 283);
-            this.gboxRealTimeLog.TabIndex = 0;
-            this.gboxRealTimeLog.TabStop = false;
-            this.gboxRealTimeLog.Text = "Real Time Log";
-            // 
             // lviewWorstList
             // 
             this.lviewWorstList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -94,7 +88,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lviewWorstList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chNumber,
-            this.chType,
             this.chWorstValue,
             this.chTime});
             listViewGroup1.Header = "CPU Usage";
@@ -107,6 +100,9 @@
             listViewGroup1,
             listViewGroup2});
             this.lviewWorstList.HideSelection = false;
+            this.lviewWorstList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2});
             this.lviewWorstList.Location = new System.Drawing.Point(6, 20);
             this.lviewWorstList.Name = "lviewWorstList";
             this.lviewWorstList.Size = new System.Drawing.Size(778, 237);
@@ -128,10 +124,16 @@
             this.chTime.Text = "Time";
             this.chTime.Width = 142;
             // 
-            // chType
+            // gboxRealTimeLog
             // 
-            this.chType.Text = "Type";
-            this.chType.Width = 82;
+            this.gboxRealTimeLog.Controls.Add(this.lboxRealTimeLog);
+            this.gboxRealTimeLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gboxRealTimeLog.Location = new System.Drawing.Point(0, 0);
+            this.gboxRealTimeLog.Name = "gboxRealTimeLog";
+            this.gboxRealTimeLog.Size = new System.Drawing.Size(790, 283);
+            this.gboxRealTimeLog.TabIndex = 0;
+            this.gboxRealTimeLog.TabStop = false;
+            this.gboxRealTimeLog.Text = "Real Time Log";
             // 
             // lboxRealTimeLog
             // 
@@ -169,7 +171,6 @@
         private System.Windows.Forms.GroupBox gboxRealTimeLog;
         private System.Windows.Forms.ListView lviewWorstList;
         private System.Windows.Forms.ColumnHeader chNumber;
-        private System.Windows.Forms.ColumnHeader chType;
         private System.Windows.Forms.ColumnHeader chWorstValue;
         private System.Windows.Forms.ColumnHeader chTime;
         private System.Windows.Forms.ListBox lboxRealTimeLog;
