@@ -492,12 +492,22 @@ namespace WindowsFormsApp1
         {
             PCM.InitProcessMonitor(pProcess);
 
+            for (int i = 0; i < iProcessMaxCnt; i++)
+            {
+                string processName = pProcess[i].ProcessName;
+                uscRealTimeProcessView control = (uscRealTimeProcessView)tconProcessTab.TabPages[pProcess[i].Id.ToString()].Controls[0];
+                PCM.SetProcessCPUWorstUpdateEvent(processName, control);
+                PCM.SetProcessMemoryWorstUpdateEvent(processName, control);
+            }
+            
+
             // pcManger[i].GetInstance()
             // 시작 하면 Program이 죽을 때 까지 계속 체크
             while (bLoopState)
             {
-                Task.Run((Action)fMonitorAllProcess);
-                Thread.Sleep(iThreadTime);  // Thread 대기 Time
+                fMonitorAllProcess();
+                //Task.Run((Action)fMonitorAllProcess);
+                Thread.Sleep(10000);  // Thread 대기 Time
                 if (checkDateTime(dtEndDate))
                 {
                     initialMonitorProcess();
@@ -652,9 +662,9 @@ namespace WindowsFormsApp1
                     .Append(handleCount.ToString()).Append(",");
 
                 string message = $"{dTime:yyyy-MM-dd hh:mm:ss.fff} [{enLogLevel.Info.ToString()}] {pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}";
-                WorstList cpuWorst = PCM.GetProcessCPUWorst(pProcess[i].ProcessName);
-                WorstList memoryWorst = PCM.GetProcessMemoryWorst(pProcess[i].ProcessName);
-                DataEventArgs args = new DataEventArgs(message, cpuWorst, memoryWorst);
+                //WorstList cpuWorst = PCM.GetProcessCPUWorst(pProcess[i].ProcessName);
+                //WorstList memoryWorst = PCM.GetProcessMemoryWorst(pProcess[i].ProcessName);
+                DataEventArgs args = new DataEventArgs(message);
                 OnRaiseMeasureEvent(pProcess[i].Id, args);
             }
             string strData = sb.ToString();
@@ -692,10 +702,7 @@ namespace WindowsFormsApp1
             tempUserControl.Dock = DockStyle.Fill;
 
             string processName = Process.GetProcessById(PID).ToString();
-            var cpuWorst = PCM.GetProcessCPUWorst(processName);
-            var memoryWorst = PCM.GetProcessMemoryWorst(processName);
-            tempUserControl.SetWorstUpdateEventHandler(cpuWorst);
-            tempUserControl.SetWorstUpdateEventHandler(memoryWorst);
+
 
             tconProcessTab.TabPages[strPID].Controls.Add(tempUserControl);
         }

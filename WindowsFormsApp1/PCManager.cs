@@ -149,6 +149,15 @@ namespace WindowsFormsApp1
             return mapProcessWrokingSet[processName].worstList;
         }
 
+        public void SetProcessCPUWorstUpdateEvent(string processName, UserControls.uscRealTimeProcessView control)
+        {
+            mapProcessProcessorTime[processName].worstList.updateEvent += control.HandleCPUWorstUpdateEvent;
+        }
+
+        public void SetProcessMemoryWorstUpdateEvent(string processName, UserControls.uscRealTimeProcessView control)
+        {
+            mapProcessWrokingSet[processName].worstList.updateEvent += control.HandleMemoryWorstUpdateEvent;
+        }
         
     }
 }

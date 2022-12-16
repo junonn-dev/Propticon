@@ -351,7 +351,7 @@
             // 
             // tconProcessTab
             // 
-            this.tconProcessTab.Location = new System.Drawing.Point(752, 357);
+            this.tconProcessTab.Location = new System.Drawing.Point(752, 375);
             this.tconProcessTab.Name = "tconProcessTab";
             this.tconProcessTab.SelectedIndex = 0;
             this.tconProcessTab.Size = new System.Drawing.Size(573, 300);

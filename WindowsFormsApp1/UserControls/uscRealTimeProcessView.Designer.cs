@@ -44,6 +44,15 @@
             this.chTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.gboxRealTimeLog = new System.Windows.Forms.GroupBox();
             this.lboxRealTimeLog = new System.Windows.Forms.ListBox();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -67,7 +76,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.gboxRealTimeLog);
             this.splitContainer1.Size = new System.Drawing.Size(790, 550);
-            this.splitContainer1.SplitterDistance = 263;
+            this.splitContainer1.SplitterDistance = 323;
             this.splitContainer1.TabIndex = 0;
             // 
             // gboxWorstList
@@ -76,7 +85,7 @@
             this.gboxWorstList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gboxWorstList.Location = new System.Drawing.Point(0, 0);
             this.gboxWorstList.Name = "gboxWorstList";
-            this.gboxWorstList.Size = new System.Drawing.Size(790, 263);
+            this.gboxWorstList.Size = new System.Drawing.Size(790, 323);
             this.gboxWorstList.TabIndex = 0;
             this.gboxWorstList.TabStop = false;
             this.gboxWorstList.Text = "Worst List";
@@ -89,7 +98,16 @@
             this.lviewWorstList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chNumber,
             this.chWorstValue,
-            this.chTime});
+            this.chTime,
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5,
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8,
+            this.columnHeader9});
             listViewGroup1.Header = "CPU Usage";
             listViewGroup1.Name = "CPU Usage";
             listViewGroup1.Tag = "1";
@@ -105,7 +123,7 @@
             listViewItem2});
             this.lviewWorstList.Location = new System.Drawing.Point(6, 20);
             this.lviewWorstList.Name = "lviewWorstList";
-            this.lviewWorstList.Size = new System.Drawing.Size(778, 237);
+            this.lviewWorstList.Size = new System.Drawing.Size(778, 297);
             this.lviewWorstList.TabIndex = 0;
             this.lviewWorstList.UseCompatibleStateImageBehavior = false;
             this.lviewWorstList.View = System.Windows.Forms.View.Details;
@@ -122,7 +140,7 @@
             // chTime
             // 
             this.chTime.Text = "Time";
-            this.chTime.Width = 142;
+            this.chTime.Width = 64;
             // 
             // gboxRealTimeLog
             // 
@@ -130,7 +148,7 @@
             this.gboxRealTimeLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gboxRealTimeLog.Location = new System.Drawing.Point(0, 0);
             this.gboxRealTimeLog.Name = "gboxRealTimeLog";
-            this.gboxRealTimeLog.Size = new System.Drawing.Size(790, 283);
+            this.gboxRealTimeLog.Size = new System.Drawing.Size(790, 223);
             this.gboxRealTimeLog.TabIndex = 0;
             this.gboxRealTimeLog.TabStop = false;
             this.gboxRealTimeLog.Text = "Real Time Log";
@@ -144,8 +162,44 @@
             this.lboxRealTimeLog.ItemHeight = 12;
             this.lboxRealTimeLog.Location = new System.Drawing.Point(6, 20);
             this.lboxRealTimeLog.Name = "lboxRealTimeLog";
-            this.lboxRealTimeLog.Size = new System.Drawing.Size(778, 256);
+            this.lboxRealTimeLog.Size = new System.Drawing.Size(778, 196);
             this.lboxRealTimeLog.TabIndex = 0;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "";
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "";
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "";
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "";
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "";
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "";
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "";
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "";
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "";
             // 
             // uscRealTimeProcessView
             // 
@@ -174,5 +228,14 @@
         private System.Windows.Forms.ColumnHeader chWorstValue;
         private System.Windows.Forms.ColumnHeader chTime;
         private System.Windows.Forms.ListBox lboxRealTimeLog;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
     }
 }
