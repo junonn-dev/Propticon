@@ -496,8 +496,6 @@ namespace WindowsFormsApp1
             {
                 string processName = pProcess[i].ProcessName;
                 uscRealTimeProcessView control = (uscRealTimeProcessView)tconProcessTab.TabPages[pProcess[i].Id.ToString()].Controls[0];
-                PCM.SetProcessCPUWorstUpdateEvent(processName, control);
-                PCM.SetProcessMemoryWorstUpdateEvent(processName, control);
             }
             
 
@@ -507,7 +505,7 @@ namespace WindowsFormsApp1
             {
                 fMonitorAllProcess();
                 //Task.Run((Action)fMonitorAllProcess);
-                Thread.Sleep(10000);  // Thread 대기 Time
+                Thread.Sleep(iThreadTime);  // Thread 대기 Time
                 if (checkDateTime(dtEndDate))
                 {
                     initialMonitorProcess();
@@ -662,9 +660,10 @@ namespace WindowsFormsApp1
                     .Append(handleCount.ToString()).Append(",");
 
                 string message = $"{dTime:yyyy-MM-dd hh:mm:ss.fff} [{enLogLevel.Info.ToString()}] {pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}";
-                //WorstList cpuWorst = PCM.GetProcessCPUWorst(pProcess[i].ProcessName);
-                //WorstList memoryWorst = PCM.GetProcessMemoryWorst(pProcess[i].ProcessName);
-                DataEventArgs args = new DataEventArgs(message);
+                WorstList cpuWorst = PCM.GetProcessCPUWorst(pProcess[i].ProcessName);
+                WorstList memoryWorst = PCM.GetProcessMemoryWorst(pProcess[i].ProcessName);
+
+                DataEventArgs args = new DataEventArgs(message, cpuWorst, memoryWorst);
                 OnRaiseMeasureEvent(pProcess[i].Id, args);
             }
             string strData = sb.ToString();
@@ -712,13 +711,6 @@ namespace WindowsFormsApp1
             tconProcessTab.TabPages.RemoveByKey(PID.ToString());
             measureEvents.Remove(PID);
         }
-
-
-
-
-
-
-
 
         #endregion
 

@@ -42,42 +42,39 @@ namespace WindowsFormsApp1
 
         public void InitProcessMonitor(IEnumerable<string> processNames)
         {
-            mapProcessProcessorTime.Clear();
-            mapProcessWrokingSet.Clear();
-            mapProcessThreadCount.Clear();
-            mapProcessHandleCount.Clear();
-
             foreach (string processName in processNames)
             {
                 if (string.IsNullOrEmpty(processName))
                 {
                     continue;
                 }
-                mapProcessProcessorTime.Add(processName, new Counter("Process", "% Processor Time", processName));
-                mapProcessWrokingSet.Add(processName, new Counter("Process", "Working Set - Private", processName));
-                mapProcessThreadCount.Add(processName, new Counter("Process", "Thread Count", processName));
-                mapProcessHandleCount.Add(processName, new Counter("Process", "Handle Count", processName));
+                if (!mapProcessProcessorTime.ContainsKey(processName))
+                {
+                    mapProcessProcessorTime.Add(processName, new Counter("Process", "% Processor Time", processName));
+                    mapProcessWrokingSet.Add(processName, new Counter("Process", "Working Set - Private", processName));
+                    mapProcessThreadCount.Add(processName, new Counter("Process", "Thread Count", processName));
+                    mapProcessHandleCount.Add(processName, new Counter("Process", "Handle Count", processName));
+
+                }
             }
         }
 
         public void InitProcessMonitor(IEnumerable<Process> processes)
         {
-            mapProcessProcessorTime.Clear();
-            mapProcessWrokingSet.Clear();
-            mapProcessThreadCount.Clear();
-            mapProcessHandleCount.Clear();
-
             foreach (Process process in processes)
             {
                 if (process is null)
                 {
                     continue;
                 }
-                string procName = process.ProcessName;
-                mapProcessProcessorTime.Add(procName, new Counter("Process", "% Processor Time", procName));
-                mapProcessWrokingSet.Add(procName, new Counter("Process", "Working Set - Private", procName));
-                mapProcessThreadCount.Add(procName, new Counter("Process", "Thread Count", procName));
-                mapProcessHandleCount.Add(procName, new Counter("Process", "Handle Count", procName));
+                string processName = process.ProcessName;
+                if (!mapProcessProcessorTime.ContainsKey(processName))
+                {
+                    mapProcessProcessorTime.Add(processName, new Counter("Process", "% Processor Time", processName));
+                    mapProcessWrokingSet.Add(processName, new Counter("Process", "Working Set - Private", processName));
+                    mapProcessThreadCount.Add(processName, new Counter("Process", "Thread Count", processName));
+                    mapProcessHandleCount.Add(processName, new Counter("Process", "Handle Count", processName));
+                }
             }
         }
 
@@ -149,15 +146,15 @@ namespace WindowsFormsApp1
             return mapProcessWrokingSet[processName].worstList;
         }
 
-        public void SetProcessCPUWorstUpdateEvent(string processName, UserControls.uscRealTimeProcessView control)
-        {
-            mapProcessProcessorTime[processName].worstList.updateEvent += control.HandleCPUWorstUpdateEvent;
-        }
+        //public void SetProcessCPUWorstUpdateEvent(string processName, UserControls.uscRealTimeProcessView control)
+        //{
+        //    mapProcessProcessorTime[processName].worstList.updateEvent += control.HandleCPUWorstUpdateEvent;
+        //}
 
-        public void SetProcessMemoryWorstUpdateEvent(string processName, UserControls.uscRealTimeProcessView control)
-        {
-            mapProcessWrokingSet[processName].worstList.updateEvent += control.HandleMemoryWorstUpdateEvent;
-        }
+        //public void SetProcessMemoryWorstUpdateEvent(string processName, UserControls.uscRealTimeProcessView control)
+        //{
+        //    mapProcessWrokingSet[processName].worstList.updateEvent += control.HandleMemoryWorstUpdateEvent;
+        //}
         
     }
 }

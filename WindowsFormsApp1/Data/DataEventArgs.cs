@@ -10,19 +10,15 @@ namespace WindowsFormsApp1.Data
     public class DataEventArgs : EventArgs
     {
         public string message { get; set; }
-        public WorstList worstList { get; set; }
-        //public WorstList memoryWorst { get; set; }
+        //public WorstList worstList { get; set; }
+        public WorstList memoryWorst { get; set; }
+        public WorstList cpuWorst { get; set; }
 
-        public DataEventArgs(string message)
+        public DataEventArgs(string message, WorstList cpuWorst, WorstList memoryWorst)
         {
             this.message = message;
-        }
-
-        public DataEventArgs(WorstList worstList)
-        {
-            this.message = message;
-            this.worstList = worstList;
-
+            this.cpuWorst = cpuWorst;
+            this.memoryWorst = memoryWorst;
         }
     }
 }

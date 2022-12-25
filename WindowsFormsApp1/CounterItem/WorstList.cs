@@ -21,7 +21,7 @@ namespace WindowsFormsApp1.CounterItem
         public WorstList()
         {          
             //내림차순 정렬 위해
-            list = new SortedDictionary<float, List<DateTime>>(Comparer<float>.Create((x,y)=>y.CompareTo(x)));
+            list = new SortedDictionary<float, List<DateTime>>(Comparer<float>.Create((x, y) => y.CompareTo(x)));
         }
 
         public void CheckRecord(float value, DateTime timeStamp)
@@ -57,9 +57,9 @@ namespace WindowsFormsApp1.CounterItem
                 
                 if(list.Count> worstCount)
                 {
-                    list.Remove(list.First().Key);
+                    list.Remove(list.Last().Key);
                 }
-                OnRaiseUpdateEvent(new DataEventArgs(this));
+                //OnRaiseUpdateEvent(new DataEventArgs(this));
             }
         }
 
