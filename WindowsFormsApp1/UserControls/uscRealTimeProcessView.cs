@@ -35,7 +35,7 @@ namespace WindowsFormsApp1.UserControls
 
             lviewWorstList.Invoke(new Action(delegate ()
             {
-                SortedDictionary<float, List<DateTime>> list = e.cpuWorst.list;
+                SortedDictionary<float, List<DateTime>> list = e.processSet.processorTimeCounter.worstList.list;
                 int id = 1;
                 lviewWorstList.Items.Clear();
 
@@ -58,7 +58,7 @@ namespace WindowsFormsApp1.UserControls
                     lviewWorstList.Items.Add(lvItem);
                 }
 
-                list = e.memoryWorst.list;
+                list = e.processSet.workingSetCounter.worstList.list;
                 id = 1;
                 foreach (KeyValuePair<float, List<DateTime>> item in list)
                 {

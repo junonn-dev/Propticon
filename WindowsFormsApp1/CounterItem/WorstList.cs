@@ -11,10 +11,6 @@ namespace WindowsFormsApp1.CounterItem
     {
         private readonly int timeReserve = 10;
         private readonly int worstCount = 5;
-        public int PID { get; set; }
-        public ResourceType type { get; set; }
-
-        public event EventHandler<DataEventArgs> updateEvent;
 
         public SortedDictionary<float, List<DateTime>> list { get; }
 
@@ -59,16 +55,6 @@ namespace WindowsFormsApp1.CounterItem
                 {
                     list.Remove(list.Last().Key);
                 }
-                //OnRaiseUpdateEvent(new DataEventArgs(this));
-            }
-        }
-
-        private void OnRaiseUpdateEvent(DataEventArgs e)
-        {
-            var eventHandler = updateEvent;
-            if(eventHandler != null)
-            {
-                eventHandler(this, e);
             }
         }
     }

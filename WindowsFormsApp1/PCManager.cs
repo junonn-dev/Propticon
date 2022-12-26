@@ -8,22 +8,21 @@ using WindowsFormsApp1.CounterItem;
 
 namespace WindowsFormsApp1
 {
-    class PCManager
+    public class PCManager
     {
-        private Dictionary<string, Counter> mapProcessProcessorTime;
-        private Dictionary<string, Counter> mapProcessWrokingSet;
-        private Dictionary<string, Counter> mapProcessThreadCount;
-        private Dictionary<string, Counter> mapProcessHandleCount;
+        //private Dictionary<string, Counter> mapProcessProcessorTime;
+        //private Dictionary<string, Counter> mapProcessWrokingSet;
+        //private Dictionary<string, Counter> mapProcessThreadCount;
+        //private Dictionary<string, Counter> mapProcessHandleCount;
+
+        private Dictionary<string, ProcessSet> mapProcessSet;
 
         /// <summary>
         /// 내부 필드 초기화만 함, PCManager 생성 후 InitProcessMonitor 호출하여 프로세스 지정해야 함
         /// </summary>
         public PCManager()
         {
-            mapProcessProcessorTime = new Dictionary<string, Counter>();
-            mapProcessWrokingSet = new Dictionary<string, Counter>();
-            mapProcessThreadCount = new Dictionary<string, Counter>();
-            mapProcessHandleCount = new Dictionary<string, Counter>();
+            mapProcessSet = new Dictionary<string, ProcessSet>();
         }
 
         /// <summary>
@@ -48,15 +47,20 @@ namespace WindowsFormsApp1
                 {
                     continue;
                 }
-                if (!mapProcessProcessorTime.ContainsKey(processName))
+                if (!mapProcessSet.ContainsKey(processName))
                 {
-                    mapProcessProcessorTime.Add(processName, new Counter("Process", "% Processor Time", processName));
-                    mapProcessWrokingSet.Add(processName, new Counter("Process", "Working Set - Private", processName));
-                    mapProcessThreadCount.Add(processName, new Counter("Process", "Thread Count", processName));
-                    mapProcessHandleCount.Add(processName, new Counter("Process", "Handle Count", processName));
+                    mapProcessSet.Add(processName, new ProcessSet(processName));
 
                 }
             }
+
+            foreach (KeyValuePair<string, ProcessSet> processSet in mapProcessSet)
+            {
+                if (!processNames.Contains(processSet.Key)){
+                    mapProcessSet.Remove(processSet.Key);
+                }
+            }
+
         }
 
         public void InitProcessMonitor(IEnumerable<Process> processes)
@@ -68,12 +72,16 @@ namespace WindowsFormsApp1
                     continue;
                 }
                 string processName = process.ProcessName;
-                if (!mapProcessProcessorTime.ContainsKey(processName))
+                if (!mapProcessSet.ContainsKey(processName))
                 {
-                    mapProcessProcessorTime.Add(processName, new Counter("Process", "% Processor Time", processName));
-                    mapProcessWrokingSet.Add(processName, new Counter("Process", "Working Set - Private", processName));
-                    mapProcessThreadCount.Add(processName, new Counter("Process", "Thread Count", processName));
-                    mapProcessHandleCount.Add(processName, new Counter("Process", "Handle Count", processName));
+                    mapProcessSet.Add(processName, new ProcessSet(processName));
+                }
+
+                foreach (KeyValuePair<string, ProcessSet> processSet in mapProcessSet)
+                {
+                    if (!processes.Select(proc => proc.ProcessName).Contains(processSet.Key)){
+                        mapProcessSet.Remove(processSet.Key);
+                    }
                 }
             }
         }
@@ -87,7 +95,6 @@ namespace WindowsFormsApp1
             IEnumerable<string> instances = cat.GetInstanceNames().Where(str => str.Contains(processName));
             foreach (string instance in instances)
             {
-
                 using (PerformanceCounter cnt = new PerformanceCounter("Process", "ID Process", instance, true))
                 {
                     int val = (int)cnt.RawValue;
@@ -102,59 +109,55 @@ namespace WindowsFormsApp1
 
         public float GetProcessCPUUsage(string processName, DateTime timeStamp)
         {
-            if(mapProcessProcessorTime.ContainsKey(processName) is false)
+            if(mapProcessSet.ContainsKey(processName) is false)
             {
                 return -1f;
             }
-            return mapProcessProcessorTime[processName].GetNextValue(timeStamp);
+            return mapProcessSet[processName].processorTimeCounter.GetNextValue(timeStamp);
         }
 
         public float GetProcessMemoryUsage(string processName, DateTime timeStamp)
         {
-            if (mapProcessWrokingSet.ContainsKey(processName) is false)
+            if (mapProcessSet.ContainsKey(processName) is false)
             {
                 return -1f;
             }
-            return mapProcessWrokingSet[processName].GetNextValue(timeStamp);
+            return mapProcessSet[processName].workingSetCounter.GetNextValue(timeStamp);
         }
 
         public int GetProcessThreadCount(string processName)
         {
-            if (mapProcessThreadCount.ContainsKey(processName) is false)
+            if (mapProcessSet.ContainsKey(processName) is false)
             {
                 return -1;
             }
-            return (int)mapProcessThreadCount[processName].GetNextValue();
+            return (int)mapProcessSet[processName].threadCountCounter.GetNextValue();
         }
 
         public int GetProcessHandleCount(string processName)
         {
-            if (mapProcessHandleCount.ContainsKey(processName) is false)
+            if (mapProcessSet.ContainsKey(processName) is false)
             {
                 return -1;
             }
-            return (int)mapProcessHandleCount[processName].GetNextValue();
+            return (int)mapProcessSet[processName].handleCountCounter.GetNextValue();
         }
 
-        public WorstList GetProcessCPUWorst(string processName)
-        {
-            return mapProcessProcessorTime[processName].worstList;
-        }
-
-        public WorstList GetProcessMemoryWorst(string processName)
-        {
-            return mapProcessWrokingSet[processName].worstList;
-        }
-
-        //public void SetProcessCPUWorstUpdateEvent(string processName, UserControls.uscRealTimeProcessView control)
+        //public WorstList GetProcessCPUWorst(string processName)
         //{
-        //    mapProcessProcessorTime[processName].worstList.updateEvent += control.HandleCPUWorstUpdateEvent;
+        //    return mapProcessSet[processName].processorTimeCounter.worstList;
         //}
 
-        //public void SetProcessMemoryWorstUpdateEvent(string processName, UserControls.uscRealTimeProcessView control)
+        //public WorstList GetProcessMemoryWorst(string processName)
         //{
-        //    mapProcessWrokingSet[processName].worstList.updateEvent += control.HandleMemoryWorstUpdateEvent;
+        //    return mapProcessSet[processName].workingSetCounter.worstList;
         //}
+
+        public ProcessSet GetProcessSet(string processName)
+        {
+            return mapProcessSet[processName];
+        }
+
         
     }
 }

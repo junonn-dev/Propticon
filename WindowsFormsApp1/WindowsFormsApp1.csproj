@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CounterItem\Counter.cs" />
+    <Compile Include="CounterItem\ProcessSet.cs" />
     <Compile Include="CounterItem\WorstList.cs" />
     <Compile Include="Data\DataEventArgs.cs" />
     <Compile Include="Data\Record.cs" />

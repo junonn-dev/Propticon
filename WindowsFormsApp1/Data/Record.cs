@@ -11,7 +11,7 @@ namespace WindowsFormsApp1
 
     struct Record 
     {
-        public dynamic value;
+        public float value;
         public DateTime recordTime;
     }
 }

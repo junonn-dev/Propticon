@@ -11,14 +11,31 @@ namespace WindowsFormsApp1.Data
     {
         public string message { get; set; }
         //public WorstList worstList { get; set; }
-        public WorstList memoryWorst { get; set; }
-        public WorstList cpuWorst { get; set; }
+        //public WorstList memoryWorst { get; set; }
+        //public WorstList cpuWorst { get; set; }
 
-        public DataEventArgs(string message, WorstList cpuWorst, WorstList memoryWorst)
+        //public List<Counter> counters { get; }
+        public ProcessSet processSet { get; set; }
+
+        //public DataEventArgs(string message, WorstList cpuWorst, WorstList memoryWorst)
+        //{
+        //    this.message = message;
+        //    this.cpuWorst = cpuWorst;
+        //    this.memoryWorst = memoryWorst;
+        //}
+
+        //public DataEventArgs(string message, List<Counter> counters)
+        //{
+        //    this.message = message;
+        //    this.counters = counters;
+        //}
+
+        public DataEventArgs(string message, ProcessSet processSet)
         {
             this.message = message;
-            this.cpuWorst = cpuWorst;
-            this.memoryWorst = memoryWorst;
+            this.processSet = processSet;
         }
+
+
     }
 }

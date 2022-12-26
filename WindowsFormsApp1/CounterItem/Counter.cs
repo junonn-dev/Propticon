@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1.CounterItem
 {
-    class Counter
+    public class Counter
     {
         public float minValue { get; set; }
         public float maxValue { get; set; }

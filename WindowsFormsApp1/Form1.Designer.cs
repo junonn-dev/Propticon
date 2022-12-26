@@ -351,10 +351,13 @@
             // 
             // tconProcessTab
             // 
+            this.tconProcessTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tconProcessTab.Location = new System.Drawing.Point(752, 375);
             this.tconProcessTab.Name = "tconProcessTab";
             this.tconProcessTab.SelectedIndex = 0;
-            this.tconProcessTab.Size = new System.Drawing.Size(573, 300);
+            this.tconProcessTab.Size = new System.Drawing.Size(592, 286);
             this.tconProcessTab.TabIndex = 4;
             // 
             // Form1

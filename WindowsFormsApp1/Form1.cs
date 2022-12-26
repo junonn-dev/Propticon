@@ -660,10 +660,9 @@ namespace WindowsFormsApp1
                     .Append(handleCount.ToString()).Append(",");
 
                 string message = $"{dTime:yyyy-MM-dd hh:mm:ss.fff} [{enLogLevel.Info.ToString()}] {pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}";
-                WorstList cpuWorst = PCM.GetProcessCPUWorst(pProcess[i].ProcessName);
-                WorstList memoryWorst = PCM.GetProcessMemoryWorst(pProcess[i].ProcessName);
+                ProcessSet processSet = PCM.GetProcessSet(pProcess[i].ProcessName);
 
-                DataEventArgs args = new DataEventArgs(message, cpuWorst, memoryWorst);
+                DataEventArgs args = new DataEventArgs(message, processSet);
                 OnRaiseMeasureEvent(pProcess[i].Id, args);
             }
             string strData = sb.ToString();
@@ -694,6 +693,10 @@ namespace WindowsFormsApp1
         private void AddProcessTab(int PID)
         {
             string strPID = PID.ToString();
+            if (tconProcessTab.TabPages.ContainsKey(strPID))
+            {
+                return;
+            }
             tconProcessTab.TabPages.Add(strPID, strPID);
 
             measureEvents[PID] = null;
@@ -701,7 +704,6 @@ namespace WindowsFormsApp1
             tempUserControl.Dock = DockStyle.Fill;
 
             string processName = Process.GetProcessById(PID).ToString();
-
 
             tconProcessTab.TabPages[strPID].Controls.Add(tempUserControl);
         }
