@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.IO;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using static WindowsFormsApp1.Program;
-using WindowsFormsApp1.UserControls;
-using WindowsFormsApp1.Data;
 using WindowsFormsApp1.CounterItem;
+using WindowsFormsApp1.Data;
+using WindowsFormsApp1.UserControls;
+using static WindowsFormsApp1.Program;
 
 namespace WindowsFormsApp1
 {
@@ -74,6 +66,7 @@ namespace WindowsFormsApp1
             strPath = "..\\..\\..\\MonitorProcess.ini";
             //logger.SetFileName("MonTest.csv");
             ini = new IniFile();
+            validateConfig();
             readConfig();
             //strPath = "C:\\MonitorProcess.ini";
 
@@ -119,17 +112,13 @@ namespace WindowsFormsApp1
             //}
         }
 
-        private void readConfig()
+        private void validateConfig()
         {
-            string strsection1;
-            string strsection2;
-            string strkey;
-            StringBuilder sb = new StringBuilder();
-
-            strsection1 = "Config";
-            strsection2 = "Config-pid";
+            string strsection1 = "Config";
+            string strsection2 = "Config-pid";
+            string strkey = "";
+            List<StProcess> stProcesses = new List<StProcess>();
             ini.Load(strPath);
-            IniFile newIniFile = new IniFile();
             for (int i = 0; i < Constants.maxconfig; i++)
             {
                 strkey = Convert.ToString(i);
@@ -148,24 +137,49 @@ namespace WindowsFormsApp1
                     //예외 발생하고, 아래 진행 없이 loop 진행
                     continue;
                 }
+                StProcess tempProcess = new StProcess();
+                tempProcess.Pid = pid;
+                tempProcess.ProcessName = processName;
+                stProcesses.Add(tempProcess);
+            }
 
-                if (process.ProcessName == processName)
+            for (int i = 0; i < Constants.maxconfig; i++)
+            {
+                strkey = Convert.ToString(i);
+                if (i >= stProcesses.Count)
                 {
-                    sProcess[i].ProcessName = processName;
-                    sProcess[i].Pid = pid;
-                    newIniFile[strsection1][strkey] = processName;
-                    newIniFile[strsection2][strkey] = pid.ToString();
+                    ini[strsection1][strkey] = "";
+                    ini[strsection2][strkey] = 0;
                 }
+                else
+                {
+                    ini[strsection1][strkey] = stProcesses[i].ProcessName;
+                    ini[strsection2][strkey] = stProcesses[i].Pid.ToString();
+                }
+            }
+            ini.Save(strPath);
+        }
+
+        private void readConfig()
+        {
+            string strsection1;
+            string strsection2;
+            string strkey;
+
+            strsection1 = "Config";
+            strsection2 = "Config-pid";
+            ini.Load(strPath);
+            for (int i = 0; i < Constants.maxconfig; i++)
+            {
+                strkey = Convert.ToString(i);
+                sProcess[i].ProcessName = ini[strsection1][strkey].ToString();
+                sProcess[i].Pid = ini[strsection2][strkey].ToInt();
 
                 if (String.IsNullOrEmpty(sProcess[i].ProcessName) == false)
                 {
                     iProcessMaxCnt++;   // 모니터개수 카운트
                 }
             }
-            ini[strsection1] = newIniFile[strsection1];
-            ini[strsection2] = newIniFile[strsection2];
-            //ini.Save(strPath);
-            writeConfig();
         }
         private void writeConfig()
         {
@@ -400,7 +414,16 @@ namespace WindowsFormsApp1
             // 현재 Program의 Process Name
             for (int i = 0; i < iProcessMaxCnt; i++)
             {
-                pProcess[i] = Process.GetProcessById(sProcess[i].Pid);// Process.GetProcessById(sProcessTemp.Pid);
+                try
+                {
+                    pProcess[i] = Process.GetProcessById(sProcess[i].Pid);// Process.GetProcessById(sProcessTemp.Pid);
+                }
+                catch
+                {
+                    MessageBox.Show("실행중이지 않은 프로세스가 있습니다. \n" +
+                        $"PID : {sProcess[i].Pid}, 프로세스명 : {sProcess[i].ProcessName}");
+                    return;
+                }
             }
 
             bMonitorStart = true;
@@ -535,13 +558,6 @@ namespace WindowsFormsApp1
         private void fSelectProcess()
         {
             PCM.InitProcessMonitor(pProcess);
-
-            for (int i = 0; i < iProcessMaxCnt; i++)
-            {
-                string processName = pProcess[i].ProcessName;
-                uscRealTimeProcessView control = (uscRealTimeProcessView)tconProcessTab.TabPages[pProcess[i].Id.ToString()].Controls[0];
-            }
-
 
             // pcManger[i].GetInstance()
             // 시작 하면 Program이 죽을 때 까지 계속 체크
@@ -683,10 +699,10 @@ namespace WindowsFormsApp1
                 strfilename = null;
                 filename.Clear();
 
-                var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i].ProcessName, dTime);
-                var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i].ProcessName, dTime);
-                var threadCount = PCM.GetProcessThreadCount(pProcess[i].ProcessName);
-                var handleCount = PCM.GetProcessHandleCount(pProcess[i].ProcessName);
+                var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i], dTime);
+                var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i], dTime);
+                var threadCount = PCM.GetProcessThreadCount(pProcess[i]);
+                var handleCount = PCM.GetProcessHandleCount(pProcess[i]);
 
                 memoryUsage /= 1024;    //memory kilobyte 변환
 
@@ -706,7 +722,7 @@ namespace WindowsFormsApp1
                     .Append(handleCount.ToString()).Append(",");
 
                 string message = $"{dTime:yyyy-MM-dd hh:mm:ss.fff} [{enLogLevel.Info.ToString()}] {pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}";
-                ProcessSet processSet = PCM.GetProcessSet(pProcess[i].ProcessName);
+                ProcessSet processSet = PCM.GetProcessSet(pProcess[i]);
 
                 DataEventArgs args = new DataEventArgs(message, processSet);
                 OnRaiseMeasureEvent(pProcess[i].Id, args);
@@ -749,14 +765,13 @@ namespace WindowsFormsApp1
             uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this, PID);
             tempUserControl.Dock = DockStyle.Fill;
 
-            string processName = Process.GetProcessById(PID).ToString();
-
             tconProcessTab.TabPages[strPID].Controls.Add(tempUserControl);
         }
 
         private void DeleteProcessTab(int PID)
         {
-            if (!tconProcessTab.TabPages.ContainsKey(PID.ToString())){
+            if (!tconProcessTab.TabPages.ContainsKey(PID.ToString()))
+            {
                 return;
             }
             tconProcessTab.TabPages.RemoveByKey(PID.ToString());

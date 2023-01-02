@@ -31,7 +31,16 @@ namespace WindowsFormsApp1.CounterItem
         /// <returns></returns>
         public float GetNextValue()
         {
-            float value = performanceCounter.NextValue();
+            float value = -2f;
+            try
+            {
+                value = performanceCounter.NextValue();
+            }
+            catch
+            {
+                //monitoring 중간 프로세스 종료되면 -2 return
+                return value;
+            }
             CheckStatisticValue(value);
             return value;
         }
