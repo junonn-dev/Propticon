@@ -3,4 +3,6 @@
 ################################################################################
 
 /.vs/WindowsFormsApp1/v16
-/WindowsFormsApp1/obj/Debug
+/WindowsFormsApp1/obj/Debug/
+/WindowsFormsApp1/bin/Debug/
+/MonitorProcess.ini

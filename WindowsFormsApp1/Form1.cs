@@ -81,6 +81,7 @@ namespace WindowsFormsApp1
             InitListView();
             UpdateListView();
             InitSelectedListView();
+            InitTabControl();
         }
 
         // Process List 초기화
@@ -635,6 +636,8 @@ namespace WindowsFormsApp1
             }
             writeConfig();
             iProcessMaxCnt = 0;
+
+            DeleteAllTabControl();
         }
 
         private void BtnMonitorEnd_Click(object sender, EventArgs e)
@@ -753,10 +756,25 @@ namespace WindowsFormsApp1
 
         private void DeleteProcessTab(int PID)
         {
+            if (!tconProcessTab.TabPages.ContainsKey(PID.ToString())){
+                return;
+            }
             tconProcessTab.TabPages.RemoveByKey(PID.ToString());
             measureEvents.Remove(PID);
         }
 
+        private void InitTabControl()
+        {
+            for (int i = 0; i < iProcessMaxCnt; i++)
+            {
+                AddProcessTab(sProcess[i].Pid);
+            }
+        }
+
+        private void DeleteAllTabControl()
+        {
+            tconProcessTab.TabPages.Clear();
+        }
         #endregion
 
 
