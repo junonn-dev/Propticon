@@ -13,6 +13,9 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using static WindowsFormsApp1.Program;
+using WindowsFormsApp1.UserControls;
+using WindowsFormsApp1.Data;
+using WindowsFormsApp1.CounterItem;
 
 namespace WindowsFormsApp1
 {
@@ -295,6 +298,12 @@ namespace WindowsFormsApp1
             {
                 tabControl1.TabPages.Add(sProcess[iProcessMaxCnt - 1].Pid.ToString());
             }
+
+            foreach (ListViewItem item in listView1.SelectedItems)
+            {
+                AddProcessTab(int.Parse(item.SubItems[1].Text));
+            }
+            
         }
 
         // listview 선택된 process remove
@@ -311,12 +320,20 @@ namespace WindowsFormsApp1
                 MessageBox.Show("선택된 프로세스가 없습니다!");
                 return;
             }
+
+            foreach (ListViewItem item in listView2.SelectedItems)
+            {
+                DeleteProcessTab(int.Parse(item.SubItems[0].Text));
+            }
+
             RemoveSelectedListView();
 
             if(tabControl1.TabPages.Count > 1)
             {
                tabControl1.TabPages.Remove(tabControl1.TabPages[tabControl1.TabPages.Count-1]);
             }
+
+
         }
 
         // listview 선택된 process monitoring start
@@ -475,11 +492,19 @@ namespace WindowsFormsApp1
         {
             PCM.InitProcessMonitor(pProcess);
 
+            for (int i = 0; i < iProcessMaxCnt; i++)
+            {
+                string processName = pProcess[i].ProcessName;
+                uscRealTimeProcessView control = (uscRealTimeProcessView)tconProcessTab.TabPages[pProcess[i].Id.ToString()].Controls[0];
+            }
+            
+
             // pcManger[i].GetInstance()
             // 시작 하면 Program이 죽을 때 까지 계속 체크
             while (bLoopState)
             {
-                Task.Run(fMonitorAllProcess);
+                fMonitorAllProcess();
+                //Task.Run((Action)fMonitorAllProcess);
                 Thread.Sleep(iThreadTime);  // Thread 대기 Time
                 if (checkDateTime(dtEndDate))
                 {
@@ -579,7 +604,7 @@ namespace WindowsFormsApp1
         private void fMonitorAllProcess()
         {
             DateTime dTime = DateTime.Now;
-            sb.Append($"{dTime:yyyy/MM/dd hh:mm:ss.FFF,}");
+            sb.Append($"[{dTime:yyyy/MM/dd hh:mm:ss.FFF}],");
             for (int i = 0; i < iProcessMaxCnt; i++)
             {
                 // -mm 분당 추가 되는 파일 테스트 용도 (추후 삭제 필요함)
@@ -598,7 +623,7 @@ namespace WindowsFormsApp1
                     {
                         sb2
                         .Append("cpu_" + pProcess[j].ProcessName).Append(",")
-                        .Append("mem_" + pProcess[j].ProcessName).Append(",")
+                        .Append("mem_" + pProcess[j].ProcessName).Append("(KB),")
                         .Append("thread_" + pProcess[j].ProcessName).Append(",")
                         .Append("handle_" + pProcess[j].ProcessName).Append(",");
                     }
@@ -612,10 +637,12 @@ namespace WindowsFormsApp1
                 strfilename = null;
                 filename.Clear();
 
-                var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i].ProcessName);
-                var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i].ProcessName);
+                var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i].ProcessName, dTime);
+                var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i].ProcessName, dTime);
                 var threadCount = PCM.GetProcessThreadCount(pProcess[i].ProcessName);
                 var handleCount = PCM.GetProcessHandleCount(pProcess[i].ProcessName);
+
+                memoryUsage /= 1024;    //memory kilobyte 변환
 
                 // 4줄로...
                 //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu: {cpuUsage.ToString()} %");
@@ -624,18 +651,72 @@ namespace WindowsFormsApp1
                 //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} HandleCnt: {handleCount.ToString()} cnt");
 
                 // 한줄로...
-                Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (%): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
+                Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
                 //Log(listBox1, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (%): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
 
                 sb.Append(cpuUsage.ToString()).Append(",")
                     .Append(memoryUsage.ToString()).Append(",")
                     .Append(threadCount.ToString()).Append(",")
                     .Append(handleCount.ToString()).Append(",");
+
+                string message = $"{dTime:yyyy-MM-dd hh:mm:ss.fff} [{enLogLevel.Info.ToString()}] {pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}";
+                ProcessSet processSet = PCM.GetProcessSet(pProcess[i].ProcessName);
+
+                DataEventArgs args = new DataEventArgs(message, processSet);
+                OnRaiseMeasureEvent(pProcess[i].Id, args);
             }
             string strData = sb.ToString();
             logger.WriteLog(sb.ToString());
             sb.Clear();
         }
+
+        #region For TabControl Handling
+        //https://stackoverflow.com/questions/2237927/is-there-any-way-to-create-indexed-events-in-c-sharp-or-some-workaround
+
+        //public event EventHandler<DataEventArgs> measureEvent;
+        public Dictionary<int, EventHandler<DataEventArgs>> measureEvents = new Dictionary<int, EventHandler<DataEventArgs>>();
+
+
+        private void OnRaiseMeasureEvent(int PID, DataEventArgs e)
+        {
+            
+            EventHandler<DataEventArgs> eventHandler = measureEvents[PID];
+            
+            if (eventHandler != null)
+            {
+                eventHandler(this, e);
+                //var task = Task.Run(() => eventHandler(this, e));
+                //await task;
+            }
+        }
+
+        private void AddProcessTab(int PID)
+        {
+            string strPID = PID.ToString();
+            if (tconProcessTab.TabPages.ContainsKey(strPID))
+            {
+                return;
+            }
+            tconProcessTab.TabPages.Add(strPID, strPID);
+
+            measureEvents[PID] = null;
+            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this, PID);
+            tempUserControl.Dock = DockStyle.Fill;
+
+            string processName = Process.GetProcessById(PID).ToString();
+
+            tconProcessTab.TabPages[strPID].Controls.Add(tempUserControl);
+        }
+
+        private void DeleteProcessTab(int PID)
+        {
+            tconProcessTab.TabPages.RemoveByKey(PID.ToString());
+            measureEvents.Remove(PID);
+        }
+
+        #endregion
+
+
     }
 
  }
