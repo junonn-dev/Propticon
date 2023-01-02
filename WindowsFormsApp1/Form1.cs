@@ -38,7 +38,7 @@ namespace WindowsFormsApp1
         private PerformanceCounter ram = new PerformanceCounter("Memory", "Available MBytes"); // Total Memory 사용량 mb 정보
 
         //private string process_name;  // 현재 Program의 Process Name
-//        private PerformanceCounter[] prcess_cpu = new PerformanceCounter[Constants.maxconfig];
+        //        private PerformanceCounter[] prcess_cpu = new PerformanceCounter[Constants.maxconfig];
         //private PerformanceCounter[] prcess_mem = new PerformanceCounter[Constants.maxconfig];
 
         List<PerformanceCounter> lpfCounter = new List<PerformanceCounter>();  // 논리 프로세서의 Process 정보를 저장
@@ -120,39 +120,72 @@ namespace WindowsFormsApp1
 
         private void readConfig()
         {
-            string strsection;
+            string strsection1;
+            string strsection2;
             string strkey;
             StringBuilder sb = new StringBuilder();
 
-            strsection = "Config";
+            strsection1 = "Config";
+            strsection2 = "Config-pid";
             ini.Load(strPath);
-            for(int i = 0; i < Constants.maxconfig; i++)
+            IniFile newIniFile = new IniFile();
+            for (int i = 0; i < Constants.maxconfig; i++)
             {
                 strkey = Convert.ToString(i);
-                sProcess[i].ProcessName = ini[strsection][strkey].ToString();
-                if(String.IsNullOrEmpty(sProcess[i].ProcessName) == false)
+                string processName = ini[strsection1][strkey].ToString();
+                int pid = ini[strsection2][strkey].ToInt();
+
+                Process process = null;
+                try
+                {
+                    process = Process.GetProcessById(pid);
+
+                }
+                catch (Exception e)
+                {
+                    //pid로 Process 얻어오지 못할 경우 = pid가 실행중이 아닌 경우
+                    //예외 발생하고, 아래 진행 없이 loop 진행
+                    continue;
+                }
+
+                if (process.ProcessName == processName)
+                {
+                    sProcess[i].ProcessName = processName;
+                    sProcess[i].Pid = pid;
+                    newIniFile[strsection1][strkey] = processName;
+                    newIniFile[strsection2][strkey] = pid.ToString();
+                }
+
+                if (String.IsNullOrEmpty(sProcess[i].ProcessName) == false)
                 {
                     iProcessMaxCnt++;   // 모니터개수 카운트
                 }
             }
+            ini[strsection1] = newIniFile[strsection1];
+            ini[strsection2] = newIniFile[strsection2];
+            //ini.Save(strPath);
+            writeConfig();
         }
         private void writeConfig()
         {
-            string strsection;
+            string strsection1;
+            string strsection2;
             string strkey;
             StringBuilder sb = new StringBuilder();
 
-            strsection = "Config";
+            strsection1 = "Config";
+            strsection2 = "Config-pid";
             for (int i = 0; i < Constants.maxconfig; i++)
             {
                 strkey = Convert.ToString(i);
-                ini[strsection][strkey] = sProcess[i].ProcessName;
+                ini[strsection1][strkey] = sProcess[i].ProcessName;
+                ini[strsection2][strkey] = sProcess[i].Pid.ToString();
             }
             ini.Save(strPath);
         }
         private void checkProcessId(string strPrcsName, int pId)
         {
-            for(int i = 0; i< iProcessMaxCnt; i++)
+            for (int i = 0; i < iProcessMaxCnt; i++)
             {
                 if (strPrcsName == sProcess[i].ProcessName)
                 {
@@ -180,8 +213,8 @@ namespace WindowsFormsApp1
                 lvi.SubItems.Add(Convert.ToString(p.Id));
                 lvi.SubItems.Add(p.ProcessName);
                 listView1.Items.Add(lvi);
-
-                checkProcessId(p.ProcessName, p.Id);
+                //PID는 ReadConfig할 때 가져오기 때문에 주석처리. 230102 CUS
+                //checkProcessId(p.ProcessName, p.Id);
             }
             listView1.EndUpdate();
         }
@@ -190,7 +223,7 @@ namespace WindowsFormsApp1
         {
             listView2.Items.Clear();
             listView2.BeginUpdate();
-            for (int i=0; i< iProcessMaxCnt; i++)
+            for (int i = 0; i < iProcessMaxCnt; i++)
             {
                 ListViewItem lvi = new ListViewItem(Convert.ToString(sProcess[i].Pid));
                 lvi.SubItems.Add(sProcess[i].ProcessName);
@@ -208,12 +241,22 @@ namespace WindowsFormsApp1
             // 현재 List 같은 것은 예외처리.
             if (listView2.Items.Count != 0)
             {
-                for(int i = 0; i< listView2.Items.Count; i++)
+                for (int i = 0; i < listView2.Items.Count; i++)
                 {
-                    if (sProcessTemp.ProcessName == listView2.Items[i].SubItems[1].Text)
+                    //if (sProcessTemp.ProcessName == listView2.Items[i].SubItems[1].Text)
+                    //{
+                    //    return;
+                    //}
+
+                    //pid는 같고 processName은 다른 경우 => readConfig에서 확인하므로 여기 도달하지 않음
+                    //pid는 다르고 processName은 같은 경우 => listView2에 추가하는 것이 맞음
+                    //pid도 같고 processName도 같은 경우 => 여기 예외처리의 목적
+                    if (sProcessTemp.Pid == int.Parse(listView2.Items[i].SubItems[0].Text)
+                        && sProcessTemp.ProcessName == listView2.Items[i].SubItems[1].Text)
                     {
                         return;
                     }
+
                 }
             }
 
@@ -240,7 +283,7 @@ namespace WindowsFormsApp1
         {
             if (listView2.Items.Count > 0)
             {
-                foreach(ListViewItem row in listView2.SelectedItems)
+                foreach (ListViewItem row in listView2.SelectedItems)
                 {
                     int SelectRow = listView2.SelectedItems[0].Index;
                     string strtemp = listView2.Items[SelectRow].SubItems[1].Text;// == sProcess[])
@@ -249,7 +292,7 @@ namespace WindowsFormsApp1
 
                 for (int i = 0; i < Constants.maxconfig; i++)
                 {
-                    if(i < listView2.Items.Count)
+                    if (i < listView2.Items.Count)
                     {
                         sProcess[i].Pid = Convert.ToInt32(listView2.Items[i].SubItems[0].Text);
                         sProcess[i].ProcessName = listView2.Items[i].SubItems[1].Text;
@@ -294,7 +337,7 @@ namespace WindowsFormsApp1
             InsertSelectedListView();
 
             //tabControl1.TabPages.Add((tabControl1.TabPages.Count + 1).ToString());
-            if(iProcessMaxCnt > 1)
+            if (iProcessMaxCnt > 1)
             {
                 tabControl1.TabPages.Add(sProcess[iProcessMaxCnt - 1].Pid.ToString());
             }
@@ -303,7 +346,7 @@ namespace WindowsFormsApp1
             {
                 AddProcessTab(int.Parse(item.SubItems[1].Text));
             }
-            
+
         }
 
         // listview 선택된 process remove
@@ -328,9 +371,9 @@ namespace WindowsFormsApp1
 
             RemoveSelectedListView();
 
-            if(tabControl1.TabPages.Count > 1)
+            if (tabControl1.TabPages.Count > 1)
             {
-               tabControl1.TabPages.Remove(tabControl1.TabPages[tabControl1.TabPages.Count-1]);
+                tabControl1.TabPages.Remove(tabControl1.TabPages[tabControl1.TabPages.Count - 1]);
             }
 
 
@@ -352,7 +395,7 @@ namespace WindowsFormsApp1
                 MessageBox.Show("선택된 프로세스가 없습니다!");
                 return;
             }
-              
+
             // 현재 Program의 Process Name
             for (int i = 0; i < iProcessMaxCnt; i++)
             {
@@ -392,7 +435,7 @@ namespace WindowsFormsApp1
                 i++;
                 ListViewItem lvi = new ListViewItem(Convert.ToString(i));
                 if (p.ProcessName.Contains(message))
-                { 
+                {
                     lvi.SubItems.Add(Convert.ToString(p.Id));
                     lvi.SubItems.Add(p.ProcessName);
                     listView1.Items.Add(lvi);
@@ -403,7 +446,7 @@ namespace WindowsFormsApp1
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(listView1.SelectedItems.Count != 0)
+            if (listView1.SelectedItems.Count != 0)
             {
                 int iSelectRow = listView1.SelectedItems[0].Index;
                 iSelected = iSelectRow;
@@ -497,7 +540,7 @@ namespace WindowsFormsApp1
                 string processName = pProcess[i].ProcessName;
                 uscRealTimeProcessView control = (uscRealTimeProcessView)tconProcessTab.TabPages[pProcess[i].Id.ToString()].Controls[0];
             }
-            
+
 
             // pcManger[i].GetInstance()
             // 시작 하면 Program이 죽을 때 까지 계속 체크
@@ -578,14 +621,14 @@ namespace WindowsFormsApp1
         }
         private void BtnListClear_Click(object sender, EventArgs e)
         {
-            if(bMonitorStart)
+            if (bMonitorStart)
             {
                 MessageBox.Show("Monitor Start 상태에서 List Clear 불가!!!\nMonitor Stop 후 진행하세요");
                 return;
             }
             ClearListView(listView2);
 
-            for(int i = 0; i< Constants.maxconfig; i++)
+            for (int i = 0; i < Constants.maxconfig; i++)
             {
                 sProcess[i].Pid = 0;
                 sProcess[i].ProcessName = "";
@@ -679,9 +722,9 @@ namespace WindowsFormsApp1
 
         private void OnRaiseMeasureEvent(int PID, DataEventArgs e)
         {
-            
+
             EventHandler<DataEventArgs> eventHandler = measureEvents[PID];
-            
+
             if (eventHandler != null)
             {
                 eventHandler(this, e);
@@ -719,4 +762,4 @@ namespace WindowsFormsApp1
 
     }
 
- }
+}
