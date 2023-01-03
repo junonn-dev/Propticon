@@ -31,7 +31,11 @@ namespace WindowsFormsApp1.UserControls
 
         public void HandleLogEvent(object sender, DataEventArgs e)
         {
-            lboxRealTimeLog.Invoke(new Action(delegate () { lboxRealTimeLog.Items.Insert(0, e.message); }));
+            lboxRealTimeLog.Invoke(new Action(delegate () { 
+                lboxRealTimeLog.Items.Insert(0, e.message); 
+                if(lboxRealTimeLog.Items.Count >20)
+                    lboxRealTimeLog.Items.RemoveAt(20); 
+            }));
 
             lviewWorstList.Invoke(new Action(delegate ()
             {

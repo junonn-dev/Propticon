@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblEndDateInfo = new System.Windows.Forms.Label();
             this.lblStartDateInfo = new System.Windows.Forms.Label();
@@ -58,8 +57,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lboxProcessLog = new System.Windows.Forms.ListBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.tconProcessTab = new System.Windows.Forms.TabControl();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -354,10 +351,10 @@
             this.tconProcessTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tconProcessTab.Location = new System.Drawing.Point(752, 375);
+            this.tconProcessTab.Location = new System.Drawing.Point(752, 11);
             this.tconProcessTab.Name = "tconProcessTab";
             this.tconProcessTab.SelectedIndex = 0;
-            this.tconProcessTab.Size = new System.Drawing.Size(592, 286);
+            this.tconProcessTab.Size = new System.Drawing.Size(592, 650);
             this.tconProcessTab.TabIndex = 4;
             // 
             // Form1
@@ -412,8 +409,6 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ListBox lboxProcessLog;
-        private System.Windows.Forms.Timer timer1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.TabControl tconProcessTab;
     }
 }
