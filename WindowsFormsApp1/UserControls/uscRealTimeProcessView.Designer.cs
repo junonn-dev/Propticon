@@ -33,12 +33,6 @@
             System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Min", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Max", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Average", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "item1",
-            "sub1",
-            "sub2",
-            "sub3"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("item2");
             this.gboxWorstList = new System.Windows.Forms.GroupBox();
             this.lviewWorstList = new System.Windows.Forms.ListView();
             this.chNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -109,9 +103,6 @@
             listViewGroup4,
             listViewGroup5});
             this.lviewWorstList.HideSelection = false;
-            this.lviewWorstList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
             this.lviewWorstList.Location = new System.Drawing.Point(3, 17);
             this.lviewWorstList.Name = "lviewWorstList";
             this.lviewWorstList.Size = new System.Drawing.Size(778, 160);
@@ -131,7 +122,7 @@
             // chTime
             // 
             this.chTime.Text = "Time";
-            this.chTime.Width = 64;
+            this.chTime.Width = 192;
             // 
             // columnHeader1
             // 
