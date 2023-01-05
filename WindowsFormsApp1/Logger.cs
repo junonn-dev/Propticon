@@ -72,5 +72,9 @@ namespace WindowsFormsApp1
             }
         }
 
+        public string GetBaseLogPath()
+        {
+            return baseLogPath;
+        }
     }
 }
