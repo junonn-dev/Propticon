@@ -623,7 +623,7 @@ namespace WindowsFormsApp1
                     {
                         sb2
                         .Append("cpu_" + pProcess[j].ProcessName).Append(",")
-                        .Append("mem_" + pProcess[j].ProcessName).Append("(KB),")
+                        .Append("mem_" + pProcess[j].ProcessName).Append(",")
                         .Append("thread_" + pProcess[j].ProcessName).Append(",")
                         .Append("handle_" + pProcess[j].ProcessName).Append(",");
                     }
