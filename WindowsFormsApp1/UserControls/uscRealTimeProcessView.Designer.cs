@@ -28,17 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup11 = new System.Windows.Forms.ListViewGroup("CPU Usage", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup12 = new System.Windows.Forms.ListViewGroup("Memory Usage", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup13 = new System.Windows.Forms.ListViewGroup("Min", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup14 = new System.Windows.Forms.ListViewGroup("Max", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup15 = new System.Windows.Forms.ListViewGroup("Average", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
-            "item1",
-            "sub1",
-            "sub2",
-            "sub3"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("item2");
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("CPU Usage", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Memory Usage", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Min", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Max", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Average", System.Windows.Forms.HorizontalAlignment.Left);
             this.gboxWorstList = new System.Windows.Forms.GroupBox();
             this.lviewWorstList = new System.Windows.Forms.ListView();
             this.chNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -55,32 +49,27 @@
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.gboxRealTimeLog = new System.Windows.Forms.GroupBox();
             this.lboxRealTimeLog = new System.Windows.Forms.ListBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.gboxWorstList.SuspendLayout();
             this.gboxRealTimeLog.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // gboxWorstList
             // 
+            this.gboxWorstList.AutoSize = true;
+            this.gboxWorstList.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.gboxWorstList.Controls.Add(this.lviewWorstList);
             this.gboxWorstList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gboxWorstList.Location = new System.Drawing.Point(0, 0);
+            this.gboxWorstList.Location = new System.Drawing.Point(3, 3);
             this.gboxWorstList.Name = "gboxWorstList";
-            this.gboxWorstList.Size = new System.Drawing.Size(778, 157);
+            this.gboxWorstList.Size = new System.Drawing.Size(784, 180);
             this.gboxWorstList.TabIndex = 0;
             this.gboxWorstList.TabStop = false;
             this.gboxWorstList.Text = "Worst List";
             // 
             // lviewWorstList
             // 
-            this.lviewWorstList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lviewWorstList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chNumber,
             this.chWorstValue,
@@ -94,31 +83,29 @@
             this.columnHeader7,
             this.columnHeader8,
             this.columnHeader9});
-            listViewGroup11.Header = "CPU Usage";
-            listViewGroup11.Name = "CPU Usage";
-            listViewGroup11.Tag = "1";
-            listViewGroup12.Header = "Memory Usage";
-            listViewGroup12.Name = "Memory Usage";
-            listViewGroup12.Tag = "2";
-            listViewGroup13.Header = "Min";
-            listViewGroup13.Name = "Min";
-            listViewGroup14.Header = "Max";
-            listViewGroup14.Name = "Max";
-            listViewGroup15.Header = "Average";
-            listViewGroup15.Name = "Average";
+            this.lviewWorstList.Dock = System.Windows.Forms.DockStyle.Fill;
+            listViewGroup1.Header = "CPU Usage";
+            listViewGroup1.Name = "CPU Usage";
+            listViewGroup1.Tag = "1";
+            listViewGroup2.Header = "Memory Usage";
+            listViewGroup2.Name = "Memory Usage";
+            listViewGroup2.Tag = "2";
+            listViewGroup3.Header = "Min";
+            listViewGroup3.Name = "Min";
+            listViewGroup4.Header = "Max";
+            listViewGroup4.Name = "Max";
+            listViewGroup5.Header = "Average";
+            listViewGroup5.Name = "Average";
             this.lviewWorstList.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup11,
-            listViewGroup12,
-            listViewGroup13,
-            listViewGroup14,
-            listViewGroup15});
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3,
+            listViewGroup4,
+            listViewGroup5});
             this.lviewWorstList.HideSelection = false;
-            this.lviewWorstList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem5,
-            listViewItem6});
-            this.lviewWorstList.Location = new System.Drawing.Point(6, 20);
+            this.lviewWorstList.Location = new System.Drawing.Point(3, 17);
             this.lviewWorstList.Name = "lviewWorstList";
-            this.lviewWorstList.Size = new System.Drawing.Size(766, 131);
+            this.lviewWorstList.Size = new System.Drawing.Size(778, 160);
             this.lviewWorstList.TabIndex = 0;
             this.lviewWorstList.UseCompatibleStateImageBehavior = false;
             this.lviewWorstList.View = System.Windows.Forms.View.Details;
@@ -135,7 +122,7 @@
             // chTime
             // 
             this.chTime.Text = "Time";
-            this.chTime.Width = 64;
+            this.chTime.Width = 192;
             // 
             // columnHeader1
             // 
@@ -177,69 +164,54 @@
             // 
             this.gboxRealTimeLog.Controls.Add(this.lboxRealTimeLog);
             this.gboxRealTimeLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gboxRealTimeLog.Location = new System.Drawing.Point(0, 0);
+            this.gboxRealTimeLog.Location = new System.Drawing.Point(3, 189);
             this.gboxRealTimeLog.Name = "gboxRealTimeLog";
-            this.gboxRealTimeLog.Size = new System.Drawing.Size(772, 203);
+            this.gboxRealTimeLog.Size = new System.Drawing.Size(784, 180);
             this.gboxRealTimeLog.TabIndex = 0;
             this.gboxRealTimeLog.TabStop = false;
             this.gboxRealTimeLog.Text = "Real Time Log";
             // 
             // lboxRealTimeLog
             // 
-            this.lboxRealTimeLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lboxRealTimeLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lboxRealTimeLog.FormattingEnabled = true;
+            this.lboxRealTimeLog.HorizontalScrollbar = true;
             this.lboxRealTimeLog.ItemHeight = 12;
-            this.lboxRealTimeLog.Location = new System.Drawing.Point(6, 20);
+            this.lboxRealTimeLog.Location = new System.Drawing.Point(3, 17);
             this.lboxRealTimeLog.Name = "lboxRealTimeLog";
-            this.lboxRealTimeLog.Size = new System.Drawing.Size(760, 160);
+            this.lboxRealTimeLog.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lboxRealTimeLog.Size = new System.Drawing.Size(778, 160);
             this.lboxRealTimeLog.TabIndex = 0;
             // 
-            // flowLayoutPanel1
+            // tableLayoutPanel1
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.Controls.Add(this.panel1);
-            this.flowLayoutPanel1.Controls.Add(this.panel2);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(787, 375);
-            this.flowLayoutPanel1.TabIndex = 1;
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.gboxWorstList);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(778, 157);
-            this.panel1.TabIndex = 1;
-            // 
-            // panel2
-            // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.gboxRealTimeLog);
-            this.panel2.Location = new System.Drawing.Point(3, 166);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(772, 203);
-            this.panel2.TabIndex = 2;
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.gboxWorstList, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.gboxRealTimeLog, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(790, 372);
+            this.tableLayoutPanel1.TabIndex = 1;
             // 
             // uscRealTimeProcessView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.AutoSize = true;
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "uscRealTimeProcessView";
             this.Size = new System.Drawing.Size(790, 372);
             this.gboxWorstList.ResumeLayout(false);
             this.gboxRealTimeLog.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -261,8 +233,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader7;
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.ColumnHeader columnHeader9;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }

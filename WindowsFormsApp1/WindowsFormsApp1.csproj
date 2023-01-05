@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\MonInfoGenerator.cs" />
     <Compile Include="CounterItem\Counter.cs" />
     <Compile Include="CounterItem\ProcessSet.cs" />
     <Compile Include="CounterItem\WorstList.cs" />
@@ -57,6 +58,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Graph\IGraphAdaptor.cs" />
+    <Compile Include="Graph\LogParser.cs" />
+    <Compile Include="Graph\winformDefaultGraph.cs" />
     <Compile Include="Ini.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="PCManager.cs" />
