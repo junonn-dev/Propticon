@@ -49,6 +49,7 @@ namespace WindowsFormsApp1
         {
             public int Pid;
             public string ProcessName;
+            public string InstanceName;
         };
 
         StProcess[] sProcess = new StProcess[Constants.maxconfig];
@@ -417,6 +418,8 @@ namespace WindowsFormsApp1
                 try
                 {
                     pProcess[i] = Process.GetProcessById(sProcess[i].Pid);// Process.GetProcessById(sProcessTemp.Pid);
+                    sProcess[i].InstanceName = PCM.GetProcessInstanceName(
+                        sProcess[i].Pid, sProcess[i].ProcessName);
                 }
                 catch
                 {
@@ -684,10 +687,10 @@ namespace WindowsFormsApp1
                     for (int j = 0; j < iProcessMaxCnt; j++)
                     {
                         sb2
-                        .Append("cpu_" + pProcess[j].ProcessName).Append(",")
-                        .Append("mem_" + pProcess[j].ProcessName).Append("(KB),")
-                        .Append("thread_" + pProcess[j].ProcessName).Append(",")
-                        .Append("handle_" + pProcess[j].ProcessName).Append(",");
+                        .Append("cpu_" + sProcess[j].InstanceName).Append(",")
+                        .Append("mem_" + sProcess[j].InstanceName).Append(",")
+                        .Append("thread_" + sProcess[j].InstanceName).Append(",")
+                        .Append("handle_" + sProcess[j].InstanceName).Append(",");
                     }
                     logger.WriteLog(sb2.ToString());
                     sb2.Clear();
@@ -713,7 +716,7 @@ namespace WindowsFormsApp1
                 //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} HandleCnt: {handleCount.ToString()} cnt");
 
                 // 한줄로...
-                Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
+                Log(lboxProcessLog, enLogLevel.Info, $"{sProcess[i].InstanceName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
                 //Log(listBox1, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (%): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
 
                 sb.Append(cpuUsage.ToString()).Append(",")
@@ -721,7 +724,7 @@ namespace WindowsFormsApp1
                     .Append(threadCount.ToString()).Append(",")
                     .Append(handleCount.ToString()).Append(",");
 
-                string message = $"{dTime:yyyy-MM-dd hh:mm:ss.fff} [{enLogLevel.Info.ToString()}] {pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}";
+                string message = $"{dTime:yyyy-MM-dd hh:mm:ss.fff} [{enLogLevel.Info.ToString()}] {sProcess[i].InstanceName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}";
                 ProcessSet processSet = PCM.GetProcessSet(pProcess[i]);
 
                 DataEventArgs args = new DataEventArgs(message, processSet);

@@ -38,3 +38,14 @@ C:\SW_Patch\Monitoring Process\WindowsFormsApp1_1205_1\WindowsFormsApp1\obj\Debu
 C:\SW_Patch\Monitoring Process\WindowsFormsApp1_1205_1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
 C:\SW_Patch\Monitoring Process\WindowsFormsApp1_1205_1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 C:\SW_Patch\Monitoring Process\WindowsFormsApp1_1205_1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+C:\dev\MonitoringProcess\MonitoringProcess_1206\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\dev\MonitoringProcess\MonitoringProcess_1206\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\dev\MonitoringProcess\MonitoringProcess_1206\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\dev\MonitoringProcess\MonitoringProcess_1206\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.AssemblyReference.cache
+C:\dev\MonitoringProcess\MonitoringProcess_1206\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\dev\MonitoringProcess\MonitoringProcess_1206\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\dev\MonitoringProcess\MonitoringProcess_1206\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.UserControls.uscRealTimeProcessView.resources
+C:\dev\MonitoringProcess\MonitoringProcess_1206\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+C:\dev\MonitoringProcess\MonitoringProcess_1206\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+C:\dev\MonitoringProcess\MonitoringProcess_1206\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\dev\MonitoringProcess\MonitoringProcess_1206\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
