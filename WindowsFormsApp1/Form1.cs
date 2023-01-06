@@ -362,7 +362,7 @@ namespace WindowsFormsApp1
 
             foreach (ListViewItem item in listView1.SelectedItems)
             {
-                AddProcessTab(int.Parse(item.SubItems[1].Text));
+                AddProcessTab(int.Parse(item.SubItems[1].Text), item.SubItems[2].Text);
             }
 
         }
@@ -757,7 +757,7 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void AddProcessTab(int PID)
+        private void AddProcessTab(int PID, string processName)
         {
             string strPID = PID.ToString();
             if (tconProcessTab.TabPages.ContainsKey(strPID))
@@ -767,7 +767,7 @@ namespace WindowsFormsApp1
             tconProcessTab.TabPages.Add(strPID, strPID);
 
             measureEvents[PID] = null;
-            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this, PID);
+            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this, PID, processName);
             tempUserControl.Dock = DockStyle.Fill;
 
             tconProcessTab.TabPages[strPID].Controls.Add(tempUserControl);
@@ -787,7 +787,7 @@ namespace WindowsFormsApp1
         {
             for (int i = 0; i < iProcessMaxCnt; i++)
             {
-                AddProcessTab(sProcess[i].Pid);
+                AddProcessTab(sProcess[i].Pid, sProcess[i].ProcessName);
             }
         }
 

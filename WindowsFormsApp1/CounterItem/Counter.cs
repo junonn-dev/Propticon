@@ -9,10 +9,10 @@ namespace WindowsFormsApp1.CounterItem
 {
     public class Counter
     {
-        public float minValue { get; set; }
-        public float maxValue { get; set; }
-        public double average { get; set; }
-        public long recordCount { get; set; }
+        private float minValue;
+        private float maxValue;
+        private double average;
+        private long recordCount;
         public WorstList worstList { get; set; }
 
         private PerformanceCounter performanceCounter;
@@ -78,6 +78,17 @@ namespace WindowsFormsApp1.CounterItem
                 maxValue = value;
             }
         }
-
+        public float GetMinValue()
+        {
+            return minValue;
+        }
+        public float GetMaxValue()
+        {
+            return maxValue;
+        }
+        public double GetAverage()
+        {
+            return average;
+        }
     }
 }
