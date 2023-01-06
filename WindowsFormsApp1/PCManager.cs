@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WindowsFormsApp1.CounterItem;
+using WindowsFormsApp1.Helper;
 
 namespace WindowsFormsApp1
 {
@@ -41,7 +42,7 @@ namespace WindowsFormsApp1
                 string instanceName = "";
                 try
                 {
-                    instanceName = GetProcessInstanceName(process.Id, process.ProcessName);
+                    instanceName = InstanceNameConvertor.GetProcessInstanceName(process.Id, process.ProcessName);
                 }
                 catch
                 {
@@ -67,27 +68,6 @@ namespace WindowsFormsApp1
             //        mapProcessSet.Remove(processSet.Key);
             //    }
             //}
-        }
-
-        // pid로부터 instance 이름 얻기
-        //https://stackoverflow.com/questions/9115436/performance-counter-by-process-id-instead-of-name
-        public string GetProcessInstanceName(int pid, string processName)
-        {
-            PerformanceCounterCategory cat = new PerformanceCounterCategory("Process");
-
-            IEnumerable<string> instances = cat.GetInstanceNames().Where(str => str.Contains(processName));
-            foreach (string instance in instances)
-            {
-                using (PerformanceCounter cnt = new PerformanceCounter("Process", "ID Process", instance, true))
-                {
-                    int val = (int)cnt.RawValue;
-                    if (val == pid)
-                    {
-                        return instance;
-                    }
-                }
-            }
-            throw new Exception("Could not find performance counter");
         }
 
         public float GetProcessCPUUsage(Process process, DateTime timeStamp)

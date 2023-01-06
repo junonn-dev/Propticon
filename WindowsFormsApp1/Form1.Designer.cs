@@ -58,6 +58,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lboxProcessLog = new System.Windows.Forms.ListBox();
             this.tconProcessTab = new System.Windows.Forms.TabControl();
+            this.btnGraphViewer = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -351,17 +352,28 @@
             this.tconProcessTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tconProcessTab.Location = new System.Drawing.Point(752, 11);
+            this.tconProcessTab.Location = new System.Drawing.Point(752, 60);
             this.tconProcessTab.Name = "tconProcessTab";
             this.tconProcessTab.SelectedIndex = 0;
-            this.tconProcessTab.Size = new System.Drawing.Size(592, 650);
+            this.tconProcessTab.Size = new System.Drawing.Size(592, 601);
             this.tconProcessTab.TabIndex = 4;
+            // 
+            // btnGraphViewer
+            // 
+            this.btnGraphViewer.Location = new System.Drawing.Point(1244, 26);
+            this.btnGraphViewer.Name = "btnGraphViewer";
+            this.btnGraphViewer.Size = new System.Drawing.Size(100, 23);
+            this.btnGraphViewer.TabIndex = 5;
+            this.btnGraphViewer.Text = "Graph Viewer";
+            this.btnGraphViewer.UseVisualStyleBackColor = true;
+            this.btnGraphViewer.Click += new System.EventHandler(this.btnGraphViewer_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1356, 716);
+            this.Controls.Add(this.btnGraphViewer);
             this.Controls.Add(this.tconProcessTab);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lboxLog);
@@ -410,6 +422,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ListBox lboxProcessLog;
         private System.Windows.Forms.TabControl tconProcessTab;
+        private System.Windows.Forms.Button btnGraphViewer;
     }
 }
 

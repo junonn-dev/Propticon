@@ -6,6 +6,8 @@ using System.Threading;
 using System.Windows.Forms;
 using WindowsFormsApp1.CounterItem;
 using WindowsFormsApp1.Data;
+using WindowsFormsApp1.Forms;
+using WindowsFormsApp1.Helper;
 using WindowsFormsApp1.UserControls;
 using static WindowsFormsApp1.Program;
 
@@ -418,7 +420,7 @@ namespace WindowsFormsApp1
                 try
                 {
                     pProcess[i] = Process.GetProcessById(sProcess[i].Pid);// Process.GetProcessById(sProcessTemp.Pid);
-                    sProcess[i].InstanceName = PCM.GetProcessInstanceName(
+                    sProcess[i].InstanceName = InstanceNameConvertor.GetProcessInstanceName(
                         sProcess[i].Pid, sProcess[i].ProcessName);
                 }
                 catch
@@ -793,9 +795,14 @@ namespace WindowsFormsApp1
         {
             tconProcessTab.TabPages.Clear();
         }
+
         #endregion
 
-
+        private void btnGraphViewer_Click(object sender, EventArgs e)
+        {
+            GraphViewer graphViewer = new GraphViewer();
+            graphViewer.Show();
+        }
     }
 
 }
