@@ -14,6 +14,13 @@ namespace WindowsFormsApp1.Forms
         {
             InitializeComponent();
         }
+
+        public GraphViewer(DateTime startTime) : this()
+        {
+            dtpStart.Value = startTime;
+            dtpEnd.Value = startTime.AddHours(1);
+        }
+
         private void FormsPlot_MouseWheel(object sender, MouseEventArgs e)
         {
             ((HandledMouseEventArgs)e).Handled = true;
