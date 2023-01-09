@@ -352,15 +352,15 @@
             this.tconProcessTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tconProcessTab.Location = new System.Drawing.Point(752, 60);
+            this.tconProcessTab.Location = new System.Drawing.Point(13, 375);
             this.tconProcessTab.Name = "tconProcessTab";
             this.tconProcessTab.SelectedIndex = 0;
-            this.tconProcessTab.Size = new System.Drawing.Size(592, 601);
+            this.tconProcessTab.Size = new System.Drawing.Size(717, 324);
             this.tconProcessTab.TabIndex = 4;
             // 
             // btnGraphViewer
             // 
-            this.btnGraphViewer.Location = new System.Drawing.Point(1244, 26);
+            this.btnGraphViewer.Location = new System.Drawing.Point(626, 346);
             this.btnGraphViewer.Name = "btnGraphViewer";
             this.btnGraphViewer.Size = new System.Drawing.Size(100, 23);
             this.btnGraphViewer.TabIndex = 5;
@@ -372,7 +372,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1356, 716);
+            this.ClientSize = new System.Drawing.Size(743, 711);
             this.Controls.Add(this.btnGraphViewer);
             this.Controls.Add(this.tconProcessTab);
             this.Controls.Add(this.tabControl1);
