@@ -70,7 +70,12 @@ namespace WindowsFormsApp1
             {
                 sw.WriteLine("Log Exception occured.");
             }
+            sw.Close();
         }
 
+        public string GetBaseLogPath()
+        {
+            return baseLogPath;
+        }
     }
 }

@@ -5,142 +5,105 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WindowsFormsApp1.CounterItem;
+using WindowsFormsApp1.Helper;
 
 namespace WindowsFormsApp1
 {
     public class PCManager
     {
-        //private Dictionary<string, Counter> mapProcessProcessorTime;
-        //private Dictionary<string, Counter> mapProcessWrokingSet;
-        //private Dictionary<string, Counter> mapProcessThreadCount;
-        //private Dictionary<string, Counter> mapProcessHandleCount;
-
-        private Dictionary<string, ProcessSet> mapProcessSet;
+        private Dictionary<int, ProcessSet> mapProcessSet;
 
         /// <summary>
         /// 내부 필드 초기화만 함, PCManager 생성 후 InitProcessMonitor 호출하여 프로세스 지정해야 함
         /// </summary>
         public PCManager()
         {
-            mapProcessSet = new Dictionary<string, ProcessSet>();
+            mapProcessSet = new Dictionary<int, ProcessSet>();
         }
 
         /// <summary>
         /// PCManager 초기화 시 프로세스 지정도 같이 함.
         /// </summary>
         /// <param name="processNames"></param>
-        public PCManager(IEnumerable<string> processNames) : this()
-        {
-            InitProcessMonitor(processNames);
-        }
-
         public PCManager(IEnumerable<Process> processNames) : this()
         {
             InitProcessMonitor(processNames);
         }
 
-        public void InitProcessMonitor(IEnumerable<string> processNames)
-        {
-            foreach (string processName in processNames)
-            {
-                if (string.IsNullOrEmpty(processName))
-                {
-                    continue;
-                }
-                if (!mapProcessSet.ContainsKey(processName))
-                {
-                    mapProcessSet.Add(processName, new ProcessSet(processName));
-
-                }
-            }
-
-            foreach (KeyValuePair<string, ProcessSet> processSet in mapProcessSet)
-            {
-                if (!processNames.Contains(processSet.Key)){
-                    mapProcessSet.Remove(processSet.Key);
-                }
-            }
-
-        }
-
         public void InitProcessMonitor(IEnumerable<Process> processes)
         {
             foreach (Process process in processes)
-            {
+            {            
                 if (process is null)
                 {
                     continue;
                 }
-                string processName = process.ProcessName;
-                if (!mapProcessSet.ContainsKey(processName))
+
+                string instanceName = "";
+                try
                 {
-                    mapProcessSet.Add(processName, new ProcessSet(processName));
+                    instanceName = InstanceNameConvertor.GetProcessInstanceName(process.Id, process.ProcessName);
+                }
+                catch
+                {
+                    continue;
                 }
 
-                foreach (KeyValuePair<string, ProcessSet> processSet in mapProcessSet)
+                if (!mapProcessSet.ContainsKey(process.Id))
                 {
-                    if (!processes.Select(proc => proc.ProcessName).Contains(processSet.Key)){
-                        mapProcessSet.Remove(processSet.Key);
-                    }
-                }
-            }
-        }
-
-        // pid로부터 instance 이름 얻기
-        //https://stackoverflow.com/questions/9115436/performance-counter-by-process-id-instead-of-name
-        public string GetProcessInstanceName(int pid, string processName)
-        {
-            PerformanceCounterCategory cat = new PerformanceCounterCategory("Process");
-
-            IEnumerable<string> instances = cat.GetInstanceNames().Where(str => str.Contains(processName));
-            foreach (string instance in instances)
-            {
-                using (PerformanceCounter cnt = new PerformanceCounter("Process", "ID Process", instance, true))
-                {
-                    int val = (int)cnt.RawValue;
-                    if (val == pid)
-                    {
-                        return instance;
-                    }
+                    mapProcessSet.Add(process.Id, 
+                        new ProcessSet(process.Id, process.ProcessName, instanceName));
                 }
             }
-            throw new Exception("Could not find performance counter");
+
+            //monitor start/stop 번복 시 map 정보가 바뀜
+            //processes에 기존에 있던 process가 삭제되어 들어오면
+            //그 process의 processSet은 map에 계속 남아있게됨.
+            //아래 코드는 선택된 process가 아닌 것을 제거하는 시도(미완성, 230102) 
+            //아래를 주석처리하면 한 번 측정된 프로세스 정보는 프로그램 종료 전까지 map 메모리에 남음.
+            //foreach (KeyValuePair<string, ProcessSet> processSet in mapProcessSet)
+            //{
+            //    if (!processIds.Contains(processSet.Key))
+            //    {
+            //        mapProcessSet.Remove(processSet.Key);
+            //    }
+            //}
         }
 
-        public float GetProcessCPUUsage(string processName, DateTime timeStamp)
+        public float GetProcessCPUUsage(Process process, DateTime timeStamp)
         {
-            if(mapProcessSet.ContainsKey(processName) is false)
+            if(mapProcessSet.ContainsKey(process.Id) is false)
             {
                 return -1f;
             }
-            return mapProcessSet[processName].processorTimeCounter.GetNextValue(timeStamp);
+            return mapProcessSet[process.Id].processorTimeCounter.GetNextValue(timeStamp);
         }
 
-        public float GetProcessMemoryUsage(string processName, DateTime timeStamp)
+        public float GetProcessMemoryUsage(Process process, DateTime timeStamp)
         {
-            if (mapProcessSet.ContainsKey(processName) is false)
+            if (mapProcessSet.ContainsKey(process.Id) is false)
             {
                 return -1f;
             }
-            return mapProcessSet[processName].workingSetCounter.GetNextValue(timeStamp);
+            return mapProcessSet[process.Id].workingSetCounter.GetNextValue(timeStamp);
         }
 
-        public int GetProcessThreadCount(string processName)
+        public int GetProcessThreadCount(Process process)
         {
-            if (mapProcessSet.ContainsKey(processName) is false)
+            if (mapProcessSet.ContainsKey(process.Id) is false)
             {
                 return -1;
             }
-            return (int)mapProcessSet[processName].threadCountCounter.GetNextValue();
+            return (int)mapProcessSet[process.Id].threadCountCounter.GetNextValue();
         }
 
-        public int GetProcessHandleCount(string processName)
+        public int GetProcessHandleCount(Process process)
         {
-            if (mapProcessSet.ContainsKey(processName) is false)
+            if (mapProcessSet.ContainsKey(process.Id) is false)
             {
                 return -1;
             }
-            return (int)mapProcessSet[processName].handleCountCounter.GetNextValue();
+            return (int)mapProcessSet[process.Id].handleCountCounter.GetNextValue();
         }
 
         //public WorstList GetProcessCPUWorst(string processName)
@@ -153,9 +116,9 @@ namespace WindowsFormsApp1
         //    return mapProcessSet[processName].workingSetCounter.worstList;
         //}
 
-        public ProcessSet GetProcessSet(string processName)
+        public ProcessSet GetProcessSet(Process process)
         {
-            return mapProcessSet[processName];
+            return mapProcessSet[process.Id];
         }
 
         

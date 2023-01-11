@@ -9,10 +9,10 @@ namespace WindowsFormsApp1.CounterItem
 {
     public class Counter
     {
-        public float minValue { get; set; }
-        public float maxValue { get; set; }
-        public double average { get; set; }
-        public long recordCount { get; set; }
+        private float minValue;
+        private float maxValue;
+        private double average;
+        private long recordCount;
         public WorstList worstList { get; set; }
 
         private PerformanceCounter performanceCounter;
@@ -31,7 +31,16 @@ namespace WindowsFormsApp1.CounterItem
         /// <returns></returns>
         public float GetNextValue()
         {
-            float value = performanceCounter.NextValue();
+            float value = -2f;
+            try
+            {
+                value = performanceCounter.NextValue();
+            }
+            catch
+            {
+                //monitoring 중간 프로세스 종료되면 -2 return
+                return value;
+            }
             CheckStatisticValue(value);
             return value;
         }
@@ -56,7 +65,8 @@ namespace WindowsFormsApp1.CounterItem
         {
             //Average계산과 RecordCount 증가 순서 주의,
             //RcordCount 증가 전에 Average 계산 하도록 구현됨 
-            average = average * ((double)recordCount / (recordCount + 1)) + (double)value / (recordCount + 1);
+            average = (double)((average * recordCount + value)) / (recordCount + 1); 
+            
             recordCount++;
 
             if (minValue > value)
@@ -69,6 +79,17 @@ namespace WindowsFormsApp1.CounterItem
                 maxValue = value;
             }
         }
-
+        public float GetMinValue()
+        {
+            return minValue;
+        }
+        public float GetMaxValue()
+        {
+            return maxValue;
+        }
+        public double GetAverage()
+        {
+            return average;
+        }
     }
 }

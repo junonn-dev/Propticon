@@ -21,9 +21,34 @@ namespace WindowsFormsApp1.UserControls
             lviewWorstList.Items.Clear();
         }
 
-        public uscRealTimeProcessView(Form1 form, int PID) : this()
+        public uscRealTimeProcessView(Form1 form, int PID, string processName) : this()
         {
             form.measureEvents[PID] = HandleLogEvent;
+            lblPid.Text = PID.ToString();
+            lblProcessName.Text = processName;
+
+            dgvStatistics.ColumnCount = 4;
+            dgvStatistics.ColumnHeadersVisible = true;
+            dgvStatistics.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvStatistics.AllowUserToAddRows = false;
+            dgvStatistics.AllowUserToDeleteRows = false;
+            dgvStatistics.ReadOnly = true;
+            dgvStatistics.Columns[0].Name = "counter";
+            dgvStatistics.Columns[1].Name = "min";
+            dgvStatistics.Columns[2].Name = "max";
+            dgvStatistics.Columns[3].Name = "avg";
+
+            string rowDefault = "-";
+            string[] row1 = new string[] { "cpu", rowDefault, rowDefault, rowDefault };
+            string[] row2 = new string[] { "mem", rowDefault, rowDefault, rowDefault };
+            string[] row3 = new string[] { "thread", rowDefault, rowDefault, rowDefault };
+            string[] row4 = new string[] { "handle", rowDefault, rowDefault, rowDefault };
+
+            dgvStatistics.Rows.Add(row1);
+            dgvStatistics.Rows.Add(row2);
+            dgvStatistics.Rows.Add(row3);
+            dgvStatistics.Rows.Add(row4);
+
         }
 
         //public void SetWorstUpdateEventHandler(WorstList worstList)
@@ -44,6 +69,22 @@ namespace WindowsFormsApp1.UserControls
                 parseWorstList(e.processSet.processorTimeCounter.worstList.list, "CPU Usage");
                 parseWorstList(e.processSet.workingSetCounter.worstList.list, "Memory Usage");
             }));
+
+            dgvStatistics.Rows[0].Cells[1].Value = e.processSet.processorTimeCounter.GetMinValue().ToString();
+            dgvStatistics.Rows[0].Cells[2].Value = e.processSet.processorTimeCounter.GetMaxValue().ToString();
+            dgvStatistics.Rows[0].Cells[3].Value = e.processSet.processorTimeCounter.GetAverage().ToString();
+
+            dgvStatistics.Rows[1].Cells[1].Value = e.processSet.workingSetCounter.GetMinValue().ToString();
+            dgvStatistics.Rows[1].Cells[2].Value = e.processSet.workingSetCounter.GetMaxValue().ToString();
+            dgvStatistics.Rows[1].Cells[3].Value = e.processSet.workingSetCounter.GetAverage().ToString();
+
+            dgvStatistics.Rows[2].Cells[1].Value = e.processSet.threadCountCounter.GetMinValue().ToString();
+            dgvStatistics.Rows[2].Cells[2].Value = e.processSet.threadCountCounter.GetMaxValue().ToString();
+            dgvStatistics.Rows[2].Cells[3].Value = e.processSet.threadCountCounter.GetAverage().ToString();
+
+            dgvStatistics.Rows[3].Cells[1].Value = e.processSet.handleCountCounter.GetMinValue().ToString();
+            dgvStatistics.Rows[3].Cells[2].Value = e.processSet.handleCountCounter.GetMaxValue().ToString();
+            dgvStatistics.Rows[3].Cells[3].Value = e.processSet.handleCountCounter.GetAverage().ToString();
         }
 
         private void parseWorstList(SortedDictionary<float, List<DateTime>> map, string groupName)
