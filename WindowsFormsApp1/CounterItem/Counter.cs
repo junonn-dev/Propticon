@@ -22,7 +22,7 @@ namespace WindowsFormsApp1.CounterItem
             performanceCounter = new PerformanceCounter(category, counter, instance);
             worstList = new WorstList();
             minValue = float.MaxValue;
-            maxValue = float.MinValue;
+            maxValue = 0;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace WindowsFormsApp1.CounterItem
                 minValue = value;
             }
 
-            else if (maxValue < value)
+            if (maxValue < value)
             {
                 maxValue = value;
             }
