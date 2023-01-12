@@ -32,11 +32,20 @@ namespace WindowsFormsApp1.UserControls
             dgvStatistics.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvStatistics.AllowUserToAddRows = false;
             dgvStatistics.AllowUserToDeleteRows = false;
+            dgvStatistics.AllowUserToOrderColumns = true;
+            dgvStatistics.AllowDrop = false;
+            dgvStatistics.AllowUserToResizeColumns = false;
+            dgvStatistics.AllowUserToResizeRows = false;
             dgvStatistics.ReadOnly = true;
             dgvStatistics.Columns[0].Name = "counter";
             dgvStatistics.Columns[1].Name = "min";
             dgvStatistics.Columns[2].Name = "max";
             dgvStatistics.Columns[3].Name = "avg";
+
+            dgvStatistics.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgvStatistics.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgvStatistics.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgvStatistics.Columns[3].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             string rowDefault = "-";
             string[] row1 = new string[] { "cpu", rowDefault, rowDefault, rowDefault };
@@ -72,19 +81,19 @@ namespace WindowsFormsApp1.UserControls
 
             dgvStatistics.Rows[0].Cells[1].Value = e.processSet.processorTimeCounter.GetMinValue().ToString();
             dgvStatistics.Rows[0].Cells[2].Value = e.processSet.processorTimeCounter.GetMaxValue().ToString();
-            dgvStatistics.Rows[0].Cells[3].Value = e.processSet.processorTimeCounter.GetAverage().ToString();
+            dgvStatistics.Rows[0].Cells[3].Value = Math.Round(e.processSet.processorTimeCounter.GetAverage(),3).ToString();
 
             dgvStatistics.Rows[1].Cells[1].Value = e.processSet.workingSetCounter.GetMinValue().ToString();
             dgvStatistics.Rows[1].Cells[2].Value = e.processSet.workingSetCounter.GetMaxValue().ToString();
-            dgvStatistics.Rows[1].Cells[3].Value = e.processSet.workingSetCounter.GetAverage().ToString();
+            dgvStatistics.Rows[1].Cells[3].Value = Math.Round(e.processSet.workingSetCounter.GetAverage(),3).ToString();
 
             dgvStatistics.Rows[2].Cells[1].Value = e.processSet.threadCountCounter.GetMinValue().ToString();
             dgvStatistics.Rows[2].Cells[2].Value = e.processSet.threadCountCounter.GetMaxValue().ToString();
-            dgvStatistics.Rows[2].Cells[3].Value = e.processSet.threadCountCounter.GetAverage().ToString();
+            dgvStatistics.Rows[2].Cells[3].Value = Math.Round(e.processSet.threadCountCounter.GetAverage()).ToString();
 
             dgvStatistics.Rows[3].Cells[1].Value = e.processSet.handleCountCounter.GetMinValue().ToString();
             dgvStatistics.Rows[3].Cells[2].Value = e.processSet.handleCountCounter.GetMaxValue().ToString();
-            dgvStatistics.Rows[3].Cells[3].Value = e.processSet.handleCountCounter.GetAverage().ToString();
+            dgvStatistics.Rows[3].Cells[3].Value = Math.Round(e.processSet.handleCountCounter.GetAverage()).ToString();
         }
 
         private void parseWorstList(SortedDictionary<float, List<DateTime>> map, string groupName)
