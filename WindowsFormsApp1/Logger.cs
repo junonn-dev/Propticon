@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-    class Logger
+    public class Logger
     {
         //TODO : Log Path 결정, 경로 인식 방법, 이름 규칙
         private static readonly string baseLogPath = "C:\\Logs\\";
         private static StreamWriter sw;
+        private static StringBuilder buffer;
 
         //Singleton
         //싱글톤 사용은 제약이 많을 듯, 수정 예정
@@ -25,8 +26,11 @@ namespace WindowsFormsApp1
         public static Logger GetInstance()
         {
             if(instance is null)
-            {              
-                //sw = new StreamWriter(baseLogPath, true);
+            {
+                //Logger 처음 생성될 때, sw 초기화 시
+                //디렉토리로 초기화하기 때문에 예외 발생 가능성
+                //sw = new StreamWriter(baseLogPath + "defaultLogTest.txt", true);
+                buffer = new StringBuilder();
                 instance = new Logger();
             }
             return instance;
@@ -46,17 +50,12 @@ namespace WindowsFormsApp1
         //파일 경로 규칙 생성 후 별도 파일이름 지정 없이 Logger 객체 사용할 수 있도록 바꾸는 것이 좋을 듯
         internal void SetFileName(string fileName)
         {
-            //if (GetFileExist(fileName))
-            //    return;
-
-            if(!ReferenceEquals(sw, null))
-            {
-                sw.Close();
-            }
-            //sw = new StreamWriter(baseLogPath + fileName,true,Encoding.Unicode);
+            if (GetFileExist(fileName))
+                return;
             sw = new StreamWriter(baseLogPath + fileName,true,Encoding.GetEncoding("utf-8"));
         }
 
+        //deprecated
         public void WriteLog(string log)
         {
             try
@@ -65,12 +64,21 @@ namespace WindowsFormsApp1
                 //string LogInfo = $"{dTime:yyyy/MM/dd hh:mm:ss,} {log}";
                 sw.WriteLine(log);
                 sw.Flush();
+                
             }
             catch
             {
                 sw.WriteLine("Log Exception occured.");
             }
-            sw.Close();
+            //sw.Close();
+        }
+
+        private void Log(string log, DateTime logTime)
+        {
+            lock (buffer)
+            {
+                buffer.AppendLine(log);
+            }
         }
 
         public string GetBaseLogPath()
