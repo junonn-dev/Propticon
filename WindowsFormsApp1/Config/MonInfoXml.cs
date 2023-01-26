@@ -14,7 +14,7 @@ namespace WindowsFormsApp1.Config
 
         public MonInfoXml(string infoFileName)
         {
-            infoFilePath = Logger.GetInstance().GetBaseLogPath()
+            infoFilePath = Logger.GetBaseLogPath()
                 + infoFileName
                 + "\\" + infoFileName
                 + ".xml";
