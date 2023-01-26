@@ -18,7 +18,7 @@ namespace WindowsFormsApp1
         private static Queue<KeyValuePair<DateTime, string>> buffer;
         private static readonly int threadPeriod = 2000;
         private static Form1 mainFormReference;
-        private readonly string dateTimeFormat = "yyyy-MM-dd-HH-mm";
+        private readonly string dateTimeFormat = "yyyy-MM-dd-HH";
         private readonly string logExtensionFormat = ".csv";
 
         //Singleton
