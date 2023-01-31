@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApp1.CounterItem;
 using WindowsFormsApp1.Data;
@@ -541,11 +542,14 @@ namespace WindowsFormsApp1
         //}
 
         // 선택 Process Thread (Program 시작 시 실행)
-        private void SelectProcessThread()
+        private async void SelectProcessThread()
         {
-            Thread selectcputhread = new Thread(fSelectProcess);
+            Task selectcputhread = Task.Run((Action)fSelectProcess);
+            await selectcputhread;
+            initialMonitorProcess();
+            //Thread selectcputhread = new Thread(fSelectProcess);
 
-            selectcputhread.Start();
+            //selectcputhread.Start();
         }
 
         private bool checkDateTime(DateTime dtTime)
@@ -571,7 +575,8 @@ namespace WindowsFormsApp1
                 Thread.Sleep(iThreadTime);  // Thread 대기 Time
                 if (checkDateTime(dtEndDate))
                 {
-                    initialMonitorProcess();
+                    break;
+                    //initialMonitorProcess();
                 }
             }
         }
