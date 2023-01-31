@@ -13,6 +13,7 @@ using static WindowsFormsApp1.Program;
 
 namespace WindowsFormsApp1
 {
+
     public partial class Form1 : Form
     {
         //static class Constants
@@ -21,7 +22,7 @@ namespace WindowsFormsApp1
         //}
         #region 
         private int iThreadTime = 2000;  // Thread 주기
-        private bool bLoopState = false;  // while문 Loop 여부
+        public bool bLoopState { get; set; }  // while문 Loop 여부
 
         private bool bCheck = false;
         private bool bMonitorStart = false;
@@ -42,22 +43,16 @@ namespace WindowsFormsApp1
 
         string message;
         int iSelected;
-        int iProcessMaxCnt = 0;
+        public int iProcessMaxCnt = 0;
         Process[] allProc = Process.GetProcesses();    //시스템의 모든 프로세스 정보 출력
 
         DateTime dtStartDate;
         DateTime dtEndDate;
-        struct StProcess
-        {
-            public int Pid;
-            public string ProcessName;
-            public string InstanceName;
-        };
-
-        StProcess[] sProcess = new StProcess[Constants.maxconfig];
+        
+        public StProcess[] sProcess = new StProcess[Constants.maxconfig];
         StProcess sProcessTemp;
         IniFile ini;
-        Logger logger = Logger.GetInstance();
+        Logger logger;
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         StringBuilder filename = new StringBuilder();
@@ -78,6 +73,9 @@ namespace WindowsFormsApp1
             UpdateListView();
             InitSelectedListView();
             InitTabControl();
+
+            //logger 객체에서 프로세스 정보를 얻기 위해 Form 주소를 알려준다.
+            logger = Logger.GetInstance(this);
         }
 
         // Process List 초기화
@@ -674,36 +672,6 @@ namespace WindowsFormsApp1
             sb.Append($"[{dTime:yyyy/MM/dd hh:mm:ss.FFF}],");
             for (int i = 0; i < iProcessMaxCnt; i++)
             {
-                // -mm 분당 추가 되는 파일 테스트 용도 (추후 삭제 필요함)
-                string strfilename = filename.Append(DateTime.Now.ToString("yyyy-MM-dd-HH")).Append(".csv").ToString();
-                //if (!logger.GetFileExist(filename.ToString()))
-
-                if (!logger.GetFileExist(strfilename))
-                {
-                    //logger.SetFileName(filename.ToString());
-                    // 파일이 생성되어있는상태에서 SetFileName 진행을 안하면... logger sw 생성이 안돼서 exception 발생되네...
-                    // 파일 존재여부로 하면 안되겄는데ㅠ
-                    logger.SetFileName(strfilename);
-
-                    sb2.Append("Time").Append(",");
-                    for (int j = 0; j < iProcessMaxCnt; j++)
-                    {
-                        sb2
-                        .Append("cpu_" + sProcess[j].InstanceName).Append(",")
-                        .Append("mem_" + sProcess[j].InstanceName).Append(",")
-                        .Append("thread_" + sProcess[j].InstanceName).Append(",")
-                        .Append("handle_" + sProcess[j].InstanceName).Append(",");
-                    }
-                    logger.WriteLog(sb2.ToString());
-                    sb2.Clear();
-                }
-                else
-                {
-                    logger.SetFileName(strfilename);
-                }
-                strfilename = null;
-                filename.Clear();
-
                 var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i], dTime);
                 var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i], dTime);
                 var threadCount = PCM.GetProcessThreadCount(pProcess[i]);
@@ -733,7 +701,7 @@ namespace WindowsFormsApp1
                 OnRaiseMeasureEvent(pProcess[i].Id, args);
             }
             string strData = sb.ToString();
-            logger.WriteLog(sb.ToString());
+            logger.Log(sb.ToString(), dTime);
             sb.Clear();
         }
 

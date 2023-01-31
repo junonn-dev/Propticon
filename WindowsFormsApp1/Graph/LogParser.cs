@@ -60,7 +60,7 @@ namespace WindowsFormsApp1.Graph
         private string GetLogPath(DateTime dateTime)
         {
             string fileName = dateTime.ToString("yyyy-MM-dd-HH") + ".csv";
-            string baseLogPath = Logger.GetInstance().GetBaseLogPath();
+            string baseLogPath = Logger.GetBaseLogPath();
             return baseLogPath + fileName;
         }
 
@@ -74,7 +74,7 @@ namespace WindowsFormsApp1.Graph
             }
 
             StreamReader sr = new StreamReader(filePath);
-            String readLine = sr.ReadLine();    //첫 헤더 제거           
+            string readLine = sr.ReadLine();    //첫 헤더 제거           
 
             readLine = sr.ReadLine();   //값 읽기 시작
             while (!String.IsNullOrEmpty(readLine))
