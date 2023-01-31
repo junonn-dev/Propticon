@@ -21,7 +21,7 @@ namespace WindowsFormsApp1.UserControls
             lviewWorstList.Items.Clear();
         }
 
-        public uscRealTimeProcessView(Form1 form, int PID, string processName) : this()
+        public uscRealTimeProcessView(Measure form, int PID, string processName) : this()
         {
             form.measureEvents[PID] = HandleLogEvent;
             lblPid.Text = PID.ToString();

@@ -14,7 +14,7 @@ using static WindowsFormsApp1.Program;
 namespace WindowsFormsApp1
 {
 
-    public partial class Form1 : Form
+    public partial class Measure : UserControl
     {
         //static class Constants
         //{
@@ -58,7 +58,7 @@ namespace WindowsFormsApp1
         StringBuilder filename = new StringBuilder();
         PCManager[] pcManger = new PCManager[Constants.maxconfig];//.GetInstance(processNames);
         PCManager PCM = new PCManager();
-        public Form1()
+        public Measure()
         {
             //strPath = System.Reflection.Assembly.GetExecutingAssembly().Location;   //@"\MonitorProcess.ini";
             strPath = "..\\..\\..\\MonitorProcess.ini";
@@ -73,7 +73,7 @@ namespace WindowsFormsApp1
             UpdateListView();
             InitSelectedListView();
             InitTabControl();
-
+            
             //logger 객체에서 프로세스 정보를 얻기 위해 Form 주소를 알려준다.
             logger = Logger.GetInstance(this);
         }
@@ -352,12 +352,6 @@ namespace WindowsFormsApp1
             }
             InsertSelectedListView();
 
-            //tabControl1.TabPages.Add((tabControl1.TabPages.Count + 1).ToString());
-            if (iProcessMaxCnt > 1)
-            {
-                tabControl1.TabPages.Add(sProcess[iProcessMaxCnt - 1].Pid.ToString());
-            }
-
             foreach (ListViewItem item in listView1.SelectedItems)
             {
                 AddProcessTab(int.Parse(item.SubItems[1].Text), item.SubItems[2].Text);
@@ -386,13 +380,6 @@ namespace WindowsFormsApp1
             }
 
             RemoveSelectedListView();
-
-            if (tabControl1.TabPages.Count > 1)
-            {
-                tabControl1.TabPages.Remove(tabControl1.TabPages[tabControl1.TabPages.Count - 1]);
-            }
-
-
         }
 
         // listview 선택된 process monitoring start
@@ -592,7 +579,7 @@ namespace WindowsFormsApp1
             {
                 DateTime dTime = DateTime.Now;
                 string LogInfo = $"{dTime:yyyy-MM-dd hh:mm:ss.fff} [{eLevel.ToString()}] {LogDesc}";
-                lboxLog.Items.Insert(0, LogInfo);
+                //lboxLog.Items.Insert(0, LogInfo);
             }));
         }
 
@@ -601,7 +588,7 @@ namespace WindowsFormsApp1
             this.Invoke(new Action(delegate ()
             {
                 string LogInfo = $"{dTime:yyyy-MM-dd hh:mm:ss.fff} [{eLevel.ToString()}] {LogDesc}";
-                lboxLog.Items.Insert(0, LogInfo);
+                //lboxLog.Items.Insert(0, LogInfo);
             }));
         }
 

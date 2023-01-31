@@ -17,7 +17,7 @@ namespace WindowsFormsApp1
         private static StreamWriter sw;
         private static Queue<KeyValuePair<DateTime, string>> buffer;
         private static readonly int threadPeriod = 2000;
-        private static Form1 mainFormReference;
+        private static Measure mainFormReference;
         private readonly string dateTimeFormat = "yyyy-MM-dd-HH";
         private readonly string logExtensionFormat = ".csv";
 
@@ -34,7 +34,7 @@ namespace WindowsFormsApp1
             StartLogWriteThread();
         }
         private static Logger instance = null;
-        public static Logger GetInstance(Form1 form)
+        public static Logger GetInstance(Measure form)
         {
             if(instance is null)
             {

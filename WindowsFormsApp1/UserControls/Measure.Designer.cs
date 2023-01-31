@@ -1,6 +1,6 @@
 ﻿namespace WindowsFormsApp1
 {
-    partial class Form1
+    partial class Measure
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -53,16 +53,12 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lboxLog = new System.Windows.Forms.ListBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.lboxProcessLog = new System.Windows.Forms.ListBox();
             this.tconProcessTab = new System.Windows.Forms.TabControl();
             this.btnGraphViewer = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.subtitleLabel1 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
             this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -77,9 +73,9 @@
             this.groupBox2.Controls.Add(this.textBox2);
             this.groupBox2.Controls.Add(this.dateTimePickerEndDate);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(13, 267);
+            this.groupBox2.Location = new System.Drawing.Point(613, 11);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(584, 102);
+            this.groupBox2.Size = new System.Drawing.Size(386, 250);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Period Config";
@@ -182,7 +178,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 26);
+            this.label1.Location = new System.Drawing.Point(11, 60);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(45, 12);
             this.label1.TabIndex = 0;
@@ -190,7 +186,7 @@
             // 
             // BtnRefresh
             // 
-            this.BtnRefresh.Location = new System.Drawing.Point(152, 20);
+            this.BtnRefresh.Location = new System.Drawing.Point(155, 54);
             this.BtnRefresh.Name = "BtnRefresh";
             this.BtnRefresh.Size = new System.Drawing.Size(72, 23);
             this.BtnRefresh.TabIndex = 1;
@@ -200,7 +196,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(60, 21);
+            this.textBox1.Location = new System.Drawing.Point(63, 55);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(86, 21);
             this.textBox1.TabIndex = 2;
@@ -208,7 +204,7 @@
             // 
             // BtnApply
             // 
-            this.BtnApply.Location = new System.Drawing.Point(308, 115);
+            this.BtnApply.Location = new System.Drawing.Point(311, 149);
             this.BtnApply.Name = "BtnApply";
             this.BtnApply.Size = new System.Drawing.Size(50, 30);
             this.BtnApply.TabIndex = 4;
@@ -218,7 +214,7 @@
             // 
             // BtnRemove
             // 
-            this.BtnRemove.Location = new System.Drawing.Point(308, 146);
+            this.BtnRemove.Location = new System.Drawing.Point(311, 180);
             this.BtnRemove.Name = "BtnRemove";
             this.BtnRemove.Size = new System.Drawing.Size(50, 30);
             this.BtnRemove.TabIndex = 5;
@@ -228,24 +224,17 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.BtnListClear);
-            this.groupBox1.Controls.Add(this.listView2);
-            this.groupBox1.Controls.Add(this.listView1);
-            this.groupBox1.Controls.Add(this.BtnRemove);
-            this.groupBox1.Controls.Add(this.BtnApply);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.BtnRefresh);
-            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.BackColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(13, 11);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(584, 247);
+            this.groupBox1.Size = new System.Drawing.Size(584, 250);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Process List";
             // 
             // BtnListClear
             // 
-            this.BtnListClear.Location = new System.Drawing.Point(360, 22);
+            this.BtnListClear.Location = new System.Drawing.Point(363, 56);
             this.BtnListClear.Name = "BtnListClear";
             this.BtnListClear.Size = new System.Drawing.Size(87, 23);
             this.BtnListClear.TabIndex = 8;
@@ -261,9 +250,9 @@
             this.listView2.FullRowSelect = true;
             this.listView2.GridLines = true;
             this.listView2.HideSelection = false;
-            this.listView2.Location = new System.Drawing.Point(361, 49);
+            this.listView2.Location = new System.Drawing.Point(364, 83);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(215, 189);
+            this.listView2.Size = new System.Drawing.Size(215, 192);
             this.listView2.TabIndex = 7;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
@@ -288,9 +277,9 @@
             this.listView1.GridLines = true;
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(13, 49);
+            this.listView1.Location = new System.Drawing.Point(16, 83);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(292, 189);
+            this.listView1.Size = new System.Drawing.Size(292, 192);
             this.listView1.TabIndex = 6;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -310,57 +299,20 @@
             this.columnHeader3.Text = "ProcessName";
             this.columnHeader3.Width = 180;
             // 
-            // lboxLog
-            // 
-            this.lboxLog.FormattingEnabled = true;
-            this.lboxLog.ItemHeight = 12;
-            this.lboxLog.Location = new System.Drawing.Point(13, 375);
-            this.lboxLog.Name = "lboxLog";
-            this.lboxLog.Size = new System.Drawing.Size(713, 100);
-            this.lboxLog.TabIndex = 2;
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Location = new System.Drawing.Point(12, 481);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(718, 180);
-            this.tabControl1.TabIndex = 3;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.lboxProcessLog);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(710, 154);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // lboxProcessLog
-            // 
-            this.lboxProcessLog.FormattingEnabled = true;
-            this.lboxProcessLog.ItemHeight = 12;
-            this.lboxProcessLog.Location = new System.Drawing.Point(3, 6);
-            this.lboxProcessLog.Name = "lboxProcessLog";
-            this.lboxProcessLog.Size = new System.Drawing.Size(701, 148);
-            this.lboxProcessLog.TabIndex = 4;
-            // 
             // tconProcessTab
             // 
             this.tconProcessTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tconProcessTab.Location = new System.Drawing.Point(13, 375);
+            this.tconProcessTab.Location = new System.Drawing.Point(665, 267);
             this.tconProcessTab.Name = "tconProcessTab";
             this.tconProcessTab.SelectedIndex = 0;
-            this.tconProcessTab.Size = new System.Drawing.Size(717, 324);
+            this.tconProcessTab.Size = new System.Drawing.Size(333, 113);
             this.tconProcessTab.TabIndex = 4;
             // 
             // btnGraphViewer
             // 
-            this.btnGraphViewer.Location = new System.Drawing.Point(626, 346);
+            this.btnGraphViewer.Location = new System.Drawing.Point(847, 649);
             this.btnGraphViewer.Name = "btnGraphViewer";
             this.btnGraphViewer.Size = new System.Drawing.Size(100, 23);
             this.btnGraphViewer.TabIndex = 5;
@@ -368,25 +320,47 @@
             this.btnGraphViewer.UseVisualStyleBackColor = true;
             this.btnGraphViewer.Click += new System.EventHandler(this.btnGraphViewer_Click);
             // 
-            // Form1
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.subtitleLabel1);
+            this.panel1.Controls.Add(this.BtnListClear);
+            this.panel1.Controls.Add(this.BtnRefresh);
+            this.panel1.Controls.Add(this.listView2);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.listView1);
+            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.BtnRemove);
+            this.panel1.Controls.Add(this.BtnApply);
+            this.panel1.Location = new System.Drawing.Point(24, 289);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(594, 295);
+            this.panel1.TabIndex = 14;
+            // 
+            // subtitleLabel1
+            // 
+            this.subtitleLabel1.AutoSize = true;
+            this.subtitleLabel1.Location = new System.Drawing.Point(8, 9);
+            this.subtitleLabel1.Name = "subtitleLabel1";
+            this.subtitleLabel1.Size = new System.Drawing.Size(131, 30);
+            this.subtitleLabel1.TabIndex = 9;
+            this.subtitleLabel1.Text = "Process List";
+            // 
+            // Measure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(743, 711);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnGraphViewer);
             this.Controls.Add(this.tconProcessTab);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.lboxLog);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
-            this.Text = "Monitoring Process Tool";
+            this.Name = "Measure";
+            this.Size = new System.Drawing.Size(1021, 711);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -412,17 +386,15 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.Button BtnListClear;
-        private System.Windows.Forms.ListBox lboxLog;
         private System.Windows.Forms.Button BtnMonitorEnd;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblEndDateInfo;
         private System.Windows.Forms.Label lblStartDateInfo;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.ListBox lboxProcessLog;
         private System.Windows.Forms.TabControl tconProcessTab;
         private System.Windows.Forms.Button btnGraphViewer;
+        private System.Windows.Forms.Panel panel1;
+        private UserControls.resources.SubtitleLabel subtitleLabel1;
     }
 }
 
