@@ -28,24 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblEndDateInfo = new System.Windows.Forms.Label();
             this.lblStartDateInfo = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.BtnMonitorEnd = new System.Windows.Forms.Button();
-            this.BtnMonitorStart = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.BtnMonitorEnd = new WindowsFormsApp1.UserControls.resources.ColoredButton();
+            this.BtnMonitorStart = new WindowsFormsApp1.UserControls.resources.ColoredButton();
             this.dateTimePickerEndDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.BtnRefresh = new System.Windows.Forms.Button();
+            this.BtnRefresh = new WindowsFormsApp1.UserControls.resources.NormalButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.BtnApply = new System.Windows.Forms.Button();
-            this.BtnRemove = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.BtnListClear = new System.Windows.Forms.Button();
+            this.BtnApply = new WindowsFormsApp1.UserControls.resources.NormalButton();
+            this.BtnRemove = new WindowsFormsApp1.UserControls.resources.NormalButton();
+            this.BtnListClear = new WindowsFormsApp1.UserControls.resources.NormalButton();
             this.listView2 = new System.Windows.Forms.ListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -55,38 +51,21 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tconProcessTab = new System.Windows.Forms.TabControl();
             this.btnGraphViewer = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
             this.subtitleLabel1 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
-            this.groupBox2.SuspendLayout();
+            this.commonPanel1 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
+            this.subtitleLabel2 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
             this.panel1.SuspendLayout();
+            this.commonPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.lblEndDateInfo);
-            this.groupBox2.Controls.Add(this.lblStartDateInfo);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.BtnMonitorEnd);
-            this.groupBox2.Controls.Add(this.BtnMonitorStart);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.dateTimePickerEndDate);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(613, 11);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(386, 250);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Period Config";
             // 
             // lblEndDateInfo
             // 
             this.lblEndDateInfo.BackColor = System.Drawing.Color.White;
             this.lblEndDateInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEndDateInfo.Location = new System.Drawing.Point(110, 73);
+            this.lblEndDateInfo.Location = new System.Drawing.Point(108, 109);
             this.lblEndDateInfo.Name = "lblEndDateInfo";
-            this.lblEndDateInfo.Size = new System.Drawing.Size(171, 21);
+            this.lblEndDateInfo.Size = new System.Drawing.Size(271, 21);
             this.lblEndDateInfo.TabIndex = 13;
             this.lblEndDateInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -94,16 +73,16 @@
             // 
             this.lblStartDateInfo.BackColor = System.Drawing.Color.White;
             this.lblStartDateInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblStartDateInfo.Location = new System.Drawing.Point(110, 48);
+            this.lblStartDateInfo.Location = new System.Drawing.Point(108, 84);
             this.lblStartDateInfo.Name = "lblStartDateInfo";
-            this.lblStartDateInfo.Size = new System.Drawing.Size(171, 21);
+            this.lblStartDateInfo.Size = new System.Drawing.Size(271, 21);
             this.lblStartDateInfo.TabIndex = 12;
             this.lblStartDateInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 77);
+            this.label4.Location = new System.Drawing.Point(15, 113);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(80, 12);
             this.label4.TabIndex = 11;
@@ -112,7 +91,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 52);
+            this.label2.Location = new System.Drawing.Point(14, 88);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 12);
             this.label2.TabIndex = 10;
@@ -120,9 +99,13 @@
             // 
             // BtnMonitorEnd
             // 
-            this.BtnMonitorEnd.Location = new System.Drawing.Point(287, 72);
+            this.BtnMonitorEnd.FlatAppearance.BorderSize = 0;
+            this.BtnMonitorEnd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.BtnMonitorEnd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnMonitorEnd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.BtnMonitorEnd.Location = new System.Drawing.Point(268, 252);
             this.BtnMonitorEnd.Name = "BtnMonitorEnd";
-            this.BtnMonitorEnd.Size = new System.Drawing.Size(84, 23);
+            this.BtnMonitorEnd.Size = new System.Drawing.Size(111, 23);
             this.BtnMonitorEnd.TabIndex = 9;
             this.BtnMonitorEnd.Text = "Monitor Stop";
             this.BtnMonitorEnd.UseVisualStyleBackColor = true;
@@ -130,38 +113,26 @@
             // 
             // BtnMonitorStart
             // 
-            this.BtnMonitorStart.Location = new System.Drawing.Point(287, 47);
+            this.BtnMonitorStart.FlatAppearance.BorderSize = 0;
+            this.BtnMonitorStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(175)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.BtnMonitorStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnMonitorStart.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.BtnMonitorStart.Location = new System.Drawing.Point(152, 252);
             this.BtnMonitorStart.Name = "BtnMonitorStart";
-            this.BtnMonitorStart.Size = new System.Drawing.Size(84, 23);
+            this.BtnMonitorStart.Size = new System.Drawing.Size(110, 23);
             this.BtnMonitorStart.TabIndex = 8;
             this.BtnMonitorStart.Text = "Monitor Start";
             this.BtnMonitorStart.UseVisualStyleBackColor = true;
             this.BtnMonitorStart.Click += new System.EventHandler(this.BtnMonitorStart_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(393, 54);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(65, 12);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Select Unit";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(386, 72);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(86, 21);
-            this.textBox2.TabIndex = 6;
             // 
             // dateTimePickerEndDate
             // 
             this.dateTimePickerEndDate.CustomFormat = "yyyy-MM-dd HH시 mm분";
             this.dateTimePickerEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerEndDate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dateTimePickerEndDate.Location = new System.Drawing.Point(110, 21);
+            this.dateTimePickerEndDate.Location = new System.Drawing.Point(108, 57);
             this.dateTimePickerEndDate.Name = "dateTimePickerEndDate";
-            this.dateTimePickerEndDate.Size = new System.Drawing.Size(171, 21);
+            this.dateTimePickerEndDate.Size = new System.Drawing.Size(271, 21);
             this.dateTimePickerEndDate.TabIndex = 4;
             this.dateTimePickerEndDate.Value = new System.DateTime(2022, 12, 13, 15, 25, 11, 674);
             this.dateTimePickerEndDate.ValueChanged += new System.EventHandler(this.dateTimePickerEndDate_ValueChanged);
@@ -169,7 +140,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 27);
+            this.label3.Location = new System.Drawing.Point(14, 63);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(78, 12);
             this.label3.TabIndex = 2;
@@ -186,6 +157,10 @@
             // 
             // BtnRefresh
             // 
+            this.BtnRefresh.FlatAppearance.BorderSize = 0;
+            this.BtnRefresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.BtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnRefresh.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
             this.BtnRefresh.Location = new System.Drawing.Point(155, 54);
             this.BtnRefresh.Name = "BtnRefresh";
             this.BtnRefresh.Size = new System.Drawing.Size(72, 23);
@@ -204,6 +179,10 @@
             // 
             // BtnApply
             // 
+            this.BtnApply.FlatAppearance.BorderSize = 0;
+            this.BtnApply.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.BtnApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnApply.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
             this.BtnApply.Location = new System.Drawing.Point(311, 149);
             this.BtnApply.Name = "BtnApply";
             this.BtnApply.Size = new System.Drawing.Size(50, 30);
@@ -214,6 +193,10 @@
             // 
             // BtnRemove
             // 
+            this.BtnRemove.FlatAppearance.BorderSize = 0;
+            this.BtnRemove.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.BtnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnRemove.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
             this.BtnRemove.Location = new System.Drawing.Point(311, 180);
             this.BtnRemove.Name = "BtnRemove";
             this.BtnRemove.Size = new System.Drawing.Size(50, 30);
@@ -222,18 +205,12 @@
             this.BtnRemove.UseVisualStyleBackColor = true;
             this.BtnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.BackColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(13, 11);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(584, 250);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Process List";
-            // 
             // BtnListClear
             // 
+            this.BtnListClear.FlatAppearance.BorderSize = 0;
+            this.BtnListClear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.BtnListClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnListClear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
             this.BtnListClear.Location = new System.Drawing.Point(363, 56);
             this.BtnListClear.Name = "BtnListClear";
             this.BtnListClear.Size = new System.Drawing.Size(87, 23);
@@ -304,10 +281,10 @@
             this.tconProcessTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tconProcessTab.Location = new System.Drawing.Point(665, 267);
+            this.tconProcessTab.Location = new System.Drawing.Point(13, 312);
             this.tconProcessTab.Name = "tconProcessTab";
             this.tconProcessTab.SelectedIndex = 0;
-            this.tconProcessTab.Size = new System.Drawing.Size(333, 113);
+            this.tconProcessTab.Size = new System.Drawing.Size(995, 385);
             this.tconProcessTab.TabIndex = 4;
             // 
             // btnGraphViewer
@@ -322,7 +299,6 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this.subtitleLabel1);
             this.panel1.Controls.Add(this.BtnListClear);
             this.panel1.Controls.Add(this.BtnRefresh);
@@ -332,7 +308,7 @@
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.BtnRemove);
             this.panel1.Controls.Add(this.BtnApply);
-            this.panel1.Location = new System.Drawing.Point(24, 289);
+            this.panel1.Location = new System.Drawing.Point(13, 11);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(594, 295);
             this.panel1.TabIndex = 14;
@@ -346,38 +322,58 @@
             this.subtitleLabel1.TabIndex = 9;
             this.subtitleLabel1.Text = "Process List";
             // 
+            // commonPanel1
+            // 
+            this.commonPanel1.Controls.Add(this.lblEndDateInfo);
+            this.commonPanel1.Controls.Add(this.subtitleLabel2);
+            this.commonPanel1.Controls.Add(this.lblStartDateInfo);
+            this.commonPanel1.Controls.Add(this.label3);
+            this.commonPanel1.Controls.Add(this.label4);
+            this.commonPanel1.Controls.Add(this.dateTimePickerEndDate);
+            this.commonPanel1.Controls.Add(this.label2);
+            this.commonPanel1.Controls.Add(this.BtnMonitorStart);
+            this.commonPanel1.Controls.Add(this.BtnMonitorEnd);
+            this.commonPanel1.Location = new System.Drawing.Point(613, 11);
+            this.commonPanel1.Name = "commonPanel1";
+            this.commonPanel1.Size = new System.Drawing.Size(395, 295);
+            this.commonPanel1.TabIndex = 15;
+            // 
+            // subtitleLabel2
+            // 
+            this.subtitleLabel2.AutoSize = true;
+            this.subtitleLabel2.Location = new System.Drawing.Point(8, 9);
+            this.subtitleLabel2.Name = "subtitleLabel2";
+            this.subtitleLabel2.Size = new System.Drawing.Size(151, 30);
+            this.subtitleLabel2.TabIndex = 0;
+            this.subtitleLabel2.Text = "Period Config";
+            // 
             // Measure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.commonPanel1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnGraphViewer);
             this.Controls.Add(this.tconProcessTab);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.Name = "Measure";
             this.Size = new System.Drawing.Size(1021, 711);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.commonPanel1.ResumeLayout(false);
+            this.commonPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.DateTimePicker dateTimePickerEndDate;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button BtnRefresh;
+        private UserControls.resources.NormalButton BtnRefresh;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button BtnApply;
-        private System.Windows.Forms.Button BtnRemove;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button BtnMonitorStart;
+        private UserControls.resources.NormalButton BtnApply;
+        private UserControls.resources.NormalButton BtnRemove;
+        private UserControls.resources.ColoredButton BtnMonitorStart;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
@@ -385,16 +381,18 @@
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.Button BtnListClear;
-        private System.Windows.Forms.Button BtnMonitorEnd;
+        private UserControls.resources.NormalButton BtnListClear;
+        private UserControls.resources.ColoredButton BtnMonitorEnd;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblEndDateInfo;
         private System.Windows.Forms.Label lblStartDateInfo;
         private System.Windows.Forms.TabControl tconProcessTab;
         private System.Windows.Forms.Button btnGraphViewer;
-        private System.Windows.Forms.Panel panel1;
+        private UserControls.resources.CommonPanel panel1;
         private UserControls.resources.SubtitleLabel subtitleLabel1;
+        private UserControls.resources.CommonPanel commonPanel1;
+        private UserControls.resources.SubtitleLabel subtitleLabel2;
     }
 }
 

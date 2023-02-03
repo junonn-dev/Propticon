@@ -1,6 +1,6 @@
-﻿namespace UILayoutExample
+﻿namespace WindowsFormsApp1.Forms
 {
-    partial class Layout
+    partial class LayoutForm
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Layout));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LayoutForm));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new WindowsFormsApp1.UserControls.resources.TitleLabel();
+            this.label2 = new WindowsFormsApp1.UserControls.resources.TitleLabel();
+            this.label1 = new WindowsFormsApp1.UserControls.resources.TitleLabel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -54,13 +54,44 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(908, 58);
+            this.panel1.Size = new System.Drawing.Size(883, 58);
             this.panel1.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(497, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(68, 32);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Data";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(326, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(112, 32);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Measure";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(239, 32);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Monitoring Process";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox3
             // 
+            this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox3.Location = new System.Drawing.Point(828, 3);
+            this.pictureBox3.Location = new System.Drawing.Point(803, 3);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(20, 20);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -69,8 +100,9 @@
             // 
             // pictureBox2
             // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.Location = new System.Drawing.Point(854, 3);
+            this.pictureBox2.Location = new System.Drawing.Point(829, 3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(20, 20);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -79,9 +111,10 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(880, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(855, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(20, 20);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -89,56 +122,17 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(13, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(239, 32);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Monitoring Process";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(326, 12);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 32);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Measure";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(497, 12);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 32);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Data";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Form1
+            // LayoutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(908, 502);
+            this.ClientSize = new System.Drawing.Size(883, 515);
             this.Controls.Add(this.panel1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
-            this.Name = "Form1";
+            this.Name = "LayoutForm";
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -154,9 +148,9 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private WindowsFormsApp1.UserControls.resources.TitleLabel label3;
+        private WindowsFormsApp1.UserControls.resources.TitleLabel label2;
+        private WindowsFormsApp1.UserControls.resources.TitleLabel label1;
     }
 }
 

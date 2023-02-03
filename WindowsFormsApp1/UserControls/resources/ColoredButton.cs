@@ -10,11 +10,13 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1.UserControls.resources
 {
-    public partial class TextInput : TextBox
+    public partial class ColoredButton : CommonButton
     {
-        public TextInput()
+        public ColoredButton()
         {
             InitializeComponent();
         }
+
+
     }
 }

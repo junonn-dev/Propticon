@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1.UserControls.resources
 {
-    public partial class TextInput : TextBox
+    public abstract partial class CommonButton : Button
     {
-        public TextInput()
+        public CommonButton()
         {
             InitializeComponent();
         }

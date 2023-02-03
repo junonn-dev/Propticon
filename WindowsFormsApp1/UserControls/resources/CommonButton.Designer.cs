@@ -1,6 +1,10 @@
-﻿namespace WindowsFormsApp1.UserControls.resources
+﻿using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+
+namespace WindowsFormsApp1.UserControls.resources
 {
-    partial class TextInput
+    abstract partial class CommonButton
     {
         /// <summary> 
         /// 필수 디자이너 변수입니다.
@@ -28,24 +32,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // textBox1
-            // 
-            this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Location = new System.Drawing.Point(36, 62);
-            this.Name = "textBox1";
-            this.Size = new System.Drawing.Size(100, 21);
-            this.TabIndex = 0;
-            // 
-            // TextBoxTest
-            // 
-            this.Name = "TextBoxTest";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            //base 값을 지정하면 이 값으로 초기 컨트롤이 생성됨. 
+            //여기의 base 값을 변경해도 이미 폼에 그려진 컨트롤들에 영향을 주지 않음 
+            //버튼의 크기를 일괄로 변경하면 안되는 상황이 발생할 수 있기 때문에,
+            //버튼 사용자가 크기를 커스터마이징할 수 있도록 허용
+            base.Size = new System.Drawing.Size(80, 30);
+            this.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+
+            this.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 
         }
 
         #endregion
+        public override Font Font { get; set; }
+        public abstract override Color BackColor { get; set; }
     }
 }

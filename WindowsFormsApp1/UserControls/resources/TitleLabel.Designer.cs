@@ -1,6 +1,8 @@
-﻿namespace WindowsFormsApp1.UserControls.resources
+﻿using System.Drawing;
+
+namespace WindowsFormsApp1.UserControls.resources
 {
-    partial class TextInput
+    partial class TitleLabel
     {
         /// <summary> 
         /// 필수 디자이너 변수입니다.
@@ -30,21 +32,26 @@
         {
             this.SuspendLayout();
             // 
-            // textBox1
+            // label1
             // 
-            this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Location = new System.Drawing.Point(36, 62);
-            this.Name = "textBox1";
-            this.Size = new System.Drawing.Size(100, 21);
-            this.TabIndex = 0;
-            // 
-            // TextBoxTest
-            // 
-            this.Name = "TextBoxTest";
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.Font = new System.Drawing.Font("맑은 고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Location = new System.Drawing.Point(0, 0);
+            this.Size = new System.Drawing.Size(101, 30);
+            this.Text = "Title";
+            
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
+
+        //Custom Control의 일괄 적용을 위한 필드
+        //필드 override하면 control 생성 시 designer에 auto generated되지 않아서 
+        //이 필드값 변경해주면 프로젝트 내 전체에 일괄 적용됨
+        public override Color BackColor { get; set; }
+        public override Font Font { get; set; }
+        public override Color ForeColor { get; set; }
 
         #endregion
     }

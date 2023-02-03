@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1.UserControls.resources
 {
-    public partial class TextInput : TextBox
+    public partial class CommonDataGrid : DataGridView
     {
-        public TextInput()
+        public CommonDataGrid()
         {
             InitializeComponent();
         }

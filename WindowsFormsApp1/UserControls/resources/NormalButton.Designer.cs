@@ -1,6 +1,9 @@
-﻿namespace WindowsFormsApp1.UserControls.resources
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace WindowsFormsApp1.UserControls.resources
 {
-    partial class TextInput
+    partial class NormalButton
     {
         /// <summary> 
         /// 필수 디자이너 변수입니다.
@@ -29,23 +32,29 @@
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            // 
-            // textBox1
-            // 
-            this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Location = new System.Drawing.Point(36, 62);
-            this.Name = "textBox1";
-            this.Size = new System.Drawing.Size(100, 21);
-            this.TabIndex = 0;
-            // 
-            // TextBoxTest
-            // 
-            this.Name = "TextBoxTest";
+            this.UseVisualStyleBackColor = true;
+
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
+
+        public override Color BackColor { get; set; }
+        protected Color BorderColor { get => base.FlatAppearance.BorderColor; set => base.FlatAppearance.BorderColor = BorderColor; }
+
+        protected override void OnPaint(PaintEventArgs pevent)
+        {
+            this.BackColor = ColorHandler.GetARGBColor((int)GlobalBrandColor.LowAlpha, GlobalBrandColor.BrandColor1);
+            this.FlatAppearance.BorderSize = 0;
+            this.FlatAppearance.MouseOverBackColor = ColorHandler.GetARGBColor((int)GlobalBrandColor.LowBoldAlpha, GlobalBrandColor.BrandColor1);
+            this.ForeColor = Color.FromArgb((int)GlobalBrandColor.BasicFontColor);
+
+            //this.FlatAppearance.BorderColor = GlobalBrandColor.Gray;
+            //this.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+
+
+            base.OnPaint(pevent);
+        }
     }
 }

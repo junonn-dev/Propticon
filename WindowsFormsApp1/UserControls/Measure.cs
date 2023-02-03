@@ -10,6 +10,8 @@ using WindowsFormsApp1.Forms;
 using WindowsFormsApp1.Helper;
 using WindowsFormsApp1.UserControls;
 using static WindowsFormsApp1.Program;
+using WindowsFormsApp1.UserControls.resources;
+using System.IO;
 
 namespace WindowsFormsApp1
 {
@@ -61,7 +63,7 @@ namespace WindowsFormsApp1
         public Measure()
         {
             //strPath = System.Reflection.Assembly.GetExecutingAssembly().Location;   //@"\MonitorProcess.ini";
-            strPath = "..\\..\\..\\MonitorProcess.ini";
+            strPath = "..\\..\\..\\..\\MonitorProcess.ini";
             //logger.SetFileName("MonTest.csv");
             ini = new IniFile();
             validateConfig();
@@ -119,6 +121,11 @@ namespace WindowsFormsApp1
             string strsection2 = "Config-pid";
             string strkey = "";
             List<StProcess> stProcesses = new List<StProcess>();
+            if (!File.Exists(strPath))
+            {
+                File.Create(strPath);
+                return;
+            }
             ini.Load(strPath);
             for (int i = 0; i < Constants.maxconfig; i++)
             {

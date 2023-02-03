@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace UILayoutExample
+namespace WindowsFormsApp1.Forms
 {
-    public partial class Layout :Form
+    public partial class LayoutForm :Form
     {
-        public Layout()
+        public LayoutForm()
         {
             InitializeComponent();
         }

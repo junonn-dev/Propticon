@@ -51,7 +51,7 @@ namespace WindowsFormsApp1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GraphViewer());
+            Application.Run(new LayoutForm());
             //Application.Run(new GraphViewer());
         }
     }

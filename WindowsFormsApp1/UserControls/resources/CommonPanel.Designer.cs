@@ -1,6 +1,8 @@
-﻿namespace WindowsFormsApp1.UserControls.resources
+﻿using System.Drawing;
+
+namespace WindowsFormsApp1.UserControls.resources
 {
-    partial class TextInput
+    partial class CommonPanel
     {
         /// <summary> 
         /// 필수 디자이너 변수입니다.
@@ -29,22 +31,13 @@
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            // 
-            // textBox1
-            // 
-            this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Location = new System.Drawing.Point(36, 62);
-            this.Name = "textBox1";
-            this.Size = new System.Drawing.Size(100, 21);
-            this.TabIndex = 0;
-            // 
-            // TextBoxTest
-            // 
-            this.Name = "TextBoxTest";
+
+            this.BackColor = System.Drawing.Color.White;
+            
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
+        public override Color BackColor { get; set; }
 
         #endregion
     }
