@@ -1,4 +1,6 @@
-﻿namespace WindowsFormsApp1.UserControls
+﻿using WindowsFormsApp1.UserControls.resources;
+
+namespace WindowsFormsApp1.UserControls
 {
     partial class uscRealTimeProcessView
     {
@@ -36,7 +38,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.gboxWorstList = new System.Windows.Forms.GroupBox();
+            this.commonPanel2 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
+            this.subtitleLabel2 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
             this.lviewWorstList = new System.Windows.Forms.ListView();
             this.chNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chWorstValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -50,59 +53,64 @@
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.gboxRealTimeLog = new System.Windows.Forms.GroupBox();
-            this.lboxRealTimeLog = new System.Windows.Forms.ListBox();
-            this.gbxInfo = new System.Windows.Forms.GroupBox();
-            this.dgvStatistics = new System.Windows.Forms.DataGridView();
+            this.commonPanel1 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
+            this.subtitleLabel1 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
+            this.dgvStatistics = new WindowsFormsApp1.UserControls.resources.CommonDataGrid();
             this.colCounter = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMinValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMaxValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAverage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lblPid = new System.Windows.Forms.Label();
-            this.lblProcessName = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblPid = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblProcessName = new System.Windows.Forms.Label();
+            this.commonPanel3 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
+            this.subtitleLabel3 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
+            this.lboxRealTimeLog = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.tableLayoutPanel1.SuspendLayout();
-            this.gboxWorstList.SuspendLayout();
-            this.gboxRealTimeLog.SuspendLayout();
-            this.gbxInfo.SuspendLayout();
+            this.commonPanel2.SuspendLayout();
+            this.commonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStatistics)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.commonPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.gboxWorstList, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.gboxRealTimeLog, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.gbxInfo, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tableLayoutPanel1.Controls.Add(this.commonPanel2, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.commonPanel1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.commonPanel3, 2, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(790, 600);
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1269, 400);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // gboxWorstList
+            // commonPanel2
             // 
-            this.gboxWorstList.AutoSize = true;
-            this.gboxWorstList.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.gboxWorstList.Controls.Add(this.lviewWorstList);
-            this.gboxWorstList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gboxWorstList.Location = new System.Drawing.Point(3, 203);
-            this.gboxWorstList.Name = "gboxWorstList";
-            this.gboxWorstList.Size = new System.Drawing.Size(784, 194);
-            this.gboxWorstList.TabIndex = 0;
-            this.gboxWorstList.TabStop = false;
-            this.gboxWorstList.Text = "Worst List";
+            this.commonPanel2.Controls.Add(this.subtitleLabel2);
+            this.commonPanel2.Controls.Add(this.lviewWorstList);
+            this.commonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.commonPanel2.Location = new System.Drawing.Point(425, 3);
+            this.commonPanel2.Name = "commonPanel2";
+            this.commonPanel2.Size = new System.Drawing.Size(417, 394);
+            this.commonPanel2.TabIndex = 1;
+            // 
+            // subtitleLabel2
+            // 
+            this.subtitleLabel2.AutoSize = true;
+            this.subtitleLabel2.Location = new System.Drawing.Point(12, 9);
+            this.subtitleLabel2.Name = "subtitleLabel2";
+            this.subtitleLabel2.Size = new System.Drawing.Size(86, 21);
+            this.subtitleLabel2.TabIndex = 1;
+            this.subtitleLabel2.Text = "Worst List";
             // 
             // lviewWorstList
             // 
@@ -119,7 +127,7 @@
             this.columnHeader7,
             this.columnHeader8,
             this.columnHeader9});
-            this.lviewWorstList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lviewWorstList.Dock = System.Windows.Forms.DockStyle.Bottom;
             listViewGroup1.Header = "CPU Usage";
             listViewGroup1.Name = "CPU Usage";
             listViewGroup1.Tag = "1";
@@ -139,9 +147,9 @@
             listViewGroup4,
             listViewGroup5});
             this.lviewWorstList.HideSelection = false;
-            this.lviewWorstList.Location = new System.Drawing.Point(3, 17);
+            this.lviewWorstList.Location = new System.Drawing.Point(0, 56);
             this.lviewWorstList.Name = "lviewWorstList";
-            this.lviewWorstList.Size = new System.Drawing.Size(778, 174);
+            this.lviewWorstList.Size = new System.Drawing.Size(417, 338);
             this.lviewWorstList.TabIndex = 0;
             this.lviewWorstList.UseCompatibleStateImageBehavior = false;
             this.lviewWorstList.View = System.Windows.Forms.View.Details;
@@ -196,56 +204,38 @@
             // 
             this.columnHeader9.Text = "";
             // 
-            // gboxRealTimeLog
+            // commonPanel1
             // 
-            this.gboxRealTimeLog.Controls.Add(this.lboxRealTimeLog);
-            this.gboxRealTimeLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gboxRealTimeLog.Location = new System.Drawing.Point(3, 403);
-            this.gboxRealTimeLog.Name = "gboxRealTimeLog";
-            this.gboxRealTimeLog.Size = new System.Drawing.Size(784, 194);
-            this.gboxRealTimeLog.TabIndex = 0;
-            this.gboxRealTimeLog.TabStop = false;
-            this.gboxRealTimeLog.Text = "Real Time Log";
+            this.commonPanel1.Controls.Add(this.subtitleLabel1);
+            this.commonPanel1.Controls.Add(this.dgvStatistics);
+            this.commonPanel1.Controls.Add(this.label1);
+            this.commonPanel1.Controls.Add(this.lblPid);
+            this.commonPanel1.Controls.Add(this.label2);
+            this.commonPanel1.Controls.Add(this.lblProcessName);
+            this.commonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.commonPanel1.Location = new System.Drawing.Point(3, 3);
+            this.commonPanel1.Name = "commonPanel1";
+            this.commonPanel1.Size = new System.Drawing.Size(416, 394);
+            this.commonPanel1.TabIndex = 5;
             // 
-            // lboxRealTimeLog
+            // subtitleLabel1
             // 
-            this.lboxRealTimeLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lboxRealTimeLog.FormattingEnabled = true;
-            this.lboxRealTimeLog.HorizontalScrollbar = true;
-            this.lboxRealTimeLog.ItemHeight = 12;
-            this.lboxRealTimeLog.Location = new System.Drawing.Point(3, 17);
-            this.lboxRealTimeLog.Name = "lboxRealTimeLog";
-            this.lboxRealTimeLog.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lboxRealTimeLog.Size = new System.Drawing.Size(778, 174);
-            this.lboxRealTimeLog.TabIndex = 0;
-            // 
-            // gbxInfo
-            // 
-            this.gbxInfo.Controls.Add(this.dgvStatistics);
-            this.gbxInfo.Controls.Add(this.lblPid);
-            this.gbxInfo.Controls.Add(this.lblProcessName);
-            this.gbxInfo.Controls.Add(this.label2);
-            this.gbxInfo.Controls.Add(this.label1);
-            this.gbxInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbxInfo.Location = new System.Drawing.Point(3, 3);
-            this.gbxInfo.Name = "gbxInfo";
-            this.gbxInfo.Size = new System.Drawing.Size(784, 194);
-            this.gbxInfo.TabIndex = 1;
-            this.gbxInfo.TabStop = false;
-            this.gbxInfo.Text = "Information";
+            this.subtitleLabel1.AutoSize = true;
+            this.subtitleLabel1.Location = new System.Drawing.Point(5, 9);
+            this.subtitleLabel1.Name = "subtitleLabel1";
+            this.subtitleLabel1.Size = new System.Drawing.Size(101, 21);
+            this.subtitleLabel1.TabIndex = 0;
+            this.subtitleLabel1.Text = "Information";
             // 
             // dgvStatistics
             // 
-            this.dgvStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvStatistics.BackgroundColor = System.Drawing.Color.White;
             this.dgvStatistics.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvStatistics.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgvStatistics.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("맑은 고딕", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.GrayText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGray;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.GrayText;
@@ -259,19 +249,20 @@
             this.colAverage});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("맑은 고딕", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.GrayText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ActiveBorder;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvStatistics.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvStatistics.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgvStatistics.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvStatistics.Location = new System.Drawing.Point(6, 53);
+            this.dgvStatistics.Location = new System.Drawing.Point(0, 82);
             this.dgvStatistics.Name = "dgvStatistics";
             this.dgvStatistics.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvStatistics.RowHeadersVisible = false;
             this.dgvStatistics.RowTemplate.Height = 23;
-            this.dgvStatistics.Size = new System.Drawing.Size(772, 135);
+            this.dgvStatistics.Size = new System.Drawing.Size(416, 312);
             this.dgvStatistics.TabIndex = 4;
             // 
             // colCounter
@@ -294,52 +285,82 @@
             this.colAverage.HeaderText = "평균";
             this.colAverage.Name = "colAverage";
             // 
-            // lblPid
-            // 
-            this.lblPid.AutoSize = true;
-            this.lblPid.Location = new System.Drawing.Point(49, 38);
-            this.lblPid.Name = "lblPid";
-            this.lblPid.Size = new System.Drawing.Size(36, 12);
-            this.lblPid.TabIndex = 3;
-            this.lblPid.Text = "lblPid";
-            // 
-            // lblProcessName
-            // 
-            this.lblProcessName.AutoSize = true;
-            this.lblProcessName.Location = new System.Drawing.Point(124, 17);
-            this.lblProcessName.Name = "lblProcessName";
-            this.lblProcessName.Size = new System.Drawing.Size(99, 12);
-            this.lblProcessName.TabIndex = 2;
-            this.lblProcessName.Text = "lblProcessName";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(6, 38);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(37, 12);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "PID :";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.Location = new System.Drawing.Point(6, 17);
+            this.label1.Location = new System.Drawing.Point(6, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(112, 12);
             this.label1.TabIndex = 0;
             this.label1.Text = "Process Name :";
             // 
+            // lblPid
+            // 
+            this.lblPid.AutoSize = true;
+            this.lblPid.Location = new System.Drawing.Point(50, 67);
+            this.lblPid.Name = "lblPid";
+            this.lblPid.Size = new System.Drawing.Size(36, 12);
+            this.lblPid.TabIndex = 3;
+            this.lblPid.Text = "lblPid";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Location = new System.Drawing.Point(7, 67);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(37, 12);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "PID :";
+            // 
+            // lblProcessName
+            // 
+            this.lblProcessName.AutoSize = true;
+            this.lblProcessName.Location = new System.Drawing.Point(124, 46);
+            this.lblProcessName.Name = "lblProcessName";
+            this.lblProcessName.Size = new System.Drawing.Size(99, 12);
+            this.lblProcessName.TabIndex = 2;
+            this.lblProcessName.Text = "lblProcessName";
+            // 
+            // commonPanel3
+            // 
+            this.commonPanel3.Controls.Add(this.subtitleLabel3);
+            this.commonPanel3.Controls.Add(this.lboxRealTimeLog);
+            this.commonPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.commonPanel3.Location = new System.Drawing.Point(848, 3);
+            this.commonPanel3.Name = "commonPanel3";
+            this.commonPanel3.Size = new System.Drawing.Size(418, 394);
+            this.commonPanel3.TabIndex = 1;
+            // 
+            // subtitleLabel3
+            // 
+            this.subtitleLabel3.AutoSize = true;
+            this.subtitleLabel3.Location = new System.Drawing.Point(12, 9);
+            this.subtitleLabel3.Name = "subtitleLabel3";
+            this.subtitleLabel3.Size = new System.Drawing.Size(119, 21);
+            this.subtitleLabel3.TabIndex = 0;
+            this.subtitleLabel3.Text = "Real Time Log";
+            // 
+            // lboxRealTimeLog
+            // 
+            this.lboxRealTimeLog.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lboxRealTimeLog.FormattingEnabled = true;
+            this.lboxRealTimeLog.HorizontalScrollbar = true;
+            this.lboxRealTimeLog.ItemHeight = 12;
+            this.lboxRealTimeLog.Location = new System.Drawing.Point(0, 54);
+            this.lboxRealTimeLog.Name = "lboxRealTimeLog";
+            this.lboxRealTimeLog.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lboxRealTimeLog.Size = new System.Drawing.Size(418, 340);
+            this.lboxRealTimeLog.TabIndex = 0;
+            // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.tableLayoutPanel1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(790, 825);
+            this.panel1.Size = new System.Drawing.Size(1269, 400);
             this.panel1.TabIndex = 5;
             // 
             // uscRealTimeProcessView
@@ -347,18 +368,18 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Name = "uscRealTimeProcessView";
-            this.Size = new System.Drawing.Size(790, 825);
+            this.Size = new System.Drawing.Size(1269, 400);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            this.gboxWorstList.ResumeLayout(false);
-            this.gboxRealTimeLog.ResumeLayout(false);
-            this.gbxInfo.ResumeLayout(false);
-            this.gbxInfo.PerformLayout();
+            this.commonPanel2.ResumeLayout(false);
+            this.commonPanel2.PerformLayout();
+            this.commonPanel1.ResumeLayout(false);
+            this.commonPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStatistics)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.commonPanel3.ResumeLayout(false);
+            this.commonPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -366,7 +387,6 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.GroupBox gboxWorstList;
         private System.Windows.Forms.ListView lviewWorstList;
         private System.Windows.Forms.ColumnHeader chNumber;
         private System.Windows.Forms.ColumnHeader chWorstValue;
@@ -380,10 +400,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader7;
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.ColumnHeader columnHeader9;
-        private System.Windows.Forms.GroupBox gboxRealTimeLog;
         private System.Windows.Forms.ListBox lboxRealTimeLog;
-        private System.Windows.Forms.GroupBox gbxInfo;
-        private System.Windows.Forms.DataGridView dgvStatistics;
+        private CommonDataGrid dgvStatistics;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCounter;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMinValue;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMaxValue;
@@ -392,7 +410,12 @@
         private System.Windows.Forms.Label lblProcessName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private CommonPanel commonPanel1;
+        private SubtitleLabel subtitleLabel1;
+        private CommonPanel commonPanel2;
+        private SubtitleLabel subtitleLabel2;
+        private CommonPanel commonPanel3;
+        private SubtitleLabel subtitleLabel3;
         private System.Windows.Forms.Panel panel1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

@@ -29,6 +29,8 @@ namespace WindowsFormsApp1.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -38,9 +40,12 @@ namespace WindowsFormsApp1.Forms
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tlpViewer = new System.Windows.Forms.TableLayoutPanel();
+            this.commonDataGrid1 = new WindowsFormsApp1.UserControls.resources.CommonDataGrid();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tlpViewer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.commonDataGrid1)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -55,7 +60,7 @@ namespace WindowsFormsApp1.Forms
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 450);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(931, 554);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // groupBox1
@@ -68,7 +73,7 @@ namespace WindowsFormsApp1.Forms
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(794, 94);
+            this.groupBox1.Size = new System.Drawing.Size(925, 94);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Search";
@@ -132,7 +137,7 @@ namespace WindowsFormsApp1.Forms
             this.panel1.Controls.Add(this.tlpViewer);
             this.panel1.Location = new System.Drawing.Point(3, 103);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(794, 344);
+            this.panel1.Size = new System.Drawing.Size(925, 448);
             this.panel1.TabIndex = 1;
             // 
             // tlpViewer
@@ -142,19 +147,52 @@ namespace WindowsFormsApp1.Forms
             this.tlpViewer.AutoSize = true;
             this.tlpViewer.ColumnCount = 1;
             this.tlpViewer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpViewer.Controls.Add(this.commonDataGrid1, 0, 0);
             this.tlpViewer.Location = new System.Drawing.Point(3, 3);
             this.tlpViewer.Name = "tlpViewer";
             this.tlpViewer.RowCount = 1;
             this.tlpViewer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 0F));
-            this.tlpViewer.Size = new System.Drawing.Size(792, 337);
+            this.tlpViewer.Size = new System.Drawing.Size(923, 337);
             this.tlpViewer.TabIndex = 0;
+            // 
+            // commonDataGrid1
+            // 
+            this.commonDataGrid1.BackgroundColor = System.Drawing.Color.White;
+            this.commonDataGrid1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.commonDataGrid1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.commonDataGrid1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.GrayText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.GrayText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.commonDataGrid1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.commonDataGrid1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("맑은 고딕", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.GrayText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ActiveBorder;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.commonDataGrid1.DefaultCellStyle = dataGridViewCellStyle2;
+            this.commonDataGrid1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.commonDataGrid1.Location = new System.Drawing.Point(3, 3);
+            this.commonDataGrid1.Name = "commonDataGrid1";
+            this.commonDataGrid1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.commonDataGrid1.RowHeadersVisible = false;
+            this.commonDataGrid1.RowTemplate.Height = 23;
+            this.commonDataGrid1.Size = new System.Drawing.Size(772, 274);
+            this.commonDataGrid1.TabIndex = 0;
             // 
             // GraphViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(931, 554);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "GraphViewer";
             this.Text = "GraphViewer";
@@ -164,6 +202,8 @@ namespace WindowsFormsApp1.Forms
             this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tlpViewer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.commonDataGrid1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -179,5 +219,6 @@ namespace WindowsFormsApp1.Forms
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TableLayoutPanel tlpViewer;
         private System.Windows.Forms.Button btnSearch;
+        private UserControls.resources.CommonDataGrid commonDataGrid1;
     }
 }

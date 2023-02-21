@@ -41,7 +41,7 @@ namespace WindowsFormsApp1.UserControls.resources
         #endregion
 
         public override Color BackColor { get; set; }
-        protected Color BorderColor { get => base.FlatAppearance.BorderColor; set => base.FlatAppearance.BorderColor = BorderColor; }
+        //protected Color BorderColor { get => base.FlatAppearance.BorderColor; set => base.FlatAppearance.BorderColor = BorderColor; }
 
         protected override void OnPaint(PaintEventArgs pevent)
         {
@@ -51,7 +51,7 @@ namespace WindowsFormsApp1.UserControls.resources
             this.ForeColor = Color.FromArgb((int)GlobalBrandColor.BasicFontColor);
 
             //this.FlatAppearance.BorderColor = GlobalBrandColor.Gray;
-            //this.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
 
 
             base.OnPaint(pevent);

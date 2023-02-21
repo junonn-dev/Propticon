@@ -38,9 +38,8 @@ namespace WindowsFormsApp1.UserControls.resources
             //버튼 사용자가 크기를 커스터마이징할 수 있도록 허용
             base.Size = new System.Drawing.Size(80, 30);
             this.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-
             this.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-
+            
         }
 
         #endregion

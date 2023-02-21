@@ -48,11 +48,12 @@ namespace WindowsFormsApp1.UserControls.resources
         /// Color.White
         /// </summary>
         WhiteFontColor = -1,        
+
         LowAlpha = ColorAlphaValue.Alpha01,
         LowBoldAlpha = ColorAlphaValue.Alpha03,
 
-        HighAlpha = ColorAlphaValue.Alpha05,
-        HighBoldAlph = ColorAlphaValue.Alpha07,
+        HighAlpha = ColorAlphaValue.Alpha07,
+        HighBoldAlph = ColorAlphaValue.Alpha09,
 
         
     }

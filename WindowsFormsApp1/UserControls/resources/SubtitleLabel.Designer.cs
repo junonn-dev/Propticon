@@ -36,7 +36,7 @@ namespace WindowsFormsApp1.UserControls.resources
             // 
             this.BackColor = System.Drawing.Color.Transparent;
             this.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "label1";
             this.Size = new System.Drawing.Size(101, 30);

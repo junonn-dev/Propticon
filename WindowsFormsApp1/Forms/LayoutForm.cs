@@ -15,6 +15,7 @@ namespace WindowsFormsApp1.Forms
         public LayoutForm()
         {
             InitializeComponent();
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -25,6 +26,12 @@ namespace WindowsFormsApp1.Forms
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             this.Close();
+            this.Dispose();
+        }
+
+        private void measure1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

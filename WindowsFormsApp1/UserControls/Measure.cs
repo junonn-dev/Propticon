@@ -12,6 +12,7 @@ using WindowsFormsApp1.UserControls;
 using static WindowsFormsApp1.Program;
 using WindowsFormsApp1.UserControls.resources;
 using System.IO;
+using WindowsFormsApp1.Config;
 
 namespace WindowsFormsApp1
 {
@@ -62,6 +63,11 @@ namespace WindowsFormsApp1
         PCManager PCM = new PCManager();
         public Measure()
         {
+            InitializeComponent();
+        }
+
+        private void Measure_Load(object sender, EventArgs e)
+        {
             //strPath = System.Reflection.Assembly.GetExecutingAssembly().Location;   //@"\MonitorProcess.ini";
             strPath = "..\\..\\..\\..\\MonitorProcess.ini";
             //logger.SetFileName("MonTest.csv");
@@ -70,15 +76,16 @@ namespace WindowsFormsApp1
             readConfig();
             //strPath = "C:\\MonitorProcess.ini";
 
-            InitializeComponent();
             InitListView();
             UpdateListView();
             InitSelectedListView();
             InitTabControl();
-            
+
             //logger 객체에서 프로세스 정보를 얻기 위해 Form 주소를 알려준다.
             logger = Logger.GetInstance(this);
+
         }
+
 
         // Process List 초기화
         private void InitListView()
@@ -426,7 +433,8 @@ namespace WindowsFormsApp1
             bMonitorStart = true;
             bLoopState = true;
 
-            lblStartDateInfo.Text = DateTime.Now.ToString();
+            dtStartDate = DateTime.Now;
+            lblStartDateInfo.Text = dtStartDate.ToString();
 
             if (dtEndDate.CompareTo(DateTime.Now) > 0)
             {
@@ -437,6 +445,8 @@ namespace WindowsFormsApp1
                 lblEndDateInfo.Text = "종료 미지정. 시작 + 1Hr 설정";
                 dtEndDate = DateTime.Now.AddHours(1);
             }
+
+            MonInfoXml.CreateMonStartInfo(dtStartDate, dtEndDate, sProcess, iProcessMaxCnt);
 
             Thread.Sleep(1000);  // Thread 대기 Time
             SelectProcessThread();  // 선택 Process CPU 사용량 Check Thread
@@ -556,7 +566,6 @@ namespace WindowsFormsApp1
         {
             PCM.InitProcessMonitor(pProcess);
 
-            // pcManger[i].GetInstance()
             // 시작 하면 Program이 죽을 때 까지 계속 체크
             while (bLoopState)
             {
@@ -568,6 +577,7 @@ namespace WindowsFormsApp1
                     initialMonitorProcess();
                 }
             }
+            MonInfoXml.EditStopTime(DateTime.Now);
         }
 
         #region Log Viewer 
@@ -774,6 +784,7 @@ namespace WindowsFormsApp1
             
             graphViewer.Show();
         }
+
 
     }
 

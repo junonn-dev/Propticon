@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Xml;
 using System.Xml.XPath;
+using WindowsFormsApp1.Data;
 using WindowsFormsApp1.Helper;
 
 namespace WindowsFormsApp1.Config
 {
-    class MonInfoXml
+    public static class MonInfoXml
     {
-        private string infoFilePath = "";
-        private IEnumerable<Process> processes;
+        private static string infoFilePath = "";
+        private static IEnumerable<Process> processes;
 
-        public MonInfoXml(string infoFileName)
+        public static void CreateMonStartInfo(DateTime startTime, DateTime endTime, StProcess[] processes, int processCount)
         {
-            infoFilePath = Logger.GetBaseLogPath()
-                + infoFileName
-                + "\\" + infoFileName
-                + ".xml";
-        }
-
-        public void CreateMonStartInfo(DateTime startTime, DateTime endTime, IEnumerable<Process> processes)
-        {
-            this.processes = processes;
+            //this.processes = processes;
+            infoFilePath = ConfigurationManager.AppSettings["reportDirectory"] + startTime.ToString(ConfigurationManager.AppSettings["reportFileFormat"]) +".xml";
+            if (File.Exists(infoFilePath))
+            {
+                return;
+            }
             XmlDocument xdoc = new XmlDocument();
 
             // 루트노드
@@ -42,19 +42,15 @@ namespace WindowsFormsApp1.Config
 
             XmlNode xmlProcsesses = xdoc.CreateElement("Processes");
 
-            foreach (var process in processes)
+            for(int i = 0; i < processCount; i++)
             {
-                if (process == null)
-                {
-                    continue;
-                }
                 XmlNode xmlProcess = xdoc.CreateElement("Process");
 
                 XmlNode xmlName = xdoc.CreateElement("Name");
-                xmlName.InnerText = process.ProcessName;
+                xmlName.InnerText = processes[i].InstanceName;
 
                 XmlNode xmlPid = xdoc.CreateElement("PID");
-                xmlName.InnerText = process.Id.ToString();
+                xmlName.InnerText = processes[i].Pid.ToString();
 
                 xmlProcess.AppendChild(xmlName);
                 xmlProcess.AppendChild(xmlPid);
@@ -67,9 +63,14 @@ namespace WindowsFormsApp1.Config
             xdoc.Save(infoFilePath);
         }
 
-        public void EditStopTime(DateTime stopTime)
+        public static void EditStopTime(DateTime stopTime)
         {
             if (string.IsNullOrEmpty(infoFilePath))
+            {
+                return;
+            }
+
+            if (!File.Exists(infoFilePath))
             {
                 return;
             }
@@ -83,22 +84,6 @@ namespace WindowsFormsApp1.Config
 
             XmlWriter wr = XmlWriter.Create(infoFilePath);
             nav.WriteSubtree(wr);
-        }
-
-        public List<string> GetInstanceNames()
-        {
-            List<string> instanceNames = new List<string>();
-
-            if(processes == null)
-            {
-                return instanceNames;
-            }
-            foreach (var item in this.processes)
-            {
-                string instanceName = InstanceNameConvertor.GetProcessInstanceName(item.Id, item.ProcessName);
-                instanceNames.Add(instanceName);
-            }
-            return instanceNames;
         }
     }
 }
