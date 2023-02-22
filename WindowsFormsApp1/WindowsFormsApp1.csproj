@@ -83,13 +83,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\MonInfoXml.cs" />
+    <Compile Include="Config\ReportXmlHandler.cs" />
     <Compile Include="CounterItem\Counter.cs" />
     <Compile Include="CounterItem\ProcessSet.cs" />
     <Compile Include="CounterItem\WorstList.cs" />
     <Compile Include="Data\DataEventArgs.cs" />
     <Compile Include="Data\Record.cs" />
+    <Compile Include="Data\OverviewDto.cs" />
     <Compile Include="Data\StProcess.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DataOverview.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DataOverview.Designer.cs">
+      <DependentUpon>DataOverview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DataViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DataViewer.Designer.cs">
+      <DependentUpon>DataViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Measure.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -136,6 +154,12 @@
     <Compile Include="UserControls\resources\CommonPanel.Designer.cs">
       <DependentUpon>CommonPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\resources\ContentLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\resources\ContentLabel.Designer.cs">
+      <DependentUpon>ContentLabel.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\resources\GridView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -147,6 +171,12 @@
     </Compile>
     <Compile Include="UserControls\resources\NormalButton.Designer.cs">
       <DependentUpon>NormalButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\resources\ContentHeaderLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\resources\ContentHeaderLabel.Designer.cs">
+      <DependentUpon>ContentHeaderLabel.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\resources\TextInput.cs">
       <SubType>Component</SubType>
@@ -172,6 +202,12 @@
     <Compile Include="UserControls\uscRealTimeProcessView.Designer.cs">
       <DependentUpon>uscRealTimeProcessView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\DataOverview.resx">
+      <DependentUpon>DataOverview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DataViewer.resx">
+      <DependentUpon>DataViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Measure.resx">
       <DependentUpon>Measure.cs</DependentUpon>
     </EmbeddedResource>
@@ -183,16 +219,17 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <EmbeddedResource Include="UserControls\resources\ContentLabel.resx">
+      <DependentUpon>ContentLabel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\resources\NormalButton.resx">
       <DependentUpon>NormalButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\resources\ContentHeaderLabel.resx">
+      <DependentUpon>ContentHeaderLabel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\resources\TextInput.resx">
       <DependentUpon>TextInput.cs</DependentUpon>
@@ -223,10 +260,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\닫기.png" />
-    <None Include="Resources\close.jpg" />
-    <None Include="Resources\maximize.png" />
-    <None Include="Resources\minimize.jpg" />
+    <None Include="Resources\close_real_final.png" />
+    <None Include="Resources\close_real_final_hover.png" />
     <Content Include="txtHistory.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

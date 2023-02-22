@@ -2,7 +2,7 @@
 
 namespace WindowsFormsApp1.UserControls.resources
 {
-    partial class TitleLabel
+    partial class ContentHeaderLabel
     {
         /// <summary> 
         /// 필수 디자이너 변수입니다.
@@ -35,11 +35,12 @@ namespace WindowsFormsApp1.UserControls.resources
             // label1
             // 
             this.BackColor = System.Drawing.Color.Transparent;
-            this.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ForeColor = System.Drawing.Color.Black;
+            this.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Location = new System.Drawing.Point(0, 0);
+            this.Name = "label1";
             this.Size = new System.Drawing.Size(101, 30);
-            this.Text = "Title";
+            this.Text = "contentHeader";
             
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -13,6 +13,7 @@ using static WindowsFormsApp1.Program;
 using WindowsFormsApp1.UserControls.resources;
 using System.IO;
 using WindowsFormsApp1.Config;
+using System.ComponentModel;
 
 namespace WindowsFormsApp1
 {
@@ -30,7 +31,7 @@ namespace WindowsFormsApp1
         private bool bCheck = false;
         private bool bMonitorStart = false;
 
-        private string strPath;
+        private string strPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\MonitorProcess.ini";
 
         private PerformanceCounter cpu = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // Total Processor의 정보
         private PerformanceCounter ram = new PerformanceCounter("Memory", "Available MBytes"); // Total Memory 사용량 mb 정보
@@ -64,28 +65,34 @@ namespace WindowsFormsApp1
         public Measure()
         {
             InitializeComponent();
-        }
 
-        private void Measure_Load(object sender, EventArgs e)
-        {
             //strPath = System.Reflection.Assembly.GetExecutingAssembly().Location;   //@"\MonitorProcess.ini";
-            strPath = "..\\..\\..\\..\\MonitorProcess.ini";
-            //logger.SetFileName("MonTest.csv");
-            ini = new IniFile();
-            validateConfig();
-            readConfig();
-            //strPath = "C:\\MonitorProcess.ini";
-
-            InitListView();
-            UpdateListView();
-            InitSelectedListView();
-            InitTabControl();
-
-            //logger 객체에서 프로세스 정보를 얻기 위해 Form 주소를 알려준다.
-            logger = Logger.GetInstance(this);
 
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            //Measure가 Form이 아닌 UserControl이므로 
+            //UserControl을 Form에 사용하면 UserControl 객체가 생성되어
+            //아래 코드를 Design Time에 실행함 -> 오류 발생
+            //Design Time에는 실행되지 않도록 함
+            if (!DesignMode)
+            {
+                ini = new IniFile();
+
+                validateConfig();
+                readConfig();
+
+                //logger 객체에서 프로세스 정보를 얻기 위해 Form 주소를 알려준다.
+                logger = Logger.GetInstance(this);
+
+                InitListView();
+                UpdateListView();
+                InitSelectedListView();
+                InitTabControl();
+            }
+            base.OnLoad(e);
+        }      
 
         // Process List 초기화
         private void InitListView()
@@ -446,7 +453,7 @@ namespace WindowsFormsApp1
                 dtEndDate = DateTime.Now.AddHours(1);
             }
 
-            MonInfoXml.CreateMonStartInfo(dtStartDate, dtEndDate, sProcess, iProcessMaxCnt);
+            ReportXmlHandler.CreateMonStartInfo(dtStartDate, dtEndDate, sProcess, iProcessMaxCnt);
 
             Thread.Sleep(1000);  // Thread 대기 Time
             SelectProcessThread();  // 선택 Process CPU 사용량 Check Thread
@@ -548,7 +555,7 @@ namespace WindowsFormsApp1
         private void SelectProcessThread()
         {
             Thread selectcputhread = new Thread(fSelectProcess);
-
+            selectcputhread.IsBackground = true;
             selectcputhread.Start();
         }
 
@@ -577,7 +584,7 @@ namespace WindowsFormsApp1
                     initialMonitorProcess();
                 }
             }
-            MonInfoXml.EditStopTime(DateTime.Now);
+            ReportXmlHandler.EditStopTime(DateTime.Now);
         }
 
         #region Log Viewer 
@@ -737,6 +744,7 @@ namespace WindowsFormsApp1
                 return;
             }
             tconProcessTab.TabPages.Add(strPID, strPID);
+            tconProcessTab.TabPages[strPID].Margin = new Padding(1);
 
             measureEvents[PID] = null;
             uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this, PID, processName);

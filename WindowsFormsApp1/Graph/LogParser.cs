@@ -19,8 +19,6 @@ namespace WindowsFormsApp1.Graph
         /// <summary>
         /// 한 측정의 start 
         /// </summary>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
         public LogParser(DateTime startTime)
         {
             string filePath = GetLogPath(startTime);

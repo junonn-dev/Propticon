@@ -134,6 +134,7 @@ namespace WindowsFormsApp1
         private void StartLogWriteThread()
         {
             Thread logWriteThread = new Thread(WriteLog);
+            logWriteThread.IsBackground = true;
             logWriteThread.Start();
         }
 
