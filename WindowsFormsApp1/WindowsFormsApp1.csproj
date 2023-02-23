@@ -90,6 +90,7 @@
     <Compile Include="Data\DataEventArgs.cs" />
     <Compile Include="Data\Record.cs" />
     <Compile Include="Data\OverviewDto.cs" />
+    <Compile Include="Data\ResultSnapshot.cs" />
     <Compile Include="Data\StProcess.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

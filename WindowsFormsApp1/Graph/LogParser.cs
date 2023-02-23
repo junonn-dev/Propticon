@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Xml.Linq;
+using WindowsFormsApp1.Config;
 
 namespace WindowsFormsApp1.Graph
 {
@@ -16,16 +19,52 @@ namespace WindowsFormsApp1.Graph
         private int counterCount = 0;
         private int processCount = 0;
 
+        private static readonly string baseLogPath = ConfigurationManager.AppSettings["LogRootDirectory"];
+        private static readonly string reportFileFormat = ConfigurationManager.AppSettings["reportFileFormat"];
+
+        
         /// <summary>
-        /// 한 측정의 start 
+        /// LogParser의 생성 주기
+        /// 생성자를 통해 주입된 startTime에 해당하는 한 객체만 생성한다.
+        /// 한 LogParser 객체가 여러 Report를 다뤄주지 않는다.
         /// </summary>
         public LogParser(DateTime startTime)
         {
-            string filePath = GetLogPath(startTime);
-            InitCountersInfo(filePath);
+            InitCountersInfoFromReport(GetReportPath(startTime));
         }
 
-        private void InitCountersInfo(string filePath)
+        public LogParser(string filename)
+        {
+            InitCountersInfoFromReport(baseLogPath + filename);
+        }
+
+        private void InitCountersInfoFromReport(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException();
+            }
+
+            XElement xElem = XElement.Load(filePath);
+
+            IEnumerable<XElement> processes = xElem.Elements(ReportXmlHandler.xpProcess);
+            processCount = processes.Count();
+
+            for(int i=0;i<processCount;i++)
+            {
+                processNames[i] = processes.ElementAt(i).Element(ReportXmlHandler.xpProcessName).Value;
+            }
+
+            //카운터 확장 시 수정해야 하는 부분
+            counterCount = 4;   
+            counterNames[0] = ConfigurationManager.AppSettings["processCPU"];
+            counterNames[1] = ConfigurationManager.AppSettings["processMemory"];
+            counterNames[2] = ConfigurationManager.AppSettings["processThread"];
+            counterNames[3] = ConfigurationManager.AppSettings["processHandle"];
+        }
+
+        //deprecated
+        private void InitCountersInfoFromCSV(string filePath)
         {
             if (!File.Exists(filePath))
             {
@@ -55,14 +94,21 @@ namespace WindowsFormsApp1.Graph
 
             sr.Close();
         }
-        private string GetLogPath(DateTime dateTime)
+
+        private string GetReportPath(DateTime dateTime)
         {
-            string fileName = dateTime.ToString("yyyy-MM-dd-HH") + ".csv";
-            string baseLogPath = Logger.GetBaseLogPath();
-            return baseLogPath + fileName;
+            return baseLogPath + dateTime.ToString(reportFileFormat) + ".xml";
         }
 
-        private Tuple<List<DateTime>, Dictionary<string, Dictionary<string, List<float>>>> GetOneHourLog(DateTime dateTime, ref List<DateTime> times, ref Dictionary<string, Dictionary<string, List<float>>> counterValues)
+        private string GetLogPath(DateTime dateTime)
+        {
+            return baseLogPath + dateTime.ToString("yyyy-MM-dd-HH") + ".csv";
+        }
+
+        private Tuple<List<DateTime>, 
+            Dictionary<string, Dictionary<string, List<float>>>> 
+            GetOneHourLog(DateTime dateTime, ref List<DateTime> times, 
+            ref Dictionary<string, Dictionary<string, List<float>>> counterValues)
         {
             string filePath = GetLogPath(dateTime);
 
@@ -75,9 +121,10 @@ namespace WindowsFormsApp1.Graph
             string readLine = sr.ReadLine();    //첫 헤더 제거           
 
             readLine = sr.ReadLine();   //값 읽기 시작
-            while (!String.IsNullOrEmpty(readLine))
+            //여기부터 로그 양식에 종속되는 부분, 로그 양식 바뀌면 로직 고려해야함
+            while (!String.IsNullOrEmpty(readLine) && readLine[0] !='[' )
             {
-                var values = readLine.Trim(',').Split(',');
+                string[] values = readLine.Trim(',').Split(',');
                 char[] trim = { '[', ']' };
                 times.Add(DateTime.Parse(values[0].Trim(trim)));
                 int valuesIndex = 1;
@@ -98,11 +145,18 @@ namespace WindowsFormsApp1.Graph
             return new Tuple<List<DateTime>, Dictionary<string, Dictionary<string, List<float>>>>(times, counterValues);
         }
 
-        public Tuple<List<DateTime>, Dictionary<string, Dictionary<string, List<float>>>> GetHoursLog(DateTime startTime, DateTime endTime)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startTime"></param>
+        /// <param name="stopTime"></param>
+        /// <returns>
+        /// x축과 y축을 표현할 값들을 Tuple로 반환
+        /// x축 : 시간값
+        /// y축 : 프로세스이름 -> 카운터이름 -> 측정 값 순으로 매핑
+        /// </returns>
+        public Tuple<List<DateTime>, Dictionary<string, Dictionary<string, List<float>>>> GetHoursLog(DateTime startTime, DateTime stopTime)
         {
-            string filePath = GetLogPath(startTime);
-            InitCountersInfo(filePath);
-
             List<DateTime> times = new List<DateTime>();
             Dictionary<string, Dictionary<string, List<float>>> counterValues
             = new Dictionary<string, Dictionary<string, List<float>>>();
@@ -119,18 +173,18 @@ namespace WindowsFormsApp1.Graph
             }
 
             //시작, 종료 잘못 입력한 경우
-            if (startTime >= endTime)
+            if (startTime >= stopTime)
             {
                 return new Tuple<List<DateTime>, Dictionary<string, Dictionary<string, List<float>>>>(times, counterValues);
             }
 
             DateTime dateTime = startTime;
-            while(!(dateTime.Year == endTime.Year
-                    && dateTime.Month == endTime.Month
-                    && dateTime.Day == endTime.Day
-                    && dateTime.Hour == endTime.Hour))
+            while(!(dateTime.Year == stopTime.Year
+                    && dateTime.Month == stopTime.Month
+                    && dateTime.Day == stopTime.Day
+                    && dateTime.Hour == stopTime.Hour))
             {
-                var hourData = GetOneHourLog(dateTime, ref times, ref counterValues);
+                GetOneHourLog(dateTime, ref times, ref counterValues);
                 dateTime = dateTime.AddHours(1);
             }
             

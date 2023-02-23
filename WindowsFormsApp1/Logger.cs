@@ -12,8 +12,7 @@ namespace WindowsFormsApp1
 {
     public class Logger
     {
-        //TODO : Log Path 결정, 경로 인식 방법, 이름 규칙
-        private static readonly string baseLogPath = "C:\\Logs\\";// ConfigurationManager.AppSettings["LogRootDirectory"];
+        private static readonly string baseLogPath = /*"C:\\Logs\\";*/ ConfigurationManager.AppSettings["LogRootDirectory"];
         private static string fileName;
         private static StreamWriter sw;
         private static Queue<KeyValuePair<DateTime, string>> buffer;
@@ -155,10 +154,5 @@ namespace WindowsFormsApp1
             return sb.ToString();
         }
 
-
-        public static string GetBaseLogPath()
-        {
-            return baseLogPath;
-        }
     }
 }

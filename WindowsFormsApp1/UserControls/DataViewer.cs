@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsFormsApp1.Graph;
 
 namespace WindowsFormsApp1.UserControls
 {
@@ -37,6 +38,8 @@ namespace WindowsFormsApp1.UserControls
                 TreeNode[] nodes = new TreeNode[xmlFiles.Length];
                 for (int i = 0; i < nodes.Length; i++)
                 {
+                    //treeview의 node는 보여주는 이름은 xml 확장자 제거
+                    //node의 키값(Name)은 .xml 확장자 포함. 즉 파일 이름 그대로를 Name으로 함
                     string showName = xmlFiles[i].Name.Substring(0, xmlFiles[i].Name.Length - 4);
                     TreeNode newNode = new TreeNode(showName);
                     newNode.Name = xmlFiles[i].Name;
@@ -57,11 +60,12 @@ namespace WindowsFormsApp1.UserControls
             try
             {
                 //임시 예외처리
-                logParser = new LogParser(dtpStart.Value);
+                logParser = new LogParser(selectedNode.Name);
             }
             catch
             {
-                System.Windows.Forms.MessageBox.Show("${filePath} 파일이 존재하지 않습니다.");
+                MessageBox.Show($"Report 기록을 불러오지 못했습니다. " +
+                    $"\n{reportDirectory+selectedNode.Name}");
                 return;
             }
             var data = logParser.GetHoursLog(dtpStart.Value, dtpEnd.Value);

@@ -60,11 +60,6 @@ namespace WindowsFormsApp1.UserControls
 
         }
 
-        //public void SetWorstUpdateEventHandler(WorstList worstList)
-        //{
-        //    worstList.updateEvent += HandleWorstUpdateEvent;
-        //}
-
         public void HandleLogEvent(object sender, DataEventArgs e)
         {
             lboxRealTimeLog.Invoke(new Action(delegate () { 

@@ -14,11 +14,36 @@ namespace WindowsFormsApp1.Forms
     {
         private bool mouseDown;
         private Point lastLocation;
+        private Dictionary<string, Control> screenControls;
 
         public LayoutForm()
         {
             InitializeComponent();
-            
+            screenControls = new Dictionary<string, Control>();
+            //상단 버튼 이름으로 키 생성
+            screenControls.Add(label2.Name, measure1);
+            screenControls.Add(label3.Name, dataViewer1);
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            DisableAllControls();
+            EnableOneControl(label2.Name);
+        }
+
+        private void DisableAllControls()
+        {
+            foreach (var control in screenControls)
+            {
+                control.Value.Visible = false;
+                control.Value.Enabled = false;
+            }
+        }
+        private void EnableOneControl(string controlName)
+        {
+            screenControls[controlName].Enabled = true;
+            screenControls[controlName].Visible = true;
         }
 
         private void button1_Click(object sender, EventArgs e)

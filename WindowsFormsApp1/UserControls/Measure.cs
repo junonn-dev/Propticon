@@ -62,6 +62,8 @@ namespace WindowsFormsApp1
         StringBuilder filename = new StringBuilder();
         PCManager[] pcManger = new PCManager[Constants.maxconfig];//.GetInstance(processNames);
         PCManager PCM = new PCManager();
+        Thread selectcputhread;
+
         public Measure()
         {
             InitializeComponent();
@@ -92,7 +94,17 @@ namespace WindowsFormsApp1
                 InitTabControl();
             }
             base.OnLoad(e);
-        }      
+        }
+
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            bLoopState = false;
+            if(selectcputhread != null)
+            {
+                selectcputhread.Join();
+            }
+            base.OnHandleDestroyed(e);
+        }
 
         // Process List 초기화
         private void InitListView()
@@ -453,7 +465,6 @@ namespace WindowsFormsApp1
                 dtEndDate = DateTime.Now.AddHours(1);
             }
 
-            ReportXmlHandler.CreateMonStartInfo(dtStartDate, dtEndDate, sProcess, iProcessMaxCnt);
 
             Thread.Sleep(1000);  // Thread 대기 Time
             SelectProcessThread();  // 선택 Process CPU 사용량 Check Thread
@@ -554,7 +565,7 @@ namespace WindowsFormsApp1
         // 선택 Process Thread (Program 시작 시 실행)
         private void SelectProcessThread()
         {
-            Thread selectcputhread = new Thread(fSelectProcess);
+            selectcputhread = new Thread(fSelectProcess);
             selectcputhread.IsBackground = true;
             selectcputhread.Start();
         }
@@ -584,7 +595,8 @@ namespace WindowsFormsApp1
                     initialMonitorProcess();
                 }
             }
-            ReportXmlHandler.EditStopTime(DateTime.Now);
+            ReportXmlHandler.CreateReport(dtStartDate, dtEndDate, DateTime.Now, sProcess, iProcessMaxCnt, PCM.GetResultSnapshot(pProcess,iProcessMaxCnt));
+
         }
 
         #region Log Viewer 

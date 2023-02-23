@@ -384,7 +384,6 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "Measure";
             this.Size = new System.Drawing.Size(1000, 600);
-            this.Enter += new System.EventHandler(this.Measure_Enter);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

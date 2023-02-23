@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WindowsFormsApp1.CounterItem;
+using WindowsFormsApp1.Data;
 using WindowsFormsApp1.Helper;
 
 namespace WindowsFormsApp1
@@ -121,6 +123,44 @@ namespace WindowsFormsApp1
             return mapProcessSet[process.Id];
         }
 
+        //map에 현재 측정중인 프로세스 정보만 담겨있으면 processes 주입 필요 없는데,
+        //map에 미사용 프로세스 해제가 안된 상태라 processes 가져와야 함
+        public ResultSnapshot GetResultSnapshot(IEnumerable<Process> processes, int processCount)
+        {
+            ResultSnapshot resultSnapshot = new ResultSnapshot();
+            for(int i=0;i<processCount;i++)
+            {
+                int pid = processes.ElementAt(i).Id;
+                var processSet = mapProcessSet[pid];
+
+                resultSnapshot.mapResult[pid] = new Dictionary<string, ResultSnapshot.ResultValues>();
+
+                string processCPU = ConfigurationManager.AppSettings["processCPU"];
+                resultSnapshot.mapResult[pid][processCPU] = new ResultSnapshot.ResultValues(processSet.processorTimeCounter.GetMinValue(),
+                    processSet.processorTimeCounter.GetMaxValue(),
+                    processSet.processorTimeCounter.GetAverage());
+
+                string processMemory= ConfigurationManager.AppSettings["processMemory"];
+                resultSnapshot.mapResult[pid][processMemory] = new ResultSnapshot.ResultValues(
+                    processSet.workingSetCounter.GetMinValue(),
+                    processSet.workingSetCounter.GetMaxValue(),
+                    processSet.workingSetCounter.GetAverage());
+
+                string processThread = ConfigurationManager.AppSettings["processThread"];
+                resultSnapshot.mapResult[pid][processThread] = new ResultSnapshot.ResultValues(
+                    processSet.threadCountCounter.GetMinValue(),
+                    processSet.threadCountCounter.GetMaxValue(),
+                    processSet.threadCountCounter.GetAverage());
+
+                string processHandle = ConfigurationManager.AppSettings["processHandle"];
+                resultSnapshot.mapResult[pid][processHandle] = new ResultSnapshot.ResultValues(
+                    processSet.handleCountCounter.GetMinValue(),
+                    processSet.handleCountCounter.GetMaxValue(),
+                    processSet.handleCountCounter.GetAverage());
+            }
+
+            return resultSnapshot;
+        }
         
     }
 }

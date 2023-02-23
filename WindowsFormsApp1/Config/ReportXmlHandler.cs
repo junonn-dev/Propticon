@@ -14,187 +14,149 @@ namespace WindowsFormsApp1.Config
 {
     public static class ReportXmlHandler
     {
-        //private static IEnumerable<Process> processes;
         private static readonly string reportDirectory = ConfigurationManager.AppSettings["reportDirectory"];
         private static readonly string reportFileFormat = ConfigurationManager.AppSettings["reportFileFormat"];
         private static readonly string xmlDateTimeFormat = ConfigurationManager.AppSettings["xmlDateTimeFormat"];
+        private static readonly string processCPU = ConfigurationManager.AppSettings["processCPU"];
+        private static readonly string processMemory = ConfigurationManager.AppSettings["processMemory"];
+        private static readonly string processThread = ConfigurationManager.AppSettings["processThread"];
+        private static readonly string processHandle = ConfigurationManager.AppSettings["processHandle"];
 
         #region XPathDefinition
-        private static readonly string xpRoot = "MonitoringInfo";
-        private static readonly string xpStart = "Start";
-        private static readonly string xpEnd = "WillEnd";
-        private static readonly string xpStop = "StoppedAt";
-        private static readonly string xpProcessCount = "ProcessCount";
-        private static readonly string xpProcesses = "Processes";
-        private static readonly string xpProcess = "Process";
-        private static readonly string xpProcessName = "Name";
-        private static readonly string xpPID = "PID";
-
-        //카운터 항목은 응집도 높히는 방향으로 가야함
-        private static readonly string xpCPU = "CPU";
-        private static readonly string xpMemory = "Memory";
-        private static readonly string xpThread = "Thread";
-        private static readonly string xpHandle = "Handle";
-
-        private static readonly string xpMin = "Min";
-        private static readonly string xpMax = "Max";
-        private static readonly string xpAverage = "Average";
+        public static readonly string xpRoot = "MonitoringInfo";
+        public static readonly string xpStart = "Start";
+        public static readonly string xpEnd = "WillEnd";
+        public static readonly string xpStop = "StoppedAt";
+        public static readonly string xpProcessCount = "ProcessCount";
+        public static readonly string xpProcesses = "Processes";
+        public static readonly string xpProcess = "Process";
+        public static readonly string xpProcessName = "Name";
+        public static readonly string xpPID = "PID";
+        
+        public static readonly string xpCPU = "CPU";
+        public static readonly string xpMemory = "Memory";
+        public static readonly string xpThread = "Thread";
+        public static readonly string xpHandle = "Handle";
+        
+        public static readonly string xpMin = "Min";
+        public static readonly string xpMax = "Max";
+        public static readonly string xpAverage = "Average";
         #endregion
 
-
         /// <summary>
-        /// xml 파일 생성 요청 시 XmlDocument를 반환해준다.
-        /// 반환한 XmlDocument는 생성 요청한 주체가 메모리에 가지고 있다가
-        /// 모니터링 종료 시 EditStopTime의 파라미터로 전달하여 StopTime을 기록한다.
-        /// 최종적으로 SaveXmlDocument을 호출하여 xml 파일을 생성한다.
+        /// 호출한 시점의 측정 결과를 xml파일로 저장한다.
         /// </summary>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
-        /// <param name="processes"></param>
-        /// <param name="processCount"></param>
-        /// <returns></returns>
-        public static XmlDocument CreateMonStartInfo(DateTime startTime, DateTime endTime, StProcess[] processes, int processCount)
+        /// <param name="startTime">측정 시작 시간</param>
+        /// <param name="endTime">측정 종료 예정 시간</param>
+        /// <param name="stopTime">실제 측정 종료된 시간</param>
+        /// <param name="processes">측정한 프로세스 목록</param>
+        /// <param name="processCount">측정한 프로세스 개수</param>
+        /// <param name="resultSnapshot">한 시점에 측정 결과의 snapshot을 찍은 것</param>
+        public static void CreateReport(DateTime startTime, DateTime endTime, DateTime stopTime, StProcess[] processes, int processCount, ResultSnapshot resultSnapshot)
         {
             Directory.CreateDirectory(reportDirectory);
 
-            XmlDocument xdoc = new XmlDocument();
+            XDocument xdoc = new XDocument(new XDeclaration("1.0", "UTF-8", null));
 
-            XmlNode root = xdoc.CreateElement(xpRoot);
-            xdoc.AppendChild(root);
+            XElement root = new XElement(xpRoot);
+            xdoc.Add(root);
 
-            XmlNode start = xdoc.CreateElement(xpStart);
-            start.InnerText = startTime.ToString(xmlDateTimeFormat);
-            root.AppendChild(start);
+            XElement start = new XElement(xpStart, startTime.ToString(xmlDateTimeFormat));
+            root.Add(start);
 
-            XmlNode end = xdoc.CreateElement(xpEnd);
-            end.InnerText = endTime.ToString(xmlDateTimeFormat);
-            root.AppendChild(end);
+            XElement end = new XElement(xpEnd, endTime.ToString(xmlDateTimeFormat));
+            root.Add(end);
 
-            XmlNode stop = xdoc.CreateElement(xpEnd);
-            root.AppendChild(stop);
+            XElement stop = new XElement(xpStop, stopTime.ToString(xmlDateTimeFormat));
+            root.Add(stop);
 
-            XmlNode procCount = xdoc.CreateElement(xpProcessCount);
-            procCount.InnerText = processCount.ToString();
-            root.AppendChild(procCount);
+            XElement procCount = new XElement(xpProcessCount, processCount.ToString());
+            root.Add(procCount);
 
-            XmlNode xmlProcsesses = xdoc.CreateElement(xpProcesses);
+            XElement xmlProcsesses = new XElement(xpProcesses);
 
             for(int i = 0; i < processCount; i++)
             {
-                XmlNode xmlProcess = xdoc.CreateElement(xpProcess);
+                StProcess checkingProcess = processes[i];
+                XElement xmlProcess = new XElement(xpProcess);
 
-                XmlNode xmlName = xdoc.CreateElement(xpProcessName);
-                xmlName.InnerText = processes[i].InstanceName;
-                xmlProcess.AppendChild(xmlName);
+                XElement xmlName = new XElement(xpProcessName, checkingProcess.InstanceName);
+                xmlProcess.Add(xmlName);
 
-                XmlNode xmlPid = xdoc.CreateElement(xpPID);
-                xmlPid.InnerText = processes[i].Pid.ToString();
-                xmlProcess.AppendChild(xmlPid);
+                XElement xmlPid = new XElement(xpPID, checkingProcess.Pid.ToString());
+                xmlProcess.Add(xmlPid);
 
                 {
-                    XmlNode xmlCpu = xdoc.CreateElement(xpCPU);
+                    ResultSnapshot.ResultValues checkingResult = 
+                        resultSnapshot.mapResult[checkingProcess.Pid][processCPU];
+                    XElement xmlCpu = new XElement(xpCPU,
+                        new XElement(xpMin, checkingResult.minValue),
+                        new XElement(xpMax, checkingResult.maxValue),
+                        new XElement(xpAverage, checkingResult.average));
 
-                    XmlNode xmlMin = xdoc.CreateElement(xpMin);
-                    XmlNode xmlMax = xdoc.CreateElement(xpMax);
-                    XmlNode xmlAvg = xdoc.CreateElement(xpAverage);
-
-                    xmlCpu.AppendChild(xmlMin);
-                    xmlCpu.AppendChild(xmlMax);
-                    xmlCpu.AppendChild(xmlAvg);
-
-                    xmlProcess.AppendChild(xmlCpu);
+                    xmlProcess.Add(xmlCpu);
                 }
 
                 {
-                    XmlNode xmlMemory = xdoc.CreateElement(xpMemory);
+                    ResultSnapshot.ResultValues checkingResult =
+                         resultSnapshot.mapResult[checkingProcess.Pid][processMemory];
+                    XElement xmlMemory = new XElement(xpMemory,
+                        new XElement(xpMin, checkingResult.minValue),
+                        new XElement(xpMax, checkingResult.maxValue),
+                        new XElement(xpAverage, checkingResult.average));
 
-                    XmlNode xmlMin = xdoc.CreateElement(xpMin);
-                    XmlNode xmlMax = xdoc.CreateElement(xpMax);
-                    XmlNode xmlAvg = xdoc.CreateElement(xpAverage);
-
-                    xmlMemory.AppendChild(xmlMin);
-                    xmlMemory.AppendChild(xmlMax);
-                    xmlMemory.AppendChild(xmlAvg);
-
-                    xmlProcess.AppendChild(xmlMemory);
+                    xmlProcess.Add(xmlMemory);
                 }
 
                 {
-                    XmlNode xmlThread = xdoc.CreateElement(xpThread);
+                    ResultSnapshot.ResultValues checkingResult =
+                         resultSnapshot.mapResult[checkingProcess.Pid][processThread];
+                    XElement xmlThread = new XElement(xpThread,
+                        new XElement(xpMin, checkingResult.minValue),
+                        new XElement(xpMax, checkingResult.maxValue),
+                        new XElement(xpAverage, checkingResult.average));
 
-                    XmlNode xmlMin = xdoc.CreateElement(xpMin);
-                    XmlNode xmlMax = xdoc.CreateElement(xpMax);
-                    XmlNode xmlAvg = xdoc.CreateElement(xpAverage);
-
-                    xmlThread.AppendChild(xmlMin);
-                    xmlThread.AppendChild(xmlMax);
-                    xmlThread.AppendChild(xmlAvg);
-
-                    xmlProcess.AppendChild(xmlThread);
+                    xmlProcess.Add(xmlThread);
                 }
 
                 {
-                    XmlNode xmlHandle = xdoc.CreateElement(xpHandle);
+                    ResultSnapshot.ResultValues checkingResult =
+                         resultSnapshot.mapResult[checkingProcess.Pid][processHandle];
+                    XElement xmlHandle = new XElement(xpHandle,
+                        new XElement(xpMin, checkingResult.minValue),
+                        new XElement(xpMax, checkingResult.maxValue),
+                        new XElement(xpAverage, checkingResult.average));
 
-                    XmlNode xmlMin = xdoc.CreateElement(xpMin);
-                    XmlNode xmlMax = xdoc.CreateElement(xpMax);
-                    XmlNode xmlAvg = xdoc.CreateElement(xpAverage);
-
-                    xmlHandle.AppendChild(xmlMin);
-                    xmlHandle.AppendChild(xmlMax);
-                    xmlHandle.AppendChild(xmlAvg);
-
-                    xmlProcess.AppendChild(xmlHandle);
+                    xmlProcess.Add(xmlHandle);
                 }
 
-                xmlProcsesses.AppendChild(xmlProcess);
+                xmlProcsesses.Add(xmlProcess);
             }
 
-            root.AppendChild(xmlProcsesses);
+            root.Add(xmlProcsesses);
 
-            return xdoc;
-        }
-
-        public static void HandleMonitoringEnd(XmlDocument xdoc, DateTime startTime, DateTime stopTime, )
-        {
-            if (xdoc == null)
-            {
-                return;
-            }
-            EditStopTime(xdoc, stopTime);
-            SaveXmlDocument(xdoc, startTime);
-        }
-
-        private static void EditStopTime(XmlDocument xdoc,DateTime stopTime)
-        {
-            XPathNavigator nav = xdoc.CreateNavigator();
-
-            nav.SelectSingleNode("//MonitoringInfo//Stop").SetValue(stopTime.ToString(xmlDateTimeFormat));
-
-            //XmlWriter wr = XmlWriter.Create(infoFilePath);
-            //nav.WriteSubtree(wr);         
-        }
-
-        private static void SaveXmlDocument(XmlDocument xdoc, DateTime startTime)
-        {
             string infoFilePath = reportDirectory + startTime.ToString(reportFileFormat) + ".xml";
-
             xdoc.Save(infoFilePath);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static OverviewDto getReportOverviewInfo(string filename)
         {
 
             if (string.IsNullOrEmpty(filename))
             {
-                throw new FileLoadException("잘못된 요청입니다.");
+                return null;
             }
 
             string infoFilePath = reportDirectory + filename;
 
             if (!File.Exists(infoFilePath))
             {
-                throw new FileLoadException("선택한 Report를 찾을 수 없습니다.");
+                return null;
             }
 
             OverviewDto overviewDto = new OverviewDto();
@@ -217,11 +179,10 @@ namespace WindowsFormsApp1.Config
                 overviewDto.endTime = end.ToString();
                 overviewDto.processCount = result.Attribute(xpProcessCount).Value;
 
-
             }
             catch(Exception e)
             {
-                throw new XmlException("선택한 Report를 읽어오는데 실패했습니다.");
+                return null;
             }
            
             return overviewDto;
