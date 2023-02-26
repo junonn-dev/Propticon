@@ -1,7 +1,7 @@
 ﻿
 namespace WindowsFormsApp1.UserControls
 {
-    partial class DataViewer
+    partial class GraphViewer
     {
         /// <summary> 
         /// Required designer variable.
@@ -34,6 +34,7 @@ namespace WindowsFormsApp1.UserControls
             this.commonPanel1 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.subtitleLabel1 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
+            this.normalButton1 = new WindowsFormsApp1.UserControls.resources.NormalButton();
             this.commonPanel2 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.subtitleLabel2 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
@@ -41,7 +42,6 @@ namespace WindowsFormsApp1.UserControls
             this.tpOverview = new System.Windows.Forms.TabPage();
             this.tpProcess = new System.Windows.Forms.TabPage();
             this.tpMetrics = new System.Windows.Forms.TabPage();
-            this.normalButton1 = new WindowsFormsApp1.UserControls.resources.NormalButton();
             this.flowLayoutPanel1.SuspendLayout();
             this.commonPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -102,6 +102,20 @@ namespace WindowsFormsApp1.UserControls
             this.subtitleLabel1.Size = new System.Drawing.Size(68, 21);
             this.subtitleLabel1.TabIndex = 1;
             this.subtitleLabel1.Text = "Reports";
+            // 
+            // normalButton1
+            // 
+            this.normalButton1.FlatAppearance.BorderSize = 0;
+            this.normalButton1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.normalButton1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.normalButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.normalButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
+            this.normalButton1.Location = new System.Drawing.Point(3, 30);
+            this.normalButton1.Name = "normalButton1";
+            this.normalButton1.Size = new System.Drawing.Size(184, 23);
+            this.normalButton1.TabIndex = 2;
+            this.normalButton1.Text = "normalButton1";
+            this.normalButton1.UseVisualStyleBackColor = true;
             // 
             // commonPanel2
             // 
@@ -193,20 +207,6 @@ namespace WindowsFormsApp1.UserControls
             this.tpMetrics.TabIndex = 2;
             this.tpMetrics.Text = "Metrics";
             this.tpMetrics.UseVisualStyleBackColor = true;
-            // 
-            // normalButton1
-            // 
-            this.normalButton1.FlatAppearance.BorderSize = 0;
-            this.normalButton1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
-            this.normalButton1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.normalButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.normalButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
-            this.normalButton1.Location = new System.Drawing.Point(3, 30);
-            this.normalButton1.Name = "normalButton1";
-            this.normalButton1.Size = new System.Drawing.Size(184, 23);
-            this.normalButton1.TabIndex = 2;
-            this.normalButton1.Text = "normalButton1";
-            this.normalButton1.UseVisualStyleBackColor = true;
             // 
             // DataViewer
             // 

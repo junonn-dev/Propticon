@@ -792,14 +792,14 @@ namespace WindowsFormsApp1
 
         private void btnGraphViewer_Click(object sender, EventArgs e)
         {
-            GraphViewer graphViewer;
+            Forms.GraphViewer graphViewer;
             if (string.IsNullOrWhiteSpace(lblStartDateInfo.Text))
             {
-                graphViewer = new GraphViewer(DateTime.Now);
+                graphViewer = new Forms.GraphViewer(DateTime.Now);
             }
             else
             {
-                graphViewer = new GraphViewer(DateTime.Parse(lblStartDateInfo.Text));
+                graphViewer = new Forms.GraphViewer(DateTime.Parse(lblStartDateInfo.Text));
             }
             
             graphViewer.Show();

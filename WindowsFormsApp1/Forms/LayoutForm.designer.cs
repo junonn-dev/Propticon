@@ -39,7 +39,7 @@ namespace WindowsFormsApp1.Forms
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.guna2ContainerControl1 = new Guna.UI2.WinForms.Guna2ContainerControl();
             this.measure1 = new WindowsFormsApp1.Measure();
-            this.dataViewer1 = new WindowsFormsApp1.UserControls.DataViewer();
+            this.dataViewer1 = new WindowsFormsApp1.UserControls.GraphViewer();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -201,7 +201,7 @@ namespace WindowsFormsApp1.Forms
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private Guna.UI2.WinForms.Guna2ImageButton guna2ImageButton1;
         private Guna.UI2.WinForms.Guna2ContainerControl guna2ContainerControl1;
-        private UserControls.DataViewer dataViewer1;
+        private UserControls.GraphViewer dataViewer1;
     }
 }
 

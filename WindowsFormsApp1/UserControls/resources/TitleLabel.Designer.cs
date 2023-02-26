@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace WindowsFormsApp1.UserControls.resources
 {
@@ -53,6 +54,17 @@ namespace WindowsFormsApp1.UserControls.resources
         public override Font Font { get; set; }
         public override Color ForeColor { get; set; }
 
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            BackColor = ColorPallete.GetARGBColor(((int)GlobalBrandColor.LowAlpha), GlobalBrandColor.BrandColor1);
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+            BackColor = Color.Transparent;
+        }
         #endregion
     }
 }

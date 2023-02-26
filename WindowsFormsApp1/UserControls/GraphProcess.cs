@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1.UserControls
 {
-    public partial class DataOverview : UserControl
+    public partial class GraphProcess : UserControl
     {
-        public DataOverview()
+        public GraphProcess()
         {
             InitializeComponent();
         }

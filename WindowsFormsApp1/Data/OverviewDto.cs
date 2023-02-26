@@ -8,9 +8,10 @@ namespace WindowsFormsApp1.Data
 {
     public class OverviewDto
     {
+        public string reportFileName { get; set; }
         public string totalTime { get; set; }
         public string startTime { get; set; }
-        public string endTime { get; set; }
+        public string stopTime { get; set; }
         public string processCount { get; set; }
 
         public string mostCpuUsedProcess { get; set; }

@@ -42,6 +42,7 @@ namespace WindowsFormsApp1.Forms
         }
         private void EnableOneControl(string controlName)
         {
+            DisableAllControls();
             screenControls[controlName].Enabled = true;
             screenControls[controlName].Visible = true;
         }
@@ -87,12 +88,12 @@ namespace WindowsFormsApp1.Forms
 
         private void label2_Click(object sender, EventArgs e)
         {
-
+            EnableOneControl(label2.Name);
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
-
+            EnableOneControl(label3.Name);
         }
 
         private void guna2ImageButton1_Click(object sender, EventArgs e)

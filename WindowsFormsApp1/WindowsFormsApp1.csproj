@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\AppConfiguration.cs" />
     <Compile Include="Config\ReportXmlHandler.cs" />
     <Compile Include="CounterItem\Counter.cs" />
     <Compile Include="CounterItem\ProcessSet.cs" />
@@ -97,17 +98,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\DataOverview.cs">
+    <Compile Include="UserControls\GraphOverview.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\DataOverview.Designer.cs">
-      <DependentUpon>DataOverview.cs</DependentUpon>
+    <Compile Include="UserControls\GraphOverview.Designer.cs">
+      <DependentUpon>GraphOverview.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\DataViewer.cs">
+    <Compile Include="UserControls\GraphViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\DataViewer.Designer.cs">
-      <DependentUpon>DataViewer.cs</DependentUpon>
+    <Compile Include="UserControls\GraphViewer.Designer.cs">
+      <DependentUpon>GraphViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\GraphProcess.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\GraphProcess.Designer.cs">
+      <DependentUpon>GraphProcess.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Measure.cs">
       <SubType>UserControl</SubType>
@@ -203,11 +210,14 @@
     <Compile Include="UserControls\uscRealTimeProcessView.Designer.cs">
       <DependentUpon>uscRealTimeProcessView.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="UserControls\DataOverview.resx">
-      <DependentUpon>DataOverview.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\GraphOverview.resx">
+      <DependentUpon>GraphOverview.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\DataViewer.resx">
-      <DependentUpon>DataViewer.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\GraphProcess.resx">
+      <DependentUpon>GraphProcess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\GraphViewer.resx">
+      <DependentUpon>GraphViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Measure.resx">
       <DependentUpon>Measure.cs</DependentUpon>

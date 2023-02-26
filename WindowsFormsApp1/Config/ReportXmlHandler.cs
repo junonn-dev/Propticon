@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -14,14 +16,6 @@ namespace WindowsFormsApp1.Config
 {
     public static class ReportXmlHandler
     {
-        private static readonly string reportDirectory = ConfigurationManager.AppSettings["reportDirectory"];
-        private static readonly string reportFileFormat = ConfigurationManager.AppSettings["reportFileFormat"];
-        private static readonly string xmlDateTimeFormat = ConfigurationManager.AppSettings["xmlDateTimeFormat"];
-        private static readonly string processCPU = ConfigurationManager.AppSettings["processCPU"];
-        private static readonly string processMemory = ConfigurationManager.AppSettings["processMemory"];
-        private static readonly string processThread = ConfigurationManager.AppSettings["processThread"];
-        private static readonly string processHandle = ConfigurationManager.AppSettings["processHandle"];
-
         #region XPathDefinition
         public static readonly string xpRoot = "MonitoringInfo";
         public static readonly string xpStart = "Start";
@@ -54,20 +48,20 @@ namespace WindowsFormsApp1.Config
         /// <param name="resultSnapshot">한 시점에 측정 결과의 snapshot을 찍은 것</param>
         public static void CreateReport(DateTime startTime, DateTime endTime, DateTime stopTime, StProcess[] processes, int processCount, ResultSnapshot resultSnapshot)
         {
-            Directory.CreateDirectory(reportDirectory);
+            Directory.CreateDirectory(AppConfiguration.reportDirectory);
 
             XDocument xdoc = new XDocument(new XDeclaration("1.0", "UTF-8", null));
 
             XElement root = new XElement(xpRoot);
             xdoc.Add(root);
 
-            XElement start = new XElement(xpStart, startTime.ToString(xmlDateTimeFormat));
+            XElement start = new XElement(xpStart, startTime.ToString(AppConfiguration.xmlDateTimeFormat));
             root.Add(start);
 
-            XElement end = new XElement(xpEnd, endTime.ToString(xmlDateTimeFormat));
+            XElement end = new XElement(xpEnd, endTime.ToString(AppConfiguration.xmlDateTimeFormat));
             root.Add(end);
 
-            XElement stop = new XElement(xpStop, stopTime.ToString(xmlDateTimeFormat));
+            XElement stop = new XElement(xpStop, stopTime.ToString(AppConfiguration.xmlDateTimeFormat));
             root.Add(stop);
 
             XElement procCount = new XElement(xpProcessCount, processCount.ToString());
@@ -88,7 +82,7 @@ namespace WindowsFormsApp1.Config
 
                 {
                     ResultSnapshot.ResultValues checkingResult = 
-                        resultSnapshot.mapResult[checkingProcess.Pid][processCPU];
+                        resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processCPU];
                     XElement xmlCpu = new XElement(xpCPU,
                         new XElement(xpMin, checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
@@ -99,7 +93,7 @@ namespace WindowsFormsApp1.Config
 
                 {
                     ResultSnapshot.ResultValues checkingResult =
-                         resultSnapshot.mapResult[checkingProcess.Pid][processMemory];
+                         resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processMemory];
                     XElement xmlMemory = new XElement(xpMemory,
                         new XElement(xpMin, checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
@@ -110,7 +104,7 @@ namespace WindowsFormsApp1.Config
 
                 {
                     ResultSnapshot.ResultValues checkingResult =
-                         resultSnapshot.mapResult[checkingProcess.Pid][processThread];
+                         resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processThread];
                     XElement xmlThread = new XElement(xpThread,
                         new XElement(xpMin, checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
@@ -121,7 +115,7 @@ namespace WindowsFormsApp1.Config
 
                 {
                     ResultSnapshot.ResultValues checkingResult =
-                         resultSnapshot.mapResult[checkingProcess.Pid][processHandle];
+                         resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processHandle];
                     XElement xmlHandle = new XElement(xpHandle,
                         new XElement(xpMin, checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
@@ -135,7 +129,7 @@ namespace WindowsFormsApp1.Config
 
             root.Add(xmlProcsesses);
 
-            string infoFilePath = reportDirectory + startTime.ToString(reportFileFormat) + ".xml";
+            string infoFilePath = AppConfiguration.reportDirectory + startTime.ToString(AppConfiguration.reportFileFormat) + ".xml";
             xdoc.Save(infoFilePath);
         }
 
@@ -152,7 +146,7 @@ namespace WindowsFormsApp1.Config
                 return null;
             }
 
-            string infoFilePath = reportDirectory + filename;
+            string infoFilePath = AppConfiguration.reportDirectory + filename;
 
             if (!File.Exists(infoFilePath))
             {
@@ -164,20 +158,39 @@ namespace WindowsFormsApp1.Config
             {
                 XDocument xdoc = XDocument.Load(infoFilePath);
                 XElement result = xdoc.Root;
-                DateTime start = DateTime.Parse(result.Attribute(xpStart).Value);
-                DateTime end = DateTime.Parse(result.Attribute(xpEnd).Value);
-                DateTime stop = DateTime.Parse(result.Attribute(xpStop).Value);
+                string aa = result.Element(xpStart).Value;
+                DateTime start = DateTime.ParseExact(result.Element(xpStart).Value, AppConfiguration.xmlDateTimeFormat, CultureInfo.CurrentCulture);
+                DateTime end = DateTime.ParseExact(result.Element(xpEnd).Value, AppConfiguration.xmlDateTimeFormat, CultureInfo.CurrentCulture);
+                DateTime stop = DateTime.ParseExact(result.Element(xpStop).Value, AppConfiguration.xmlDateTimeFormat, CultureInfo.CurrentCulture);
 
                 TimeSpan total = stop - start;
                 StringBuilder sb = new StringBuilder();
                 sb.Append(total.Days > 0 ? total.ToString() + "d " : "")
                         .Append(total.Hours.ToString()).Append("h ")
-                        .Append(total.Minutes.ToString()).Append("m");
+                        .Append(total.Minutes.ToString()).Append("m ")
+                        .Append(total.Seconds.ToString()).Append("s");
 
                 overviewDto.totalTime = sb.ToString();
                 overviewDto.startTime = start.ToString();
-                overviewDto.endTime = end.ToString();
-                overviewDto.processCount = result.Attribute(xpProcessCount).Value;
+                overviewDto.stopTime = stop.ToString();
+                overviewDto.processCount = result.Element(xpProcessCount).Value;
+                overviewDto.reportFileName = filename;
+
+                overviewDto.mostCpuUsedProcess =
+                    (from xElem in result.Element(xpProcesses).Elements(xpProcess)
+                     group xElem.Element(xpProcessName).Value
+                     by double.Parse(xElem.Element(xpCPU).Element(xpAverage).Value)
+                     into xElemGroup
+                     orderby xElemGroup.Key descending
+                     select xElemGroup).First().First();
+
+                overviewDto.mostMemoryUsedProcess =
+                    (from xElem in result.Element(xpProcesses).Elements(xpProcess)
+                     group xElem.Element(xpProcessName).Value
+                     by double.Parse(xElem.Element(xpMemory).Element(xpAverage).Value)
+                     into xElemGroup
+                     orderby xElemGroup.Key descending
+                     select xElemGroup).First().First();
 
             }
             catch(Exception e)

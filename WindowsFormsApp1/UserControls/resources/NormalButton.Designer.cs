@@ -45,9 +45,9 @@ namespace WindowsFormsApp1.UserControls.resources
 
         protected override void OnPaint(PaintEventArgs pevent)
         {
-            this.BackColor = ColorHandler.GetARGBColor((int)GlobalBrandColor.LowAlpha, GlobalBrandColor.BrandColor1);
+            this.BackColor = ColorPallete.GetARGBColor((int)GlobalBrandColor.LowAlpha, GlobalBrandColor.BrandColor1);
             this.FlatAppearance.BorderSize = 0;
-            this.FlatAppearance.MouseOverBackColor = ColorHandler.GetARGBColor((int)GlobalBrandColor.LowBoldAlpha, GlobalBrandColor.BrandColor1);
+            this.FlatAppearance.MouseOverBackColor = ColorPallete.GetARGBColor((int)GlobalBrandColor.LowBoldAlpha, GlobalBrandColor.BrandColor1);
             this.ForeColor = Color.FromArgb((int)GlobalBrandColor.BasicFontColor);
 
             //this.FlatAppearance.BorderColor = GlobalBrandColor.Gray;

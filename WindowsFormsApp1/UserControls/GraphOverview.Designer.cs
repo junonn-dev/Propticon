@@ -1,7 +1,7 @@
 ﻿
 namespace WindowsFormsApp1.UserControls
 {
-    partial class DataOverview
+    partial class GraphOverview
     {
         /// <summary> 
         /// Required designer variable.
@@ -36,9 +36,9 @@ namespace WindowsFormsApp1.UserControls
             this.contentLabel3 = new WindowsFormsApp1.UserControls.resources.ContentLabel();
             this.contentLabel4 = new WindowsFormsApp1.UserControls.resources.ContentLabel();
             this.lblTotalTime = new WindowsFormsApp1.UserControls.resources.ContentHeaderLabel();
+            this.lblProcess = new WindowsFormsApp1.UserControls.resources.ContentHeaderLabel();
             this.lblMostCpuUsed = new WindowsFormsApp1.UserControls.resources.ContentHeaderLabel();
             this.lblMostMemoryUsed = new WindowsFormsApp1.UserControls.resources.ContentHeaderLabel();
-            this.lblProcess = new WindowsFormsApp1.UserControls.resources.ContentHeaderLabel();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,6 +55,7 @@ namespace WindowsFormsApp1.UserControls
             this.flowLayoutPanel1.Controls.Add(this.lblMostMemoryUsed);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(739, 535);
             this.flowLayoutPanel1.TabIndex = 0;
@@ -114,6 +115,15 @@ namespace WindowsFormsApp1.UserControls
             this.lblTotalTime.TabIndex = 6;
             this.lblTotalTime.Text = "lblTotalTime";
             // 
+            // lblProcess
+            // 
+            this.lblProcess.Location = new System.Drawing.Point(173, 63);
+            this.lblProcess.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
+            this.lblProcess.Name = "lblProcess";
+            this.lblProcess.Size = new System.Drawing.Size(150, 30);
+            this.lblProcess.TabIndex = 9;
+            this.lblProcess.Text = "lblProcess";
+            // 
             // lblMostCpuUsed
             // 
             this.lblMostCpuUsed.Location = new System.Drawing.Point(336, 63);
@@ -132,21 +142,13 @@ namespace WindowsFormsApp1.UserControls
             this.lblMostMemoryUsed.TabIndex = 8;
             this.lblMostMemoryUsed.Text = "lblMostMemoryUsed";
             // 
-            // lblProcess
-            // 
-            this.lblProcess.Location = new System.Drawing.Point(173, 63);
-            this.lblProcess.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
-            this.lblProcess.Name = "lblProcess";
-            this.lblProcess.Size = new System.Drawing.Size(150, 30);
-            this.lblProcess.TabIndex = 9;
-            this.lblProcess.Text = "lblProcess";
-            // 
             // DataOverview
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.Controls.Add(this.flowLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "DataOverview";
             this.Size = new System.Drawing.Size(739, 535);
             this.flowLayoutPanel1.ResumeLayout(false);

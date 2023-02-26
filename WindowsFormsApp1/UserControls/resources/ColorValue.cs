@@ -58,8 +58,9 @@ namespace WindowsFormsApp1.UserControls.resources
         
     }
 
-    public static class ColorHandler
+    public static class ColorPallete
     {
+        //TODO : aValue도 GlobalBrandColor가져와서 사용하도록 수정 
         public static Color GetARGBColor(int aValue, GlobalBrandColor brandColor)
         {
             return Color.FromArgb(aValue, Color.FromArgb((int)brandColor));
