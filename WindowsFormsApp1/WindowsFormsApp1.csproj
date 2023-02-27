@@ -84,13 +84,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\AppConfiguration.cs" />
-    <Compile Include="Config\ReportXmlHandler.cs" />
+    <Compile Include="Repository\ReportRepository.cs" />
     <Compile Include="CounterItem\Counter.cs" />
     <Compile Include="CounterItem\ProcessSet.cs" />
     <Compile Include="CounterItem\WorstList.cs" />
     <Compile Include="Data\DataEventArgs.cs" />
     <Compile Include="Data\Record.cs" />
-    <Compile Include="Data\OverviewDto.cs" />
+    <Compile Include="Data\GraphViewerDto.cs" />
     <Compile Include="Data\ResultSnapshot.cs" />
     <Compile Include="Data\StProcess.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -135,7 +135,7 @@
       <DependentUpon>GraphViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Graph\IGraphAdaptor.cs" />
-    <Compile Include="Graph\LogParser.cs" />
+    <Compile Include="Repository\LogRepository.cs" />
     <Compile Include="Helper\InstanceNameConvertor.cs" />
     <Compile Include="Ini.cs" />
     <Compile Include="Logger.cs" />
@@ -275,5 +275,6 @@
     <None Include="Resources\close_real_final_hover.png" />
     <Content Include="txtHistory.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

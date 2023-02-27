@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WindowsFormsApp1.CounterItem;
 using WindowsFormsApp1.Data;
 using WindowsFormsApp1.Helper;

@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using WindowsFormsApp1.Data;
 
 namespace WindowsFormsApp1

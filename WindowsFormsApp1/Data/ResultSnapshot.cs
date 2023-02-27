@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WindowsFormsApp1.Data
 {
@@ -26,7 +22,7 @@ namespace WindowsFormsApp1.Data
         {
             this.mapResult = new Dictionary<int, Dictionary<string, ResultValues>>();
         }
-
+        //pid -> counter > resultValues
         public Dictionary<int, Dictionary<string, ResultValues>> mapResult { get; set; }
     }
 }

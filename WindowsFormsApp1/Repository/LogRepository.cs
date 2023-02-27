@@ -6,9 +6,9 @@ using System.Linq;
 using System.Xml.Linq;
 using WindowsFormsApp1.Config;
 
-namespace WindowsFormsApp1.Graph
+namespace WindowsFormsApp1.Repository
 {
-    class LogParser
+    class LogRepository
     {
         //private List<DateTime> times = new List<DateTime>();
         //private Dictionary<string, Dictionary<string, List<float>>> counterValues
@@ -20,16 +20,16 @@ namespace WindowsFormsApp1.Graph
         private int processCount = 0;
         
         /// <summary>
-        /// LogParser의 생성 주기
+        /// LogParser의 생성 주기 : 
         /// 생성자를 통해 주입된 startTime에 해당하는 한 객체만 생성한다.
         /// 한 LogParser 객체가 여러 Report를 다뤄주지 않는다.
         /// </summary>
-        public LogParser(DateTime startTime)
+        public LogRepository(DateTime startTime)
         {
             InitCountersInfoFromReport(GetReportPath(startTime));
         }
 
-        public LogParser(string reportXml)
+        public LogRepository(string reportXml)
         {
             InitCountersInfoFromReport(AppConfiguration.reportDirectory + reportXml);
         }
@@ -43,12 +43,12 @@ namespace WindowsFormsApp1.Graph
 
             XElement xElem = XElement.Load(filePath);
 
-            IEnumerable<XElement> processes = xElem.Element(ReportXmlHandler.xpProcesses).Elements(ReportXmlHandler.xpProcess);
+            IEnumerable<XElement> processes = xElem.Element(ReportRepository.xpProcesses).Elements(ReportRepository.xpProcess);
             processCount = processes.Count();
 
             for(int i=0;i<processCount;i++)
             {
-                processNames[i] = processes.ElementAt(i).Element(ReportXmlHandler.xpProcessName).Value;
+                processNames[i] = processes.ElementAt(i).Element(ReportRepository.xpProcessName).Value;
             }
 
             //카운터 확장 시 수정해야 하는 부분

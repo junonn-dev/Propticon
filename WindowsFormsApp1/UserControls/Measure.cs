@@ -6,14 +6,11 @@ using System.Threading;
 using System.Windows.Forms;
 using WindowsFormsApp1.CounterItem;
 using WindowsFormsApp1.Data;
-using WindowsFormsApp1.Forms;
 using WindowsFormsApp1.Helper;
 using WindowsFormsApp1.UserControls;
 using static WindowsFormsApp1.Program;
-using WindowsFormsApp1.UserControls.resources;
 using System.IO;
-using WindowsFormsApp1.Config;
-using System.ComponentModel;
+using WindowsFormsApp1.Repository;
 
 namespace WindowsFormsApp1
 {
@@ -595,7 +592,7 @@ namespace WindowsFormsApp1
                     initialMonitorProcess();
                 }
             }
-            ReportXmlHandler.CreateReport(dtStartDate, dtEndDate, DateTime.Now, sProcess, iProcessMaxCnt, PCM.GetResultSnapshot(pProcess,iProcessMaxCnt));
+            ReportRepository.CreateReport(dtStartDate, dtEndDate, DateTime.Now, sProcess, iProcessMaxCnt, PCM.GetResultSnapshot(pProcess,iProcessMaxCnt));
 
         }
 

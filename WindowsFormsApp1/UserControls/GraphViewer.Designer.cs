@@ -29,12 +29,12 @@ namespace WindowsFormsApp1.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.treeView1 = new System.Windows.Forms.TreeView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.commonPanel1 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.subtitleLabel1 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
             this.normalButton1 = new WindowsFormsApp1.UserControls.resources.NormalButton();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.commonPanel2 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.subtitleLabel2 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
@@ -49,14 +49,6 @@ namespace WindowsFormsApp1.UserControls
             this.flowLayoutPanel3.SuspendLayout();
             this.tconGraph.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // treeView1
-            // 
-            this.treeView1.Location = new System.Drawing.Point(3, 59);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(244, 569);
-            this.treeView1.TabIndex = 0;
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
             // flowLayoutPanel1
             // 
@@ -117,6 +109,14 @@ namespace WindowsFormsApp1.UserControls
             this.normalButton1.Text = "normalButton1";
             this.normalButton1.UseVisualStyleBackColor = true;
             // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(3, 59);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(244, 569);
+            this.treeView1.TabIndex = 0;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            // 
             // commonPanel2
             // 
             this.commonPanel2.Controls.Add(this.flowLayoutPanel3);
@@ -160,17 +160,17 @@ namespace WindowsFormsApp1.UserControls
             this.tconGraph.Size = new System.Drawing.Size(747, 570);
             this.tconGraph.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
             this.tconGraph.TabButtonHoverState.FillColor = System.Drawing.Color.White;
-            this.tconGraph.TabButtonHoverState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconGraph.TabButtonHoverState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconGraph.TabButtonHoverState.ForeColor = System.Drawing.Color.Black;
             this.tconGraph.TabButtonHoverState.InnerColor = System.Drawing.Color.Transparent;
             this.tconGraph.TabButtonIdleState.BorderColor = System.Drawing.Color.Empty;
             this.tconGraph.TabButtonIdleState.FillColor = System.Drawing.Color.White;
-            this.tconGraph.TabButtonIdleState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconGraph.TabButtonIdleState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconGraph.TabButtonIdleState.ForeColor = System.Drawing.Color.Gray;
             this.tconGraph.TabButtonIdleState.InnerColor = System.Drawing.Color.Transparent;
             this.tconGraph.TabButtonSelectedState.BorderColor = System.Drawing.Color.Empty;
             this.tconGraph.TabButtonSelectedState.FillColor = System.Drawing.Color.White;
-            this.tconGraph.TabButtonSelectedState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconGraph.TabButtonSelectedState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconGraph.TabButtonSelectedState.ForeColor = System.Drawing.Color.Black;
             this.tconGraph.TabButtonSelectedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
             this.tconGraph.TabButtonSize = new System.Drawing.Size(95, 27);
@@ -208,12 +208,12 @@ namespace WindowsFormsApp1.UserControls
             this.tpMetrics.Text = "Metrics";
             this.tpMetrics.UseVisualStyleBackColor = true;
             // 
-            // DataViewer
+            // GraphViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Name = "DataViewer";
+            this.Name = "GraphViewer";
             this.Size = new System.Drawing.Size(1000, 600);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.commonPanel1.ResumeLayout(false);

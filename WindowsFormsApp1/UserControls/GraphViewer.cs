@@ -1,18 +1,12 @@
-﻿using ScottPlot;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApp1.Config;
 using WindowsFormsApp1.Data;
-using WindowsFormsApp1.Graph;
+using WindowsFormsApp1.Repository;
 
 namespace WindowsFormsApp1.UserControls
 {
@@ -41,7 +35,7 @@ namespace WindowsFormsApp1.UserControls
                 TreeNode[] nodes = new TreeNode[xmlFiles.Length];
                 for (int i = 0; i < nodes.Length; i++)
                 {
-                    //treeview의 node는 보여주는 이름은 xml 확장자 제거
+                    //treeview의 node에서 보여주는 이름은 xml 확장자 제거된 이름
                     //node의 키값(Name)은 .xml 확장자 포함. 즉 파일 이름 그대로를 Name으로 함
                     string showName = xmlFiles[i].Name.Substring(0, xmlFiles[i].Name.Length - 4);
                     TreeNode newNode = new TreeNode(showName);
@@ -54,14 +48,12 @@ namespace WindowsFormsApp1.UserControls
             }
             
         }
-
-
         
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             selectedNode = e.Node;
 
-            OverviewDto dto = ReportXmlHandler.getReportOverviewInfo(selectedNode.Name);
+            GraphViewerDto dto = ReportRepository.GetGraphViewerInfo(selectedNode.Name);
 
             if (dto == null)
             {
@@ -69,10 +61,11 @@ namespace WindowsFormsApp1.UserControls
                 return;
             }
 
-            GraphOverview dataOverview = new GraphOverview(dto);
-            tconGraph.TabPages["tpOverview"].Controls.Add(dataOverview);
-            
+            GraphOverview graphOverview = new GraphOverview(dto);
+            tconGraph.TabPages["tpOverview"].Controls.Add(graphOverview);
 
+            GraphProcess graphProcess = new GraphProcess(dto);
+            tconGraph.TabPages["tpProcess"].Controls.Add(graphProcess);
         }
     }
 }

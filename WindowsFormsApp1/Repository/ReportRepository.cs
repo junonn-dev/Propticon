@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml;
+using System.Windows.Forms;
 using System.Xml.Linq;
-using System.Xml.XPath;
+using WindowsFormsApp1.Config;
 using WindowsFormsApp1.Data;
-using WindowsFormsApp1.Helper;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
-namespace WindowsFormsApp1.Config
+namespace WindowsFormsApp1.Repository
 {
-    public static class ReportXmlHandler
+    public static class ReportRepository
     {
         #region XPathDefinition
         public static readonly string xpRoot = "MonitoringInfo";
@@ -134,11 +132,11 @@ namespace WindowsFormsApp1.Config
         }
 
         /// <summary>
-        /// 
+        /// Report 파일(xml)과 Log 파일(csv)를 파싱하여 GraphViewr에 사용할 Data Transfer Object를 반환함
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public static OverviewDto getReportOverviewInfo(string filename)
+        public static GraphViewerDto GetGraphViewerInfo(string filename)
         {
 
             if (string.IsNullOrEmpty(filename))
@@ -153,12 +151,13 @@ namespace WindowsFormsApp1.Config
                 return null;
             }
 
-            OverviewDto overviewDto = new OverviewDto();
+            GraphViewerDto graphViewerDto = new GraphViewerDto();
             try
             {
+                //xml parsing start
                 XDocument xdoc = XDocument.Load(infoFilePath);
                 XElement result = xdoc.Root;
-                string aa = result.Element(xpStart).Value;
+
                 DateTime start = DateTime.ParseExact(result.Element(xpStart).Value, AppConfiguration.xmlDateTimeFormat, CultureInfo.CurrentCulture);
                 DateTime end = DateTime.ParseExact(result.Element(xpEnd).Value, AppConfiguration.xmlDateTimeFormat, CultureInfo.CurrentCulture);
                 DateTime stop = DateTime.ParseExact(result.Element(xpStop).Value, AppConfiguration.xmlDateTimeFormat, CultureInfo.CurrentCulture);
@@ -170,13 +169,13 @@ namespace WindowsFormsApp1.Config
                         .Append(total.Minutes.ToString()).Append("m ")
                         .Append(total.Seconds.ToString()).Append("s");
 
-                overviewDto.totalTime = sb.ToString();
-                overviewDto.startTime = start.ToString();
-                overviewDto.stopTime = stop.ToString();
-                overviewDto.processCount = result.Element(xpProcessCount).Value;
-                overviewDto.reportFileName = filename;
+                graphViewerDto.totalTime = sb.ToString();
+                graphViewerDto.startTime = start.ToString();
+                graphViewerDto.stopTime = stop.ToString();
+                graphViewerDto.processCount = result.Element(xpProcessCount).Value;
+                graphViewerDto.reportFileName = filename;
 
-                overviewDto.mostCpuUsedProcess =
+                graphViewerDto.mostCpuUsedProcess =
                     (from xElem in result.Element(xpProcesses).Elements(xpProcess)
                      group xElem.Element(xpProcessName).Value
                      by double.Parse(xElem.Element(xpCPU).Element(xpAverage).Value)
@@ -184,7 +183,7 @@ namespace WindowsFormsApp1.Config
                      orderby xElemGroup.Key descending
                      select xElemGroup).First().First();
 
-                overviewDto.mostMemoryUsedProcess =
+                graphViewerDto.mostMemoryUsedProcess =
                     (from xElem in result.Element(xpProcesses).Elements(xpProcess)
                      group xElem.Element(xpProcessName).Value
                      by double.Parse(xElem.Element(xpMemory).Element(xpAverage).Value)
@@ -197,8 +196,30 @@ namespace WindowsFormsApp1.Config
             {
                 return null;
             }
-           
-            return overviewDto;
+
+            //csv parsing start
+            LogRepository logParser;
+            try
+            {
+                logParser = new LogRepository(filename);
+            }
+            catch
+            {
+                return null;
+            }
+            var data = logParser.GetHoursLog(DateTime.Parse(graphViewerDto.startTime), DateTime.Parse(graphViewerDto.stopTime));
+
+            double[] xData = data.Item1.Select(time => time.ToOADate()).ToArray();
+            Dictionary<string, Dictionary<string, List<float>>> yData = data.Item2;
+            string[] counterNames = logParser.GetCounterNames();
+            int counterCount = logParser.GetCounterCount();
+
+            graphViewerDto.xData = xData;
+            graphViewerDto.yData = yData;
+            graphViewerDto.counterNames = counterNames;
+            graphViewerDto.counterCount = counterCount;
+
+            return graphViewerDto;
         }
 
     }
