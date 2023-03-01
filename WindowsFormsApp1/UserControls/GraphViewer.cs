@@ -41,10 +41,10 @@ namespace WindowsFormsApp1.UserControls
                     TreeNode newNode = new TreeNode(showName);
                     newNode.Name = xmlFiles[i].Name;
                     nodes[i] = newNode;
-
+                    treeView1.Nodes.Add(newNode);
                 }
-                TreeNode root = new TreeNode("Reports", nodes);
-                treeView1.Nodes.AddRange(new TreeNode[] { root });
+                //TreeNode root = new TreeNode("Reports", nodes);
+                //treeView1.Nodes.AddRange(new TreeNode[] { root });
             }
             
         }
@@ -66,6 +66,9 @@ namespace WindowsFormsApp1.UserControls
 
             GraphProcess graphProcess = new GraphProcess(dto);
             tconGraph.TabPages["tpProcess"].Controls.Add(graphProcess);
+
+            GraphMetrics graphMetrics = new GraphMetrics(dto);
+            tconGraph.TabPages["tpMetrics"].Controls.Add(graphMetrics);
         }
     }
 }

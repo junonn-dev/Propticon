@@ -98,6 +98,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\GraphBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\GraphBase.Designer.cs">
+      <DependentUpon>GraphBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\GraphMetrics.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\GraphMetrics.Designer.cs">
+      <DependentUpon>GraphMetrics.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\GraphOverview.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -134,7 +146,6 @@
     <Compile Include="Forms\GraphViewer.Designer.cs">
       <DependentUpon>GraphViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Graph\IGraphAdaptor.cs" />
     <Compile Include="Repository\LogRepository.cs" />
     <Compile Include="Helper\InstanceNameConvertor.cs" />
     <Compile Include="Ini.cs" />
@@ -142,7 +153,6 @@
     <Compile Include="PCManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserControls\resources\ColorApplier.cs" />
     <Compile Include="UserControls\resources\ColoredButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -210,6 +220,9 @@
     <Compile Include="UserControls\uscRealTimeProcessView.Designer.cs">
       <DependentUpon>uscRealTimeProcessView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\GraphMetrics.resx">
+      <DependentUpon>GraphMetrics.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\GraphOverview.resx">
       <DependentUpon>GraphOverview.cs</DependentUpon>
     </EmbeddedResource>

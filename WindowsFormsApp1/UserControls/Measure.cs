@@ -689,7 +689,7 @@ namespace WindowsFormsApp1
         private void fMonitorAllProcess()
         {
             DateTime dTime = DateTime.Now;
-            sb.Append($"[{dTime:yyyy/MM/dd hh:mm:ss.FFF}],");
+            sb.Append($"[{dTime:yyyy/MM/dd HH:mm:ss.FFF}],");
             for (int i = 0; i < iProcessMaxCnt; i++)
             {
                 var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i], dTime);
@@ -714,7 +714,7 @@ namespace WindowsFormsApp1
                     .Append(threadCount.ToString()).Append(",")
                     .Append(handleCount.ToString()).Append(",");
 
-                string message = $"{dTime:yyyy-MM-dd hh:mm:ss.fff} [{enLogLevel.Info.ToString()}] {sProcess[i].InstanceName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}";
+                string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} [{enLogLevel.Info.ToString()}] {sProcess[i].InstanceName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}";
                 ProcessSet processSet = PCM.GetProcessSet(pProcess[i]);
 
                 DataEventArgs args = new DataEventArgs(message, processSet);

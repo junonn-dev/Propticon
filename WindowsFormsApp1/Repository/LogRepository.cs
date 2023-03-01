@@ -120,7 +120,8 @@ namespace WindowsFormsApp1.Repository
             {
                 string[] values = readLine.Trim(',').Split(',');
                 char[] trim = { '[', ']' };
-                DateTime checkTime = DateTime.Parse(values[0].Trim(trim));
+                //로그에서 hh가 아니라 HH로 포맷 지정해야 check time을 제대로 확인 가능함.
+                DateTime checkTime = DateTime.Parse(values[0].Trim(trim));  
                 if (checkTime < dateTime)
                 {
                     readLine = sr.ReadLine();
