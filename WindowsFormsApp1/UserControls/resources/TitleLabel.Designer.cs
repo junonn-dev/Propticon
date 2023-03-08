@@ -56,14 +56,17 @@ namespace WindowsFormsApp1.UserControls.resources
 
         protected override void OnMouseEnter(EventArgs e)
         {
-            base.OnMouseEnter(e);
-            BackColor = ColorPallete.GetARGBColor(((int)GlobalBrandColor.LowAlpha), GlobalBrandColor.BrandColor1);
+            //base.OnMouseEnter(e);
+            this.BackColor = ColorPallete.GetARGBColor(((int)GlobalBrandColor.LowAlpha), GlobalBrandColor.BrandColor1);
+            this.Refresh();
+
         }
 
         protected override void OnMouseLeave(EventArgs e)
         {
-            base.OnMouseLeave(e);
-            BackColor = Color.Transparent;
+            //base.OnMouseLeave(e);
+            this.BackColor = Color.Transparent;
+            this.Refresh();
         }
         #endregion
     }

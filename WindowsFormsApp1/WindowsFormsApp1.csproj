@@ -128,6 +128,12 @@
     <Compile Include="UserControls\GraphProcess.Designer.cs">
       <DependentUpon>GraphProcess.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Home.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Home.Designer.cs">
+      <DependentUpon>Home.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Measure.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -184,6 +190,12 @@
     <Compile Include="UserControls\resources\GridView.Designer.cs">
       <DependentUpon>GridView.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\resources\HipListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UserControls\resources\HipListBox.Designer.cs">
+      <DependentUpon>HipListBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\resources\NormalButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -231,6 +243,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\GraphViewer.resx">
       <DependentUpon>GraphViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Home.resx">
+      <DependentUpon>Home.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Measure.resx">
       <DependentUpon>Measure.cs</DependentUpon>

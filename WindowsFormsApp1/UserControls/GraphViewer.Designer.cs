@@ -34,6 +34,8 @@ namespace WindowsFormsApp1.UserControls
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.subtitleLabel1 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
             this.normalButton1 = new WindowsFormsApp1.UserControls.resources.NormalButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.normalButton2 = new WindowsFormsApp1.UserControls.resources.NormalButton();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.commonPanel2 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
@@ -77,6 +79,8 @@ namespace WindowsFormsApp1.UserControls
             // 
             this.flowLayoutPanel2.Controls.Add(this.subtitleLabel1);
             this.flowLayoutPanel2.Controls.Add(this.normalButton1);
+            this.flowLayoutPanel2.Controls.Add(this.panel1);
+            this.flowLayoutPanel2.Controls.Add(this.normalButton2);
             this.flowLayoutPanel2.Controls.Add(this.treeView1);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
@@ -87,11 +91,10 @@ namespace WindowsFormsApp1.UserControls
             // 
             // subtitleLabel1
             // 
-            this.subtitleLabel1.AutoSize = true;
             this.subtitleLabel1.Location = new System.Drawing.Point(3, 3);
             this.subtitleLabel1.Margin = new System.Windows.Forms.Padding(3);
             this.subtitleLabel1.Name = "subtitleLabel1";
-            this.subtitleLabel1.Size = new System.Drawing.Size(68, 21);
+            this.subtitleLabel1.Size = new System.Drawing.Size(234, 21);
             this.subtitleLabel1.TabIndex = 1;
             this.subtitleLabel1.Text = "Reports";
             // 
@@ -104,18 +107,40 @@ namespace WindowsFormsApp1.UserControls
             this.normalButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
             this.normalButton1.Location = new System.Drawing.Point(3, 30);
             this.normalButton1.Name = "normalButton1";
-            this.normalButton1.Size = new System.Drawing.Size(184, 23);
+            this.normalButton1.Size = new System.Drawing.Size(74, 23);
             this.normalButton1.TabIndex = 2;
-            this.normalButton1.Text = "normalButton1";
+            this.normalButton1.Text = "Refresh";
             this.normalButton1.UseVisualStyleBackColor = true;
+            this.normalButton1.Click += new System.EventHandler(this.normalButton1_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(83, 30);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(82, 25);
+            this.panel1.TabIndex = 4;
+            // 
+            // normalButton2
+            // 
+            this.normalButton2.FlatAppearance.BorderSize = 0;
+            this.normalButton2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.normalButton2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.normalButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.normalButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
+            this.normalButton2.Location = new System.Drawing.Point(171, 30);
+            this.normalButton2.Name = "normalButton2";
+            this.normalButton2.Size = new System.Drawing.Size(74, 23);
+            this.normalButton2.TabIndex = 3;
+            this.normalButton2.Text = "Delete";
+            this.normalButton2.UseVisualStyleBackColor = true;
             // 
             // treeView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(3, 59);
+            this.treeView1.Location = new System.Drawing.Point(3, 61);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(244, 569);
+            this.treeView1.Size = new System.Drawing.Size(244, 535);
             this.treeView1.TabIndex = 0;
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
             // commonPanel2
             // 
@@ -218,7 +243,6 @@ namespace WindowsFormsApp1.UserControls
             this.flowLayoutPanel1.ResumeLayout(false);
             this.commonPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
-            this.flowLayoutPanel2.PerformLayout();
             this.commonPanel2.ResumeLayout(false);
             this.flowLayoutPanel3.ResumeLayout(false);
             this.tconGraph.ResumeLayout(false);
@@ -242,5 +266,7 @@ namespace WindowsFormsApp1.UserControls
         private System.Windows.Forms.TabPage tpProcess;
         private System.Windows.Forms.TabPage tpMetrics;
         private resources.NormalButton normalButton1;
+        private System.Windows.Forms.Panel panel1;
+        private resources.NormalButton normalButton2;
     }
 }

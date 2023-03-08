@@ -60,5 +60,10 @@ namespace WindowsFormsApp1.UserControls.resources
         {
             return Color.FromArgb(aValue, Color.FromArgb((int)brandColor));
         }
+
+        public static Color GetARGBColor(ColorAlphaValue aValue, GlobalBrandColor brandColor)
+        {
+            return Color.FromArgb((int)aValue, Color.FromArgb((int)brandColor));
+        }
     }
 }

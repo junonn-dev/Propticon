@@ -57,7 +57,7 @@ namespace WindowsFormsApp1
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         StringBuilder filename = new StringBuilder();
-        PCManager[] pcManger = new PCManager[Constants.maxconfig];//.GetInstance(processNames);
+        PCManager[] pcManger = new PCManager[Constants.maxconfig];
         PCManager PCM = new PCManager();
         Thread selectcputhread;
 
@@ -65,15 +65,14 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
 
-            //strPath = System.Reflection.Assembly.GetExecutingAssembly().Location;   //@"\MonitorProcess.ini";
-
+            dateTimePickerEndDate.Value = DateTime.Now;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             //Measure가 Form이 아닌 UserControl이므로 
-            //UserControl을 Form에 사용하면 UserControl 객체가 생성되어
-            //아래 코드를 Design Time에 실행함 -> 오류 발생
+            //개발 중 UserControl을 Form에서 사용하면 Design Time에 UserControl 객체가 생성됨
+            //Design Time에 실행될 필요 없으며, 파일을 직접 다루기 때문에 오류 발생
             //Design Time에는 실행되지 않도록 함
             if (!DesignMode)
             {

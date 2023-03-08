@@ -14,7 +14,6 @@ namespace WindowsFormsApp1.UserControls
         public GraphProcess(GraphViewerDto dto)
         {
             InitializeComponent();
-
             this.dto = dto;
             LoadPlots();
         }
@@ -56,6 +55,8 @@ namespace WindowsFormsApp1.UserControls
             {
                 return;
             }
+            guna2TabControl1.Multiline = true;
+
             foreach (KeyValuePair<string, Dictionary<string, List<float>>> process in dto.yData)
             {
                 //프로세스 이름으로 탭 생성
@@ -71,6 +72,7 @@ namespace WindowsFormsApp1.UserControls
                 guna2TabControl1.TabPages.Add(processName, processName);
                 guna2TabControl1.TabPages[processName].BackColor = Color.White;
                 guna2TabControl1.TabPages[processName].Controls.Add(flp);
+                guna2TabControl1.TabPages[processName].AutoScroll = true;
 
                 //counter 수에 맞게 plot 생성하여 탭 페이지에 추가
                 for (int i = 0; i < dto.counterCount; i++)

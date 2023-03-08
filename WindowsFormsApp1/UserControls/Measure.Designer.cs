@@ -71,17 +71,17 @@
             this.tconProcessTab.Size = new System.Drawing.Size(998, 338);
             this.tconProcessTab.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
             this.tconProcessTab.TabButtonHoverState.FillColor = System.Drawing.Color.White;
-            this.tconProcessTab.TabButtonHoverState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconProcessTab.TabButtonHoverState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconProcessTab.TabButtonHoverState.ForeColor = System.Drawing.Color.Black;
             this.tconProcessTab.TabButtonHoverState.InnerColor = System.Drawing.Color.Transparent;
             this.tconProcessTab.TabButtonIdleState.BorderColor = System.Drawing.Color.Empty;
             this.tconProcessTab.TabButtonIdleState.FillColor = System.Drawing.Color.White;
-            this.tconProcessTab.TabButtonIdleState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconProcessTab.TabButtonIdleState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconProcessTab.TabButtonIdleState.ForeColor = System.Drawing.Color.Gray;
             this.tconProcessTab.TabButtonIdleState.InnerColor = System.Drawing.Color.Transparent;
             this.tconProcessTab.TabButtonSelectedState.BorderColor = System.Drawing.Color.Empty;
             this.tconProcessTab.TabButtonSelectedState.FillColor = System.Drawing.Color.White;
-            this.tconProcessTab.TabButtonSelectedState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconProcessTab.TabButtonSelectedState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconProcessTab.TabButtonSelectedState.ForeColor = System.Drawing.Color.Black;
             this.tconProcessTab.TabButtonSelectedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
             this.tconProcessTab.TabButtonSize = new System.Drawing.Size(95, 27);
@@ -294,9 +294,9 @@
             this.subtitleLabel2.AutoSize = true;
             this.subtitleLabel2.Location = new System.Drawing.Point(2, 2);
             this.subtitleLabel2.Name = "subtitleLabel2";
-            this.subtitleLabel2.Size = new System.Drawing.Size(115, 21);
+            this.subtitleLabel2.Size = new System.Drawing.Size(151, 21);
             this.subtitleLabel2.TabIndex = 0;
-            this.subtitleLabel2.Text = "Period Config";
+            this.subtitleLabel2.Text = "Monitoring Config";
             // 
             // lblStartDateInfo
             // 

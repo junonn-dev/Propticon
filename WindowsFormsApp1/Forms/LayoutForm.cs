@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using WindowsFormsApp1.UserControls.resources;
 
 namespace WindowsFormsApp1.Forms
 {
@@ -16,6 +17,7 @@ namespace WindowsFormsApp1.Forms
             InitializeComponent();
             screenControls = new Dictionary<string, Control>();
             //상단 버튼 이름으로 키 생성
+            screenControls.Add(label1.Name, home1);
             screenControls.Add(label2.Name, measure1);
             screenControls.Add(label3.Name, dataViewer1);
         }
@@ -101,6 +103,11 @@ namespace WindowsFormsApp1.Forms
         private void guna2ImageButton1_MouseEnter(object sender, EventArgs e)
         {
             guna2ImageButton1.BackColor = Color.Red;
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            EnableOneControl(label1.Name);
         }
     }
 }

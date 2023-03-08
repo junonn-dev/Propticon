@@ -38,7 +38,6 @@ namespace WindowsFormsApp1.UserControls
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.commonPanel2 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.subtitleLabel2 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
@@ -46,15 +45,6 @@ namespace WindowsFormsApp1.UserControls
             this.chNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chWorstValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.commonPanel1 = new WindowsFormsApp1.UserControls.resources.CommonPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.subtitleLabel1 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
@@ -71,6 +61,7 @@ namespace WindowsFormsApp1.UserControls
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.subtitleLabel3 = new WindowsFormsApp1.UserControls.resources.SubtitleLabel();
             this.lboxRealTimeLog = new System.Windows.Forms.ListBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this.commonPanel2.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -99,15 +90,6 @@ namespace WindowsFormsApp1.UserControls
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1000, 300);
             this.tableLayoutPanel1.TabIndex = 1;
-            // 
-            // panel1
-            // 
-            this.panel1.AutoScroll = true;
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1000, 300);
-            this.panel1.TabIndex = 5;
             // 
             // commonPanel2
             // 
@@ -145,16 +127,7 @@ namespace WindowsFormsApp1.UserControls
             this.lviewWorstList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chNumber,
             this.chWorstValue,
-            this.chTime,
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5,
-            this.columnHeader6,
-            this.columnHeader7,
-            this.columnHeader8,
-            this.columnHeader9});
+            this.chTime});
             listViewGroup1.Header = "CPU Usage";
             listViewGroup1.Name = "CPU Usage";
             listViewGroup1.Tag = "1";
@@ -195,42 +168,6 @@ namespace WindowsFormsApp1.UserControls
             this.chTime.Text = "Time";
             this.chTime.Width = 192;
             // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "";
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "";
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "";
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "";
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "";
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "";
-            // 
-            // columnHeader7
-            // 
-            this.columnHeader7.Text = "";
-            // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "";
-            // 
-            // columnHeader9
-            // 
-            this.columnHeader9.Text = "";
-            // 
             // commonPanel1
             // 
             this.commonPanel1.Controls.Add(this.flowLayoutPanel1);
@@ -267,7 +204,7 @@ namespace WindowsFormsApp1.UserControls
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.Location = new System.Drawing.Point(3, 33);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(112, 12);
@@ -285,7 +222,7 @@ namespace WindowsFormsApp1.UserControls
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.Location = new System.Drawing.Point(3, 50);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.label2.Name = "label2";
@@ -311,7 +248,7 @@ namespace WindowsFormsApp1.UserControls
             this.dgvStatistics.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.GrayText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGray;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.GrayText;
@@ -326,7 +263,7 @@ namespace WindowsFormsApp1.UserControls
             this.dgvStatistics.Cursor = System.Windows.Forms.Cursors.Default;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Malgun Gothic", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("맑은 고딕", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.GrayText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ActiveBorder;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
@@ -409,6 +346,15 @@ namespace WindowsFormsApp1.UserControls
             this.lboxRealTimeLog.Size = new System.Drawing.Size(326, 264);
             this.lboxRealTimeLog.TabIndex = 0;
             // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1000, 300);
+            this.panel1.TabIndex = 5;
+            // 
             // uscRealTimeProcessView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -440,15 +386,6 @@ namespace WindowsFormsApp1.UserControls
         private System.Windows.Forms.ColumnHeader chNumber;
         private System.Windows.Forms.ColumnHeader chWorstValue;
         private System.Windows.Forms.ColumnHeader chTime;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
-        private System.Windows.Forms.ColumnHeader columnHeader7;
-        private System.Windows.Forms.ColumnHeader columnHeader8;
-        private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.ListBox lboxRealTimeLog;
         private CommonDataGrid dgvStatistics;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCounter;
