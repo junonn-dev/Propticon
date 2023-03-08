@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
-using WindowsFormsApp1.Graph;
+using WindowsFormsApp1.Repository;
 
 namespace WindowsFormsApp1.Forms
 {
@@ -28,11 +28,11 @@ namespace WindowsFormsApp1.Forms
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            LogParser logParser;
+            LogRepository logParser;
             try
             {
                 //임시 예외처리
-                logParser = new LogParser(dtpStart.Value);
+                logParser = new LogRepository(dtpStart.Value);
             }
             catch
             {

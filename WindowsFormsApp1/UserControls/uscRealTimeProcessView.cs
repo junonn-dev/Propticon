@@ -1,15 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApp1.Data;
-using WindowsFormsApp1.CounterItem;
-using static System.Windows.Forms.ListView;
 
 namespace WindowsFormsApp1.UserControls
 {
@@ -21,7 +13,7 @@ namespace WindowsFormsApp1.UserControls
             lviewWorstList.Items.Clear();
         }
 
-        public uscRealTimeProcessView(Form1 form, int PID, string processName) : this()
+        public uscRealTimeProcessView(Measure form, int PID, string processName) : this()
         {
             form.measureEvents[PID] = HandleLogEvent;
             lblPid.Text = PID.ToString();
@@ -59,11 +51,6 @@ namespace WindowsFormsApp1.UserControls
             dgvStatistics.Rows.Add(row4);
 
         }
-
-        //public void SetWorstUpdateEventHandler(WorstList worstList)
-        //{
-        //    worstList.updateEvent += HandleWorstUpdateEvent;
-        //}
 
         public void HandleLogEvent(object sender, DataEventArgs e)
         {

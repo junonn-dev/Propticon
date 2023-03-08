@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using WindowsFormsApp1.Data;
 
 namespace WindowsFormsApp1
 {
     public class Logger
     {
-        //TODO : Log Path 결정, 경로 인식 방법, 이름 규칙
-        private static readonly string baseLogPath = "C:\\Logs\\";
+        private static readonly string baseLogPath = /*"C:\\Logs\\";*/ ConfigurationManager.AppSettings["LogRootDirectory"];
         private static string fileName;
         private static StreamWriter sw;
         private static Queue<KeyValuePair<DateTime, string>> buffer;
         private static readonly int threadPeriod = 2000;
-        private static Form1 mainFormReference;
+        private static Measure mainFormReference;
         private readonly string dateTimeFormat = "yyyy-MM-dd-HH";
         private readonly string logExtensionFormat = ".csv";
 
@@ -34,7 +32,7 @@ namespace WindowsFormsApp1
             StartLogWriteThread();
         }
         private static Logger instance = null;
-        public static Logger GetInstance(Form1 form)
+        public static Logger GetInstance(Measure form)
         {
             if(instance is null)
             {
@@ -133,6 +131,7 @@ namespace WindowsFormsApp1
         private void StartLogWriteThread()
         {
             Thread logWriteThread = new Thread(WriteLog);
+            logWriteThread.IsBackground = true;
             logWriteThread.Start();
         }
 
@@ -153,10 +152,5 @@ namespace WindowsFormsApp1
             return sb.ToString();
         }
 
-
-        public static string GetBaseLogPath()
-        {
-            return baseLogPath;
-        }
     }
 }
