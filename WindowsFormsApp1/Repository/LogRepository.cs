@@ -114,12 +114,18 @@ namespace WindowsFormsApp1.Repository
             StreamReader sr = new StreamReader(filePath);
             string readLine = sr.ReadLine();    //첫 헤더 제거           
 
+            bool readStarted = false;
             readLine = sr.ReadLine();   //값 읽기 시작
             //여기부터 로그 양식에 종속되는 부분, 로그 양식에 따라 수정 해야함
             while (!String.IsNullOrEmpty(readLine) )
             {
                 if(readLine[0] != '[')
                 {
+                    //로그 헤더에 도달했고, readStarted 상태라면 그만 읽고 종료
+                    if (readStarted)
+                    {
+                        break;
+                    }
                     readLine = sr.ReadLine();
                     continue;
                 }
@@ -131,6 +137,12 @@ namespace WindowsFormsApp1.Repository
                 {
                     readLine = sr.ReadLine();
                     continue;
+                }
+                else
+                {
+                    //readStarted = false일 경우는 읽으려는 데이터보다 checkTime이 과거이므로 계속 readLine반복
+                    //readStarted = true일 경우 읽으려는 데이터를 읽기 시작했고, readStart상태에서 그만 읽어야 할 타이밍을 알기 위해 사용
+                    readStarted = true;
                 }
                 times.Add(checkTime);
                 int valuesIndex = 1;
