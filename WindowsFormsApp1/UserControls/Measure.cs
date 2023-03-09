@@ -146,7 +146,8 @@ namespace WindowsFormsApp1
             List<StProcess> stProcesses = new List<StProcess>();
             if (!File.Exists(strPath))
             {
-                File.Create(strPath);
+                FileStream fs =  File.Create(strPath);
+                fs.Close();
                 return;
             }
             ini.Load(strPath);
@@ -594,6 +595,10 @@ namespace WindowsFormsApp1
                     break;
                     //initialMonitorProcess();
                 }
+            }
+            while (logger.IsWorking())
+            {
+                Thread.Sleep(iThreadTime);
             }
             ReportRepository.CreateReport(dtStartDate, dtEndDate, DateTime.Now, sProcess, iProcessMaxCnt, PCM.GetResultSnapshot(pProcess,iProcessMaxCnt));
 

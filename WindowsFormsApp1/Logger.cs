@@ -4,20 +4,22 @@ using System.Configuration;
 using System.IO;
 using System.Text;
 using System.Threading;
+using WindowsFormsApp1.Config;
 using WindowsFormsApp1.Data;
 
 namespace WindowsFormsApp1
 {
     public class Logger
     {
-        private static readonly string baseLogPath = /*"C:\\Logs\\";*/ ConfigurationManager.AppSettings["LogRootDirectory"];
+        private static readonly string baseLogPath = AppConfiguration.logRootDirectory; /*"C:\\Logs\\";*/ //ConfigurationManager.AppSettings["LogRootDirectory"];
         private static string fileName;
-        private static StreamWriter sw;
+        private static StreamWriter streamWriter;
         private static Queue<KeyValuePair<DateTime, string>> buffer;
         private static readonly int threadPeriod = 2000;
         private static Measure mainFormReference;
         private readonly string dateTimeFormat = "yyyy-MM-dd-HH";
         private readonly string logExtensionFormat = ".csv";
+        bool isWriting;
 
         //Singleton
         private Logger() {
@@ -26,9 +28,10 @@ namespace WindowsFormsApp1
                 Directory.CreateDirectory(baseLogPath);
             }
             fileName = DateTime.Now.ToString(dateTimeFormat) +"_"+ logExtensionFormat;
+            isWriting = false;
 
             //임시 객체 초기화
-            sw = StreamWriter.Null;
+            streamWriter = StreamWriter.Null;
             StartLogWriteThread();
         }
         private static Logger instance = null;
@@ -55,7 +58,7 @@ namespace WindowsFormsApp1
         private void WriteLog()
         {
             int emptyTolerance = 0;
-            bool isWriting = true;
+            isWriting = true;
 
             while (true)
             {
@@ -78,7 +81,7 @@ namespace WindowsFormsApp1
                     }
                 }
 
-                lock (sw)
+                lock (streamWriter)
                 {
                     if (isBufferEmpty)
                     {
@@ -87,11 +90,11 @@ namespace WindowsFormsApp1
                             fileName += "closed";
                             try
                             {
-                                sw.Close();
+                                streamWriter.Close();
                             }
                             catch
                             {
-                                //sw close 시도했을 때 이미 close 되었거나 예외 발생하면 그냥 넘어감
+                                //sw close 시도했을 때 이미 close 되었거나 예외 발생
                             }
                             isWriting = false;
                         }
@@ -109,20 +112,20 @@ namespace WindowsFormsApp1
                         fileName = logFileName;
                         try
                         {
-                            sw.Close();
+                            streamWriter.Close();
                         }
                         catch
                         {
 
                         }
 
-                        sw = new StreamWriter(baseLogPath + fileName, true, Encoding.GetEncoding("utf-8"));
-                        sw.WriteLine(GetCurrentLogHeader());
+                        streamWriter = new StreamWriter(baseLogPath + fileName, true, Encoding.GetEncoding("utf-8"));
+                        streamWriter.WriteLine(GetCurrentLogHeader());
                     }
 
                     //close 된 sw는 여기 올 수 없게 끔
-                    sw.WriteLine(log);
-                    sw.Flush();
+                    streamWriter.WriteLine(log);
+                    streamWriter.Flush();
                 }
                 Thread.Sleep(threadPeriod);
             }
@@ -152,5 +155,9 @@ namespace WindowsFormsApp1
             return sb.ToString();
         }
 
+        public bool IsWorking()
+        {
+            return this.isWriting;
+        }
     }
 }
