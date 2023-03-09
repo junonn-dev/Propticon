@@ -63,6 +63,11 @@ namespace WindowsFormsApp1.UserControls
                 string[] manualLabel = { "0", "50", "100" };
                 formsPlot.Plot.YAxis.ManualTickPositions(manualTick, manualLabel);
                 formsPlot.Plot.SetAxisLimitsY(-5, 105);
+                if(dto.xData.Length == 0)
+                {
+                    MessageBox.Show($"측정된 데이터를 불러오지 못했습니다.");
+                    return;
+                }
                 double xMin = dto.xData.Min();
                 double xMax = dto.xData.Max();
                 formsPlot.Plot.SetAxisLimitsX(xMin, xMax);

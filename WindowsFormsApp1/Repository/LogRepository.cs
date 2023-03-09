@@ -116,8 +116,13 @@ namespace WindowsFormsApp1.Repository
 
             readLine = sr.ReadLine();   //값 읽기 시작
             //여기부터 로그 양식에 종속되는 부분, 로그 양식에 따라 수정 해야함
-            while (!String.IsNullOrEmpty(readLine) && readLine[0] =='[' )
+            while (!String.IsNullOrEmpty(readLine) )
             {
+                if(readLine[0] != '[')
+                {
+                    readLine = sr.ReadLine();
+                    continue;
+                }
                 string[] values = readLine.Trim(',').Split(',');
                 char[] trim = { '[', ']' };
                 //로그에서 hh가 아니라 HH로 포맷 지정해야 check time을 제대로 확인 가능함.
