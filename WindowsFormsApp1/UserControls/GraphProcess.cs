@@ -51,12 +51,13 @@ namespace WindowsFormsApp1.UserControls
 
         private void LoadPlots()
         {
-            if(dto == null)
+            if(dto == null || dto.xData.Length ==0)
             {
                 return;
             }
             guna2TabControl1.Multiline = true;
 
+            
             foreach (KeyValuePair<string, Dictionary<string, List<float>>> process in dto.yData)
             {
                 //프로세스 이름으로 탭 생성

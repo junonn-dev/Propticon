@@ -25,7 +25,7 @@ namespace WindowsFormsApp1.UserControls
 
         private void LoadPlots()
         {
-            if (dto == null)
+            if (dto == null || dto.xData.Length == 0)
             {
                 return;
             }

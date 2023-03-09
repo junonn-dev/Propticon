@@ -65,6 +65,11 @@ namespace WindowsFormsApp1.UserControls
                 MessageBox.Show($"프로그램 오류로 인해 Report 기록을 불러오지 못했습니다. ");
                 return;
             }
+            if(dto.xData.Length == 0)
+            {
+                MessageBox.Show($"측정 데이터를 가져오지 못했습니다.");
+                return;
+            }
 
             GraphOverview graphOverview = new GraphOverview(dto);
             tconGraph.TabPages["tpOverview"].Controls.Add(graphOverview);
