@@ -86,7 +86,6 @@
     <Compile Include="Config\AppConfiguration.cs" />
     <Compile Include="CounterItem\BaseCounter.cs" />
     <Compile Include="CounterItem\GdiCounter.cs" />
-    <Compile Include="Data\StatisticsDto.cs" />
     <Compile Include="Repository\ReportRepository.cs" />
     <Compile Include="CounterItem\Counter.cs" />
     <Compile Include="CounterItem\ProcessSet.cs" />

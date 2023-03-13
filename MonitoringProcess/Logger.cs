@@ -11,13 +11,14 @@ namespace MonitorigProcess
 {
     public class Logger
     {
-        private static readonly string baseLogPath = AppConfiguration.logRootDirectory; /*"C:\\Logs\\";*/ //ConfigurationManager.AppSettings["LogRootDirectory"];
+        private static readonly string baseLogPath = AppConfiguration.logRootDirectory; /*"C:\\Logs\\";*/ 
         private static string fileName;
         private static StreamWriter streamWriter;
         private static Queue<KeyValuePair<DateTime, string>> buffer;
         private static readonly int threadPeriod = 2000;
         private static Measure mainFormReference;
-        private readonly string dateTimeFormat = "yyyy-MM-dd-HH";
+        private readonly string logFilenameFormat = AppConfiguration.logFilenameFormat;
+        private readonly string logPartialDirectoryFormat = AppConfiguration.logPartialDirectoryFormat;
         private readonly string logExtensionFormat = ".csv";
         bool isWriting;
 
@@ -27,7 +28,7 @@ namespace MonitorigProcess
             {
                 Directory.CreateDirectory(baseLogPath);
             }
-            fileName = DateTime.Now.ToString(dateTimeFormat) +"_"+ logExtensionFormat;
+            fileName = DateTime.Now.ToString(logFilenameFormat) +"_"+ logExtensionFormat;
             isWriting = false;
 
             //임시 객체 초기화
@@ -57,79 +58,83 @@ namespace MonitorigProcess
 
         private void WriteLog()
         {
-            int emptyTolerance = 0;
-            isWriting = true;
+            //int emptyTolerance = 0;
+
+            string logFileName = "";
+            string log = "";
+            string logDirectory = "";
+            //bool isBufferEmpty = true;
 
             while (true)
             {
-                string logFileName = "";
-                string log = "";
-                bool isBufferEmpty = true;
-                string logTime = "";
-
                 lock (buffer)
                 {
+
+                    //버퍼에 하나 이상 들어왔을 때
                     if (buffer.Count != 0)
                     {
-                        KeyValuePair<DateTime, string> pair = buffer.Dequeue();
-                        logTime = pair.Key.ToString();
-                        logFileName = pair.Key.ToString(dateTimeFormat) + logExtensionFormat;
-                        log = pair.Value;
-                        isBufferEmpty = false;
-                        emptyTolerance = 0;
-                        isWriting = true;
-                    }
-                }
-
-                lock (streamWriter)
-                {
-                    if (isBufferEmpty)
-                    {
-                        if (isWriting && emptyTolerance > 5)
+                        //모니터링 초기 진입 시점
+                        if (isWriting == false)
                         {
-                            fileName += "closed";
-                            try
+                            isWriting = true;
+                            logDirectory = baseLogPath + buffer.Peek().Key.ToString(logPartialDirectoryFormat)+"\\";
+                            if (!Directory.Exists(logDirectory))
                             {
-                                streamWriter.Close();
+                                Directory.CreateDirectory(logDirectory);
                             }
-                            catch
+                        }
+
+                        lock (streamWriter)
+                        {
+                            while (buffer.Count != 0)
                             {
-                                //sw close 시도했을 때 이미 close 되었거나 예외 발생
+                                KeyValuePair<DateTime, string> pair = buffer.Dequeue();
+                                logFileName = pair.Key.ToString(logFilenameFormat) + logExtensionFormat;
+                                log = pair.Value;
+
+                                //시간이 다른 로그 발생 시, 기존 writer는 close, 새 writer 생성
+                                if (fileName != logFileName)
+                                {
+                                    fileName = logFileName;
+                                    try
+                                    {
+                                        streamWriter.Close();
+                                    }
+                                    catch
+                                    {
+
+                                    }
+
+                                    streamWriter = new StreamWriter(logDirectory + fileName, true, Encoding.GetEncoding("utf-8"));
+                                    streamWriter.WriteLine(GetCurrentLogHeader());
+                                }
+
+                                //close 된 sw는 여기 올 수 없게 끔
+                                streamWriter.WriteLine(log);
+                                streamWriter.Flush();
                             }
-                            isWriting = false;
                         }
-                        else
-                        {
-                            emptyTolerance++;
-                        }
-                        Thread.Sleep(threadPeriod);                           
-                        continue;
                     }
-
-                    //시간이 다른 로그 발생 시, 기존 writer는 close, 새 writer 생성
-                    if (fileName != logFileName)
-                    {
-                        fileName = logFileName;
-                        try
-                        {
-                            streamWriter.Close();
-                        }
-                        catch
-                        {
-
-                        }
-
-                        streamWriter = new StreamWriter(baseLogPath + fileName, true, Encoding.GetEncoding("utf-8"));
-                        streamWriter.WriteLine(GetCurrentLogHeader());
-                    }
-
-                    //close 된 sw는 여기 올 수 없게 끔
-                    streamWriter.WriteLine(log);
-                    streamWriter.Flush();
                 }
                 Thread.Sleep(threadPeriod);
+
+                //monitoring 종료 직후 buffer에 남아있는 로그 확인
+                //로그가 남아있다면 종료처리하지 않고 loop 재시작
+                if (isWriting)  //안 쓰고 있을 때 buffer lock 반복 방지
+                {
+                    lock (buffer)
+                    {
+                        if (mainFormReference.bLoopState == false && buffer.Count == 0)
+                        {
+                            fileName = "closed";
+                            streamWriter.Close();
+                            isWriting = false;
+                        }
+                    }
+                }
             }
         }
+        
 
         private void StartLogWriteThread()
         {

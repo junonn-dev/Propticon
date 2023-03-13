@@ -28,6 +28,7 @@ namespace MonitorigProcess
 
         private bool bCheck = false;
         private bool bMonitorStart = false;
+        private bool bStartTimeSet = false;
 
         private string strPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\MonitorProcess.ini";
 
@@ -247,6 +248,7 @@ namespace MonitorigProcess
             lblEndDateInfo.Text = "";
             bMonitorStart = false;
             bLoopState = false;
+            bStartTimeSet = false;
         }
 
         private void UpdateListView()
@@ -700,6 +702,11 @@ namespace MonitorigProcess
         private void fMonitorAllProcess()
         {
             DateTime dTime = DateTime.Now;
+            if (!bStartTimeSet)
+            {
+                dtStartDate = dTime;
+                bStartTimeSet = true;
+            }
             sb.Append($"[{dTime:yyyy/MM/dd HH:mm:ss.FFF}],");
             for (int i = 0; i < iProcessMaxCnt; i++)
             {

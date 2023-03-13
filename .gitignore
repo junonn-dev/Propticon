@@ -9,3 +9,5 @@
 /WindowsFormsApp1/MonitorProcess.ini
 /MonitoringProcess/bin/Release
 /MonitoringProcess/obj
+/MonitoringProcess/bin/Debug
+/.vs
