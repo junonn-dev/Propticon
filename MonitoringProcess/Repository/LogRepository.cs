@@ -10,38 +10,44 @@ namespace MonitorigProcess.Repository
 {
     class LogRepository
     {
-        //private List<DateTime> times = new List<DateTime>();
-        //private Dictionary<string, Dictionary<string, List<float>>> counterValues
-        //= new Dictionary<string, Dictionary<string, List<float>>>();
 
         private string[] counterNames = new string[64];
         private string[] processNames = new string[64];
         private int counterCount = 0;
         private int processCount = 0;
-        
-        /// <summary>
-        /// LogParser의 생성 주기 : 
-        /// 생성자를 통해 주입된 startTime에 해당하는 한 객체만 생성한다.
-        /// 한 LogParser 객체가 여러 Report를 다뤄주지 않는다.
-        /// </summary>
+        private string startTime;
+
         public LogRepository(DateTime startTime)
         {
             InitCountersInfoFromReport(GetReportPath(startTime));
         }
 
-        public LogRepository(string reportXml)
+        /// <summary>
+        /// LogParser의 생성 주기 : 
+        /// 생성자를 통해 주입된 startTime에 해당하는 한 객체만 생성한다.
+        /// 한 LogParser 객체가 여러 Report를 다뤄주지 않는다.
+        /// </summary>
+        /// <param name="reportFilePath">.xml을 포함한 report 파일 전체 경로</param>
+        /// <param name="startTime">.xml을 포함하지 않은 시작 시간 문자열</param>
+        public LogRepository(string reportFilePath, string startTime)
         {
-            InitCountersInfoFromReport(AppConfiguration.reportDirectory + reportXml);
+            this.startTime = startTime;
+            InitCountersInfoFromReport(reportFilePath);
         }
 
-        private void InitCountersInfoFromReport(string filePath)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="reportFilePath">.xml을 포함한 report 파일의 전체 경로</param>
+        /// <exception cref="FileNotFoundException"></exception>
+        private void InitCountersInfoFromReport(string reportFilePath)
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(reportFilePath))
             {
                 throw new FileNotFoundException();
             }
 
-            XElement xElem = XElement.Load(filePath);
+            XElement xElem = XElement.Load(reportFilePath);
 
             IEnumerable<XElement> processes = xElem.Element(ReportRepository.xpProcesses).Elements(ReportRepository.xpProcess);
             processCount = processes.Count();
@@ -93,12 +99,12 @@ namespace MonitorigProcess.Repository
 
         private string GetReportPath(DateTime dateTime)
         {
-            return AppConfiguration.reportDirectory + dateTime.ToString(AppConfiguration.reportFileFormat) + ".xml";
+            return AppConfiguration.logRootDirectory + dateTime.ToString(AppConfiguration.logPartialDirectoryFormat) + dateTime.ToString(AppConfiguration.reportFileFormat) + ".xml";
         }
 
         private string GetLogPath(DateTime dateTime)
         {
-            return AppConfiguration.logRootDirectory + dateTime.ToString("yyyy-MM-dd-HH") + ".csv";
+            return AppConfiguration.logRootDirectory + startTime + "\\" + dateTime.ToString(AppConfiguration.logFilenameFormat)+".csv";
         }
 
         private void GetOneHourLog(DateTime dateTime, ref List<DateTime> times, 
@@ -111,39 +117,27 @@ namespace MonitorigProcess.Repository
                 return;
             }
 
-            StreamReader sr = new StreamReader(filePath);
+            StreamReader sr = null;
+            try
+            {
+                sr = new StreamReader(filePath);
+            }
+            catch
+            {
+                return;
+            }
             string readLine = sr.ReadLine();    //첫 헤더 제거           
 
-            bool readStarted = false;
+            //bool readStarted = false;
             readLine = sr.ReadLine();   //값 읽기 시작
             //여기부터 로그 양식에 종속되는 부분, 로그 양식에 따라 수정 해야함
             while (!String.IsNullOrEmpty(readLine) )
             {
-                if(readLine[0] != '[')
-                {
-                    //로그 헤더에 도달했고, readStarted 상태라면 그만 읽고 종료
-                    if (readStarted)
-                    {
-                        break;
-                    }
-                    readLine = sr.ReadLine();
-                    continue;
-                }
                 string[] values = readLine.Trim(',').Split(',');
                 char[] trim = { '[', ']' };
                 //로그에서 hh가 아니라 HH로 포맷 지정해야 check time을 제대로 확인 가능함.
                 DateTime checkTime = DateTime.Parse(values[0].Trim(trim));  
-                if (checkTime < dateTime)
-                {
-                    readLine = sr.ReadLine();
-                    continue;
-                }
-                else
-                {
-                    //readStarted = false일 경우는 읽으려는 데이터보다 checkTime이 과거이므로 계속 readLine반복
-                    //readStarted = true일 경우 읽으려는 데이터를 읽기 시작했고, readStart상태에서 그만 읽어야 할 타이밍을 알기 위해 사용
-                    readStarted = true;
-                }
+
                 times.Add(checkTime);
                 int valuesIndex = 1;
                 for (int i = 0; i < processCount; i++)
@@ -196,6 +190,7 @@ namespace MonitorigProcess.Repository
 
             DateTime dateTime = startTime;
             
+            //230314 디렉토리기반 로그 정책으로 변경하면, stop 조건 안따져도, 디렉토리 내의 파일만 search하면 된다.
             while(dateTime<stopTime)
             {
                 GetOneHourLog(dateTime, ref times, ref counterValues);

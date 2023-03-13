@@ -37,16 +37,17 @@ namespace MonitorigProcess.UserControls
                 return;
             }
             treeView1.Nodes.Clear();
-            DirectoryInfo info = new DirectoryInfo(AppConfiguration.reportDirectory);
-            FileInfo[] xmlFiles = info.GetFiles("*.xml");
-            TreeNode[] nodes = new TreeNode[xmlFiles.Length];
+            DirectoryInfo info = new DirectoryInfo(AppConfiguration.logRootDirectory);
+            DirectoryInfo[] reportPathes = info.GetDirectories();
+            //FileInfo[] xmlFiles = info.GetFiles("*.xml");
+            TreeNode[] nodes = new TreeNode[reportPathes.Length];
             for (int i = 0; i < nodes.Length; i++)
             {
                 //treeview의 node에서 보여주는 이름은 xml 확장자 제거된 이름
                 //node의 키값(Name)은 .xml 확장자 포함. 즉 파일 이름 그대로를 Name으로 함
-                string showName = xmlFiles[i].Name.Substring(0, xmlFiles[i].Name.Length - 4);
+                string showName = reportPathes[i].Name;
                 TreeNode newNode = new TreeNode(showName);
-                newNode.Name = xmlFiles[i].Name;
+                newNode.Name = reportPathes[i].Name;
                 nodes[i] = newNode;
                 treeView1.Nodes.Add(newNode);
             }

@@ -35,6 +35,36 @@ namespace MonitorigProcess.Repository
         public static readonly string xpAverage = "Average";
         #endregion
 
+        private static string GetReportFileDircetory(DateTime startTime)
+        {
+            return AppConfiguration.logRootDirectory + startTime.ToString(AppConfiguration.logPartialDirectoryFormat) + "\\";
+        }
+
+        private static string GetReportFilePath(DateTime startTime)
+        {
+            return GetReportFileDircetory(startTime) + startTime.ToString(AppConfiguration.reportFileFormat) + ".xml";
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startTime">xml 확장자 포함하지 않은 초단위 문자열</param>
+        /// <returns></returns>
+        private static string GetReportFileDircetory(string startTime)
+        {
+            return AppConfiguration.logRootDirectory + startTime + "\\";
+        }
+
+        /// <summary>
+        /// xml 확장자 포함한 report 파일 전체 경로
+        /// </summary>
+        /// <param name="startTime">xml 확장자 포함하지 않은 초단위 문자열</param>
+        /// <returns></returns>
+        private static string GetReportFilePath(string startTime)
+        {
+            return GetReportFileDircetory(startTime) + DateTime.ParseExact(startTime, AppConfiguration.logPartialDirectoryFormat,CultureInfo.CurrentCulture).ToString(AppConfiguration.reportFileFormat) +".xml";
+        }
+
         /// <summary>
         /// 호출한 시점의 측정 결과를 xml파일로 저장한다.
         /// </summary>
@@ -46,8 +76,6 @@ namespace MonitorigProcess.Repository
         /// <param name="resultSnapshot">한 시점에 측정 결과의 snapshot을 찍은 것</param>
         public static void CreateReport(DateTime startTime, DateTime endTime, DateTime stopTime, StProcess[] processes, int processCount, ResultSnapshot resultSnapshot)
         {
-            Directory.CreateDirectory(AppConfiguration.reportDirectory);
-
             XDocument xdoc = new XDocument(new XDeclaration("1.0", "UTF-8", null));
 
             XElement root = new XElement(xpRoot);
@@ -127,26 +155,25 @@ namespace MonitorigProcess.Repository
 
             root.Add(xmlProcsesses);
 
-            string infoFilePath = AppConfiguration.reportDirectory + startTime.ToString(AppConfiguration.reportFileFormat) + ".xml";
-            xdoc.Save(infoFilePath);
+            Directory.CreateDirectory(GetReportFileDircetory(startTime));
+            xdoc.Save(GetReportFilePath(startTime));
         }
 
         /// <summary>
         /// Report 파일(xml)과 Log 파일(csv)를 파싱하여 GraphViewr에 사용할 Data Transfer Object를 반환함
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="startTime">.xml이 포함되지 않은 report 파일 이름</param>
         /// <returns></returns>
-        public static GraphViewerDto GetGraphViewerInfo(string filename)
+        public static GraphViewerDto GetGraphViewerInfo(string startTime)
         {
-
-            if (string.IsNullOrEmpty(filename))
+            if (string.IsNullOrEmpty(startTime))
             {
                 return null;
             }
 
-            string infoFilePath = AppConfiguration.reportDirectory + filename;
+            string reportFilePath = GetReportFilePath(startTime);
 
-            if (!File.Exists(infoFilePath))
+            if (!File.Exists(reportFilePath))
             {
                 return null;
             }
@@ -155,7 +182,7 @@ namespace MonitorigProcess.Repository
             try
             {
                 //xml parsing start
-                XDocument xdoc = XDocument.Load(infoFilePath);
+                XDocument xdoc = XDocument.Load(reportFilePath);
                 XElement result = xdoc.Root;
 
                 DateTime start = DateTime.ParseExact(result.Element(xpStart).Value, AppConfiguration.xmlDateTimeFormat, CultureInfo.CurrentCulture);
@@ -173,7 +200,7 @@ namespace MonitorigProcess.Repository
                 graphViewerDto.startTime = start.ToString();
                 graphViewerDto.stopTime = stop.ToString();
                 graphViewerDto.processCount = result.Element(xpProcessCount).Value;
-                graphViewerDto.reportFileName = filename;
+                graphViewerDto.reportFileName = startTime;
 
                 graphViewerDto.mostCpuUsedProcess =
                     (from xElem in result.Element(xpProcesses).Elements(xpProcess)
@@ -201,7 +228,7 @@ namespace MonitorigProcess.Repository
             LogRepository logParser;
             try
             {
-                logParser = new LogRepository(filename);
+                logParser = new LogRepository(reportFilePath, startTime);
             }
             catch
             {

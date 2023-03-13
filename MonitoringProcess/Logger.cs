@@ -17,7 +17,7 @@ namespace MonitorigProcess
         private static Queue<KeyValuePair<DateTime, string>> buffer;
         private static readonly int threadPeriod = 2000;
         private static Measure mainFormReference;
-        private readonly string dateTimeFormat = "yyyy-MM-dd-HH";
+        private readonly string logFilenameFormat = AppConfiguration.logFilenameFormat;
         private readonly string logPartialDirectoryFormat = AppConfiguration.logPartialDirectoryFormat;
         private readonly string logExtensionFormat = ".csv";
         bool isWriting;
@@ -28,7 +28,7 @@ namespace MonitorigProcess
             {
                 Directory.CreateDirectory(baseLogPath);
             }
-            fileName = DateTime.Now.ToString(dateTimeFormat) +"_"+ logExtensionFormat;
+            fileName = DateTime.Now.ToString(logFilenameFormat) +"_"+ logExtensionFormat;
             isWriting = false;
 
             //임시 객체 초기화
@@ -89,7 +89,7 @@ namespace MonitorigProcess
                             while (buffer.Count != 0)
                             {
                                 KeyValuePair<DateTime, string> pair = buffer.Dequeue();
-                                logFileName = pair.Key.ToString(dateTimeFormat) + logExtensionFormat;
+                                logFileName = pair.Key.ToString(logFilenameFormat) + logExtensionFormat;
                                 log = pair.Value;
 
                                 //시간이 다른 로그 발생 시, 기존 writer는 close, 새 writer 생성
