@@ -7,6 +7,9 @@ namespace MonitorigProcess.Config
         public static readonly string logRootDirectory =
             ConfigurationManager.AppSettings["LogRootDirectory"];
 
+        public static readonly string logPartialDirectoryFormat =
+            ConfigurationManager.AppSettings["logPartialDirectoryFormat"];
+
         public static readonly string reportDirectory = 
             ConfigurationManager.AppSettings["reportDirectory"];
 
