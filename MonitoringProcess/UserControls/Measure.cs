@@ -285,6 +285,10 @@ namespace MonitorigProcess
             if (iSelected < 0)
                 return;
 
+            if (string.IsNullOrEmpty(sProcessTemp.ProcessName))
+            {
+                return;
+            }
             // 현재 List 같은 것은 예외처리.
             if (listView2.Items.Count != 0)
             {
@@ -320,8 +324,6 @@ namespace MonitorigProcess
             listView2.EndUpdate();
             //listView2.Refresh();
             iProcessMaxCnt++;   // 모니터개수 카운트
-            sProcessTemp.Pid = 0;
-            sProcessTemp.ProcessName = "";
 
             writeConfig();
         }
@@ -376,6 +378,7 @@ namespace MonitorigProcess
                 MessageBox.Show("선택된 프로세스가 없습니다!");
                 return;
             }
+
             if (iProcessMaxCnt > 9)
             {
                 MessageBox.Show("모니터링 최대개수는 10개입니다!!!");
