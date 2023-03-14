@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using MonitorigProcess.Data;
 using System.Linq;
 using System.Drawing;
+using MonitorigProcess.Config;
 
 namespace MonitorigProcess.UserControls
 {
@@ -83,11 +84,12 @@ namespace MonitorigProcess.UserControls
                     flp.Controls.Add(formsPlot);
                 }
 
+                process.Value[AppConfiguration.processMemory].Select(y => (double)y / (1024 * 1024));
                 foreach (KeyValuePair<string, List<float>> counter in process.Value)
                 {
                     string counterName = counter.Key;
 
-                    double[] values = counter.Value.Select(x => (double)x).ToArray();
+                    double[] values = counter.Value.Select(x => Math.Round(x,3)).ToArray();
 
                     FormsPlot plot = (FormsPlot)flp.Controls[counterName];
 

@@ -7,6 +7,9 @@ namespace MonitorigProcess.UserControls
 {
     public partial class uscRealTimeProcessView : UserControl
     {
+        private string cpuGroupName = "CPU Usage";
+        private string memoryGroupName = "Memory Usage";
+
         public uscRealTimeProcessView()
         {
             InitializeComponent();
@@ -62,10 +65,11 @@ namespace MonitorigProcess.UserControls
 
             lviewWorstList.Invoke(new Action(delegate ()
             {
-                parseWorstList(e.processSet.processorTimeCounter.worstList.list, "CPU Usage");
-                parseWorstList(e.processSet.workingSetCounter.worstList.list, "Memory Usage");
+                parseWorstList(e.processSet.processorTimeCounter.worstList.list, cpuGroupName);
+                parseWorstList(e.processSet.workingSetCounter.worstList.list, memoryGroupName);
             }));
 
+            var cpuMin = e.processSet.processorTimeCounter.GetMinValue();
             dgvStatistics.Rows[0].Cells[1].Value = Math.Round(e.processSet.processorTimeCounter.GetMinValue(),3).ToString();
             dgvStatistics.Rows[0].Cells[2].Value = Math.Round(e.processSet.processorTimeCounter.GetMaxValue(),3).ToString();
             dgvStatistics.Rows[0].Cells[3].Value = Math.Round(e.processSet.processorTimeCounter.GetAverage(),3).ToString();
@@ -106,7 +110,15 @@ namespace MonitorigProcess.UserControls
                 }
 
                 id++;
-                string strValue = item.Key.ToString();                
+                string strValue = "";
+                if (groupName == cpuGroupName)
+                {
+                    strValue = Math.Round(item.Key, 3).ToString();
+                }
+                else if(groupName == memoryGroupName)
+                {
+                    strValue = Math.Round(item.Key/(1024*1024), 3).ToString();
+                }
                 lviewWorstList.Items[itemKey].SubItems[1].Text = strValue;
 
                 List<DateTime> times = item.Value;

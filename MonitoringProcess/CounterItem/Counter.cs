@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MonitorigProcess.Config;
+using System;
 using System.Diagnostics;
 
 namespace MonitorigProcess.CounterItem
@@ -19,6 +20,7 @@ namespace MonitorigProcess.CounterItem
             worstList = new WorstList();
             minValue = float.MaxValue;
             maxValue = 0;
+            this.category = category;
         }
 
         /// <summary>

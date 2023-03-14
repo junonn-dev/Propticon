@@ -15,7 +15,7 @@ namespace MonitorigProcess
         private static string fileName;
         private static StreamWriter streamWriter;
         private static Queue<KeyValuePair<DateTime, string>> buffer;
-        private static readonly int threadPeriod = 2000;
+        private static readonly int threadPeriod = 1000;
         private static Measure mainFormReference;
         private readonly string logFilenameFormat = AppConfiguration.logFilenameFormat;
         private readonly string logPartialDirectoryFormat = AppConfiguration.logPartialDirectoryFormat;

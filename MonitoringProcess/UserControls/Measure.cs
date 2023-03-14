@@ -242,13 +242,19 @@ namespace MonitorigProcess
             }
         }
 
-        private void initialMonitorProcess()
+        private async void initialMonitorProcess()
         {
             lblStartDateInfo.Text = "Monitoring Stop";
             lblEndDateInfo.Text = "";
             bMonitorStart = false;
             bLoopState = false;
             bStartTimeSet = false;
+
+            this.BtnMonitorStart.Enabled = false;
+            this.BtnMonitorEnd.Enabled = false;
+            await Task.Run(() => SleepForButtonAsync());
+            this.BtnMonitorStart.Enabled = true;
+            this.BtnMonitorEnd.Enabled = true;
         }
 
         private void UpdateListView()
@@ -570,9 +576,11 @@ namespace MonitorigProcess
             Task selectcputhread = Task.Run((Action)fSelectProcess);
             await selectcputhread;
             initialMonitorProcess();
-            //Thread selectcputhread = new Thread(fSelectProcess);
-
-            //selectcputhread.Start();
+            while (logger != null && logger.IsWorking())
+            {
+                Thread.Sleep(iThreadTime);
+            }
+            ReportRepository.CreateReport(dtStartDate, dtEndDate, DateTime.Now, sProcess, iProcessMaxCnt, PCM.GetResultSnapshot(pProcess, iProcessMaxCnt));
         }
 
         private bool checkDateTime(DateTime dtTime)
@@ -597,16 +605,11 @@ namespace MonitorigProcess
                 Thread.Sleep(iThreadTime);  // Thread 대기 Time
                 if (checkDateTime(dtEndDate))
                 {
+                    
                     break;
-                    //initialMonitorProcess();
                 }
             }
-            while (logger != null && logger.IsWorking() )
-            {
-                Thread.Sleep(iThreadTime);
-            }
-            ReportRepository.CreateReport(dtStartDate, dtEndDate, DateTime.Now, sProcess, iProcessMaxCnt, PCM.GetResultSnapshot(pProcess,iProcessMaxCnt));
-
+            
         }
 
         #region Log Viewer 
@@ -694,9 +697,9 @@ namespace MonitorigProcess
 
         private void BtnMonitorEnd_Click(object sender, EventArgs e)
         {
-            initialMonitorProcess();
             lblStartDateInfo.Text = "";
             lblEndDateInfo.Text = "";
+            initialMonitorProcess();
         }
 
         private void fMonitorAllProcess()
@@ -732,7 +735,7 @@ namespace MonitorigProcess
                     .Append(threadCount.ToString()).Append(",")
                     .Append(handleCount.ToString()).Append(",");
 
-                string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} [{enLogLevel.Info.ToString()}] {sProcess[i].InstanceName} cpu (%): {cpuUsage.ToString()}, mem (MB): {memoryUsage.ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}";
+                string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} [{enLogLevel.Info.ToString()}] {sProcess[i].InstanceName} cpu (%): {Math.Round(cpuUsage,3).ToString()}, mem (MB): {Math.Round(memoryUsage,3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}";
                 ProcessSet processSet = PCM.GetProcessSet(pProcess[i]);
 
                 DataEventArgs args = new DataEventArgs(message, processSet);
@@ -820,7 +823,10 @@ namespace MonitorigProcess
             graphViewer.Show();
         }
 
-
+        private void SleepForButtonAsync()
+        {
+            Thread.Sleep(4000);
+        }
     }
 
 }

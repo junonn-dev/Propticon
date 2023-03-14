@@ -122,7 +122,6 @@ namespace MonitorigProcess.UserControls
             // 
             // normalButton2
             // 
-            this.normalButton2.Enabled = false;
             this.normalButton2.FlatAppearance.BorderSize = 0;
             this.normalButton2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
             this.normalButton2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
@@ -134,6 +133,7 @@ namespace MonitorigProcess.UserControls
             this.normalButton2.TabIndex = 3;
             this.normalButton2.Text = "Delete";
             this.normalButton2.UseVisualStyleBackColor = true;
+            this.normalButton2.Click += new System.EventHandler(this.normalButton2_Click);
             // 
             // treeView1
             // 

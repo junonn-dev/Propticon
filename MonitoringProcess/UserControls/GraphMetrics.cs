@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MonitorigProcess.CounterItem;
 using MonitorigProcess.Data;
+using MonitorigProcess.Config;
 
 namespace MonitorigProcess.UserControls
 {
@@ -59,6 +60,7 @@ namespace MonitorigProcess.UserControls
                 //프로세스 수에 맞게 plot 생성하여 탭 페이지에 추가
                 foreach (KeyValuePair<string, Dictionary<string, List<float>>> process in dto.yData)
                 {
+                    process.Value[AppConfiguration.processMemory].Select(y => (double)y / (1024 * 1024));
                     string processName = process.Key;
 
                     FormsPlot formsPlot = GetCommonPlot(180, 170, processName, processName);
