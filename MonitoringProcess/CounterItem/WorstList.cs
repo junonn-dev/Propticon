@@ -19,6 +19,10 @@ namespace MonitorigProcess.CounterItem
 
         public void CheckRecord(float value, DateTime timeStamp)
         {
+            if(value == 0)
+            {
+                return;
+            }
             if (list.Count < worstCount)
             {
                 if (!list.ContainsKey(value))

@@ -12,9 +12,6 @@ namespace MonitorigProcess.Config
 
         public static readonly string logFilenameFormat =
            ConfigurationManager.AppSettings["logFilenameFormat"];
-        
-        public static readonly string reportDirectory = 
-            ConfigurationManager.AppSettings["reportDirectory"];
 
         public static readonly string reportFileFormat = 
             ConfigurationManager.AppSettings["reportFileFormat"];
@@ -33,5 +30,8 @@ namespace MonitorigProcess.Config
 
         public static readonly string processHandle = 
             ConfigurationManager.AppSettings["processHandle"];
+
+        public static readonly string processGDI =
+            ConfigurationManager.AppSettings["processGDI"];
     }
 }

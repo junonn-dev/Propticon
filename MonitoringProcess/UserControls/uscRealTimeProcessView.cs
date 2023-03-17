@@ -47,11 +47,14 @@ namespace MonitorigProcess.UserControls
             string[] row2 = new string[] { "Memory(MB)", rowDefault, rowDefault, rowDefault };
             string[] row3 = new string[] { "Thread", rowDefault, rowDefault, rowDefault };
             string[] row4 = new string[] { "Handle", rowDefault, rowDefault, rowDefault };
+            string[] row5 = new string[] { "GDI Object", rowDefault, rowDefault, rowDefault };
 
             dgvStatistics.Rows.Add(row1);
             dgvStatistics.Rows.Add(row2);
             dgvStatistics.Rows.Add(row3);
             dgvStatistics.Rows.Add(row4);
+            dgvStatistics.Rows.Add(row5);
+
 
         }
 
@@ -70,7 +73,10 @@ namespace MonitorigProcess.UserControls
             }));
 
             var cpuMin = e.processSet.processorTimeCounter.GetMinValue();
-            dgvStatistics.Rows[0].Cells[1].Value = Math.Round(e.processSet.processorTimeCounter.GetMinValue(),3).ToString();
+            if(cpuMin != float.MaxValue)
+            {
+                dgvStatistics.Rows[0].Cells[1].Value = Math.Round(e.processSet.processorTimeCounter.GetMinValue(), 3).ToString();
+            }
             dgvStatistics.Rows[0].Cells[2].Value = Math.Round(e.processSet.processorTimeCounter.GetMaxValue(),3).ToString();
             dgvStatistics.Rows[0].Cells[3].Value = Math.Round(e.processSet.processorTimeCounter.GetAverage(),3).ToString();
 
@@ -85,6 +91,16 @@ namespace MonitorigProcess.UserControls
             dgvStatistics.Rows[3].Cells[1].Value = e.processSet.handleCountCounter.GetMinValue().ToString();
             dgvStatistics.Rows[3].Cells[2].Value = e.processSet.handleCountCounter.GetMaxValue().ToString();
             dgvStatistics.Rows[3].Cells[3].Value = Math.Round(e.processSet.handleCountCounter.GetAverage()).ToString();
+
+            var gdiMin = e.processSet.gdiCountCounter.GetMinValue();
+            if (gdiMin != float.MaxValue)
+            {
+                dgvStatistics.Rows[4].Cells[1].Value = e.processSet.gdiCountCounter.GetMinValue().ToString();
+            }
+            dgvStatistics.Rows[4].Cells[2].Value = e.processSet.gdiCountCounter.GetMaxValue().ToString();
+            dgvStatistics.Rows[4].Cells[3].Value = Math.Round(e.processSet.gdiCountCounter.GetAverage()).ToString();
+
+
         }
 
         private void parseWorstList(SortedDictionary<float, List<DateTime>> map, string groupName)

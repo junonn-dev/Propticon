@@ -260,6 +260,7 @@ namespace MonitorigProcess
         private void UpdateListView()
         {
             int i = 0;
+            allProc = Process.GetProcesses();
             listView1.BeginUpdate();
             foreach (Process p in allProc)
             {
@@ -370,6 +371,7 @@ namespace MonitorigProcess
         private void BtnRefresh_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
+            UpdateListView();
         }
 
         // listview 선택된 process add
@@ -717,6 +719,7 @@ namespace MonitorigProcess
                 var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i], dTime);
                 var threadCount = PCM.GetProcessThreadCount(pProcess[i]);
                 var handleCount = PCM.GetProcessHandleCount(pProcess[i]);
+                var gdiCount = PCM.GetProcessGdiCount(pProcess[i]);
 
                 memoryUsage /= 1024*1024;    //memory megabyte 변환
 
@@ -733,10 +736,11 @@ namespace MonitorigProcess
                 sb.Append(cpuUsage.ToString()).Append(",")
                     .Append(memoryUsage.ToString()).Append(",")
                     .Append(threadCount.ToString()).Append(",")
-                    .Append(handleCount.ToString()).Append(",");
+                    .Append(handleCount.ToString()).Append(",")
+                    .Append(gdiCount.ToString()).Append(",");
 
-                string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} [{enLogLevel.Info.ToString()}] {sProcess[i].InstanceName} cpu (%): {Math.Round(cpuUsage,3).ToString()}, mem (MB): {Math.Round(memoryUsage,3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}";
-                ProcessSet processSet = PCM.GetProcessSet(pProcess[i]);
+                string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} [{enLogLevel.Info.ToString()}] {sProcess[i].InstanceName} cpu (%): {Math.Round(cpuUsage,3).ToString()}, mem (MB): {Math.Round(memoryUsage,3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
+                ProcessPerformance processSet = PCM.GetProcessSet(pProcess[i]);
 
                 DataEventArgs args = new DataEventArgs(message, processSet);
                 OnRaiseMeasureEvent(pProcess[i].Id, args);

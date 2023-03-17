@@ -27,6 +27,7 @@ namespace MonitorigProcess.Forms
             base.OnLoad(e);
             DisableAllControls();
             EnableOneControl(label2.Name);
+
         }
 
         private void DisableAllControls()

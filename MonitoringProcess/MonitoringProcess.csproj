@@ -86,9 +86,10 @@
     <Compile Include="Config\AppConfiguration.cs" />
     <Compile Include="CounterItem\BaseCounter.cs" />
     <Compile Include="CounterItem\GdiCounter.cs" />
+    <Compile Include="CounterItem\PCPerformance.cs" />
     <Compile Include="Repository\ReportRepository.cs" />
     <Compile Include="CounterItem\Counter.cs" />
-    <Compile Include="CounterItem\ProcessSet.cs" />
+    <Compile Include="CounterItem\ProcessPerformance.cs" />
     <Compile Include="CounterItem\WorstList.cs" />
     <Compile Include="Data\DataEventArgs.cs" />
     <Compile Include="Data\Record.cs" />
@@ -303,6 +304,7 @@
   <ItemGroup>
     <None Include="Resources\close_real_final.png" />
     <None Include="Resources\close_real_final_hover.png" />
+    <None Include="Resources\mainIcon.png" />
     <Content Include="txtHistory.txt" />
   </ItemGroup>
   <ItemGroup />

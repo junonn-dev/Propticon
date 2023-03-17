@@ -8,7 +8,7 @@ namespace MonitoringProcess.CounterItem
 {
     public abstract class BaseCounter
     {
-        protected float minValue;
+        protected float minValue = float.MaxValue;
         protected float maxValue;
         protected double average;
         protected long recordCount;
@@ -22,6 +22,11 @@ namespace MonitoringProcess.CounterItem
             average = (double)((average * recordCount + value)) / (recordCount + 1);
 
             recordCount++;
+
+            if (value == 0)
+            {
+                return;
+            }
 
             if (minValue > value)
             {

@@ -33,7 +33,7 @@ namespace MonitorigProcess.UserControls
 
         private void RefreshReportList()
         {
-            if (!Directory.Exists(AppConfiguration.reportDirectory))
+            if (!Directory.Exists(AppConfiguration.logRootDirectory))
             {
                 return;
             }

@@ -7,10 +7,10 @@ namespace MonitorigProcess.Data
     {
         public string message { get; set; }
 
-        public ProcessSet processSet { get; set; }
+        public ProcessPerformance processSet { get; set; }
 
 
-        public DataEventArgs(string message, ProcessSet processSet)
+        public DataEventArgs(string message, ProcessPerformance processSet)
         {
             this.message = message;
             this.processSet = processSet;

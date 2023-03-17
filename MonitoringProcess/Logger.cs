@@ -155,7 +155,8 @@ namespace MonitorigProcess
                 .Append("cpu_" + sProcess[j].InstanceName).Append(",")
                 .Append("mem_" + sProcess[j].InstanceName).Append(",")
                 .Append("thread_" + sProcess[j].InstanceName).Append(",")
-                .Append("handle_" + sProcess[j].InstanceName).Append(",");
+                .Append("handle_" + sProcess[j].InstanceName).Append(",")
+                .Append("gdi_" + sProcess[j].InstanceName).Append(",");
             }
             return sb.ToString();
         }

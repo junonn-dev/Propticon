@@ -150,6 +150,17 @@ namespace MonitorigProcess.Repository
                     xmlProcess.Add(xmlHandle);
                 }
 
+                {
+                    ResultSnapshot.ResultValues checkingResult =
+                         resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processGDI];
+                    XElement xmlHandle = new XElement(xpHandle,
+                        new XElement(xpMin, checkingResult.minValue),
+                        new XElement(xpMax, checkingResult.maxValue),
+                        new XElement(xpAverage, checkingResult.average));
+
+                    xmlProcess.Add(xmlHandle);
+                }
+
                 xmlProcsesses.Add(xmlProcess);
             }
 
@@ -238,6 +249,13 @@ namespace MonitorigProcess.Repository
 
             double[] xData = data.Item1.Select(time => time.ToOADate()).ToArray();
             Dictionary<string, Dictionary<string, List<float>>> yData = data.Item2;
+            //메모리 데이터는 MB로 변환
+            /// Map 탐색 순서 : processName -> counterName -> value 
+            foreach (var item in yData)
+            {
+                item.Value[AppConfiguration.processMemory].Select(y => (double)y / (1024 * 1024));
+            }
+
             string[] counterNames = logParser.GetCounterNames();
             int counterCount = logParser.GetCounterCount();
 

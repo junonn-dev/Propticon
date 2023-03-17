@@ -24,7 +24,18 @@ namespace MonitoringProcess.CounterItem
 
         public override float GetNextValue()
         {
-            return GetGuiResources(this.process.Handle, 0);
+            float value = -2f;
+            try
+            {
+                value = GetGuiResources(this.process.Handle, 0);
+            }
+            catch
+            {
+                //monitoring 중간 프로세스 종료되면 -2 return
+                return value;
+            }
+            CheckStatisticValue(value);
+            return value;
         }
 
         public GdiCounter()

@@ -11,16 +11,24 @@ namespace MonitorigProcess.CounterItem
         private double average;
         private long recordCount;
         public WorstList worstList { get; set; }
+        private string category;
 
         private PerformanceCounter performanceCounter;
 
         public Counter(string category, string counter, string instance)
         {
-            performanceCounter = new PerformanceCounter(category, counter, instance);
             worstList = new WorstList();
             minValue = float.MaxValue;
             maxValue = 0;
             this.category = category;
+            try
+            {
+                performanceCounter = new PerformanceCounter(category, counter, instance);
+            }
+            catch
+            {
+                performanceCounter = new PerformanceCounter();
+            }
         }
 
         /// <summary>
@@ -66,6 +74,11 @@ namespace MonitorigProcess.CounterItem
             average = (double)((average * recordCount + value)) / (recordCount + 1); 
             
             recordCount++;
+
+            if(value == 0)
+            {
+                return;
+            }
 
             if (minValue > value)
             {
