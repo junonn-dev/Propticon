@@ -304,7 +304,7 @@
   <ItemGroup>
     <None Include="Resources\close_real_final.png" />
     <None Include="Resources\close_real_final_hover.png" />
-    <None Include="Resources\mainIcon.png" />
+    <None Include="Resources\performance_icon.ico" />
     <Content Include="txtHistory.txt" />
   </ItemGroup>
   <ItemGroup />
