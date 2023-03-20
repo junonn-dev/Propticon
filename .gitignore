@@ -11,3 +11,5 @@
 /MonitoringProcess/obj
 /MonitoringProcess/bin/Debug
 /.vs
+/MonitoringProcess/MonitorProcess.ini
+/MonitoringProcess/txtHistory.txt

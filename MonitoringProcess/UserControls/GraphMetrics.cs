@@ -31,9 +31,9 @@ namespace MonitorigProcess.UserControls
                 return;
             }
 
-            for(int i=0;i<dto.counterCount;i++)
+            for(int i=0;i<dto.processCounterCount;i++)
             {
-                string counterName = dto.counterNames[i];
+                string counterName = dto.processCounterNames[i];
                 //카운터 이름으로 탭 생성
                 //tabPage 속에 FlowLayoutPanel 
                 //FlowLayoutPanel 속에 그래프들 들어감
@@ -58,7 +58,7 @@ namespace MonitorigProcess.UserControls
                 }
 
                 //프로세스 수에 맞게 plot 생성하여 탭 페이지에 추가
-                foreach (KeyValuePair<string, Dictionary<string, List<float>>> process in dto.yData)
+                foreach (KeyValuePair<string, Dictionary<string, List<float>>> process in dto.yDataProcessPerformance)
                 {
                     process.Value[AppConfiguration.processMemory].Select(y => (double)y / (1024 * 1024));
                     string processName = process.Key;

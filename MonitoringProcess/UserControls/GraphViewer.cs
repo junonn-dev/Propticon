@@ -68,9 +68,10 @@ namespace MonitorigProcess.UserControls
 
             GraphViewerDto dto = ReportRepository.GetGraphViewerInfo(selectedNode.Name);
 
+            //GetGraphViewerInfo에서 throw 하고 여기에서 catch해서 예외 구분
             if (dto == null)
             {
-                MessageBox.Show($"프로그램 오류로 인해 Report 기록을 불러오지 못했습니다. ");
+                MessageBox.Show($"Report 기록을 불러올 수 없습니다. ");
                 return;
             }
             if (dto.xData.Length == 0)

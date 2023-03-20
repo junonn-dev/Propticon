@@ -17,9 +17,13 @@ namespace MonitorigProcess.Data
         /// <summary>
         /// Map 탐색 순서 : processName -> counterName -> value 
         /// </summary>
-        public Dictionary<string, Dictionary<string, List<float>>> yData { get; set; }
-        public string[] counterNames { get; set; }
-        public int counterCount { get; set; }
+        public Dictionary<string, Dictionary<string, List<float>>> yDataProcessPerformance { get; set; }
+        public Dictionary<string, List<float>> yDataPCPerformance { get; set; }
+        public string[] processCounterNames { get; set; }
+        public int processCounterCount { get; set; }
+
+        public string[] pcCounterNames { get; set; }
+        public int pcCounterCount { get; set; }
 
     }
 }

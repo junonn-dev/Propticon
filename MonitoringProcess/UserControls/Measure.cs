@@ -720,7 +720,7 @@ namespace MonitorigProcess
                 var threadCount = PCM.GetProcessThreadCount(pProcess[i]);
                 var handleCount = PCM.GetProcessHandleCount(pProcess[i]);
                 var gdiCount = PCM.GetProcessGdiCount(pProcess[i]);
-
+                
                 memoryUsage /= 1024*1024;    //memory megabyte 변환
 
                 // 4줄로...
@@ -745,6 +745,12 @@ namespace MonitorigProcess
                 DataEventArgs args = new DataEventArgs(message, processSet);
                 OnRaiseMeasureEvent(pProcess[i].Id, args);
             }
+            var freeSpaces = PCM.GetFreeDiskSpace();
+            foreach (var item in freeSpaces)
+            {
+                sb.Append(item.ToString()).Append(",");
+            }
+
             string strData = sb.ToString();
             logger.Log(sb.ToString(), dTime);
             sb.Clear();

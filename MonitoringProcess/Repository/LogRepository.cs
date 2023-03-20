@@ -11,10 +11,12 @@ namespace MonitorigProcess.Repository
     class LogRepository
     {
 
-        private string[] counterNames = new string[64];
-        private string[] processNames = new string[64];
-        private int counterCount = 0;
+        private string[] processCounterNames = new string[32];
+        private string[] processNames = new string[32];
+        private string[] pcCounterNames = new string[64];
+        private int processCounterCount = 0;
         private int processCount = 0;
+        private int pcCounterCount = 0;
         private string startTime;
 
         public LogRepository(DateTime startTime)
@@ -57,12 +59,17 @@ namespace MonitorigProcess.Repository
                 processNames[i] = processes.ElementAt(i).Element(ReportRepository.xpProcessName).Value;
             }
 
-            //카운터 확장 시 수정해야 하는 부분
-            counterCount = 4;   
-            counterNames[0] = ConfigurationManager.AppSettings["processCPU"];
-            counterNames[1] = ConfigurationManager.AppSettings["processMemory"];
-            counterNames[2] = ConfigurationManager.AppSettings["processThread"];
-            counterNames[3] = ConfigurationManager.AppSettings["processHandle"];
+            processCounterCount = AppConfiguration.processCounterNames.Count;
+            pcCounterCount = AppConfiguration.pcCounterNames.Count;
+
+            for (int i=0; i< processCounterCount; i++)
+            {
+                processCounterNames[i] = AppConfiguration.processCounterNames[i];
+            }
+            for (int i = 0; i < pcCounterCount; i++)
+            {
+                pcCounterNames[i] = AppConfiguration.pcCounterNames[i];
+            }
         }
 
         //deprecated
@@ -82,10 +89,10 @@ namespace MonitorigProcess.Repository
             foreach (var column in columns)
             {
                 var counterAndProcess = column.Split('_');
-                if (!counterNames.Contains(counterAndProcess[0]))
+                if (!processCounterNames.Contains(counterAndProcess[0]))
                 {
-                    counterNames[counterCount] = counterAndProcess[0];
-                    counterCount++;
+                    processCounterNames[processCounterCount] = counterAndProcess[0];
+                    processCounterCount++;
                 }
                 if (!processNames.Contains(counterAndProcess[1]))
                 {
@@ -108,7 +115,7 @@ namespace MonitorigProcess.Repository
         }
 
         private void GetOneHourLog(DateTime dateTime, ref List<DateTime> times, 
-            ref Dictionary<string, Dictionary<string, List<float>>> counterValues)
+            ref Dictionary<string, Dictionary<string, List<float>>> processCounterValues, ref Dictionary<string, List<float>> pcCounterValues)
         {
             string filePath = GetLogPath(dateTime);
 
@@ -143,12 +150,16 @@ namespace MonitorigProcess.Repository
                 for (int i = 0; i < processCount; i++)
                 {
                     string processName = processNames.ElementAt(i);
-                    for (int j = 0; j < counterCount; j++)
+                    for (int j = 0; j < processCounterCount; j++)
                     {
                         float valueToInsert = float.Parse(values[valuesIndex]);
                         valuesIndex++;
-                        counterValues[processNames[i]][counterNames[j]].Add(valueToInsert);
+                        processCounterValues[processNames[i]][processCounterNames[j]].Add(valueToInsert);
                     }
+                }
+                for (int i = 0; i < pcCounterCount; i++)
+                {
+                    pcCounterValues[pcCounterNames[i]].Add(float.Parse(values[valuesIndex]));
                 }
                 readLine = sr.ReadLine();
             }
@@ -163,29 +174,36 @@ namespace MonitorigProcess.Repository
         /// <returns>
         /// x축과 y축을 표현할 값들을 Tuple로 반환
         /// x축 : 시간값
-        /// y축 : 프로세스이름 -> 카운터이름 -> 측정 값 순으로 매핑
+        /// y축 1 : 프로세스이름 -> 카운터이름 -> 측정 값 순으로 매핑
+        /// y축 2 : 카운터이름 -> 측정 값 순 매핑 (프로세스에 종속되지 않는 카운터)
         /// </returns>
-        public Tuple<List<DateTime>, Dictionary<string, Dictionary<string, List<float>>>> GetHoursLog(DateTime startTime, DateTime stopTime)
+        public Tuple<List<DateTime>, Dictionary<string, Dictionary<string, List<float>>>, Dictionary<string, List<float>>> GetHoursLog(DateTime startTime, DateTime stopTime)
         {
             List<DateTime> times = new List<DateTime>();
-            Dictionary<string, Dictionary<string, List<float>>> counterValues
+            Dictionary<string, Dictionary<string, List<float>>> processCounterValues
             = new Dictionary<string, Dictionary<string, List<float>>>();
+            Dictionary<string, List<float>> pcCounterValues = new Dictionary<string, List<float>>();
 
             for (int i = 0; i < processCount; i++)
             {
                 //process이름으로 키값 생성
-                counterValues.Add(processNames[i], new Dictionary<string, List<float>>());
-                for (int j = 0; j < counterCount; j++)
+                processCounterValues.Add(processNames[i], new Dictionary<string, List<float>>());
+                for (int j = 0; j < processCounterCount; j++)
                 {
                     //생성된 process 이름으로 검색하여, 카운터이름 키값 생성
-                    counterValues[processNames[i]].Add(counterNames[j], new List<float>());
+                    processCounterValues[processNames[i]].Add(processCounterNames[j], new List<float>());
+                }
+                for (int j = 0; j < pcCounterCount; j++)
+                {
+                    //프로세스에 종속되지 않는 카운터에 대한 맵 초기화
+                    pcCounterValues[pcCounterNames[j]] = new List<float>();
                 }
             }
 
             //시작, 종료 잘못 입력한 경우
             if (startTime >= stopTime)
             {
-                return new Tuple<List<DateTime>, Dictionary<string, Dictionary<string, List<float>>>>(times, counterValues);
+                return new Tuple<List<DateTime>, Dictionary<string, Dictionary<string, List<float>>>, Dictionary<string, List<float>>>(times, processCounterValues, pcCounterValues);
             }
 
             DateTime dateTime = startTime;
@@ -193,7 +211,7 @@ namespace MonitorigProcess.Repository
             //230314 디렉토리기반 로그 정책으로 변경하면, stop 조건 안따져도, 디렉토리 내의 파일만 search하면 된다.
             while(dateTime<stopTime)
             {
-                GetOneHourLog(dateTime, ref times, ref counterValues);
+                GetOneHourLog(dateTime, ref times, ref processCounterValues, ref pcCounterValues);
                 //dateTime은 가장 처음에 startTime과 동일하게 들어가서
                 //log의 초기 시작점을 찾아야 한다.
                 //GetOneHourLog에 첫 1회 이용된 이후 dateTime은 분, 초가 초기화되어,
@@ -202,16 +220,26 @@ namespace MonitorigProcess.Repository
                 dateTime = dateTime.AddHours(1);
             }
             
-            return new Tuple<List<DateTime>, Dictionary<string, Dictionary<string, List<float>>>>(times, counterValues);
+            return new Tuple<List<DateTime>, Dictionary<string, Dictionary<string, List<float>>>, Dictionary<string, List<float>>>(times, processCounterValues, pcCounterValues);
         }
 
-        public string[] GetCounterNames()
+        public string[] GetProcessCounterNames()
         {
-            return counterNames;
+            return processCounterNames;
         }
-        public int GetCounterCount()
+        public int GetProcessCounterCount()
         {
-            return counterCount;
+            return processCounterCount;
         }
+
+        public string[] GetPCCounterNames()
+        {
+            return pcCounterNames;
+        }
+        public int GetPCCounterCount()
+        {
+            return pcCounterCount;
+        }
+
     }
 }

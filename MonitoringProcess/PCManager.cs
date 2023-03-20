@@ -16,7 +16,7 @@ namespace MonitorigProcess
         private Dictionary<int, ProcessPerformance> mapProcessPerformance;
         private Dictionary<string, PCPerformance> mapPCPerformance;
 
-        public Dictionary<string, float> mapFreeSpaceCurrentValue { get; set; }
+        public List<float> FreeSpaceCurrentValues { get; set; }
 
         /// <summary>
         /// 내부 필드 초기화만 함, PCManager 생성 후 InitProcessMonitor 호출하여 프로세스 지정해야 함
@@ -25,7 +25,7 @@ namespace MonitorigProcess
         {
             mapProcessPerformance = new Dictionary<int, ProcessPerformance>();
             mapPCPerformance = new Dictionary<string, PCPerformance>();
-            mapFreeSpaceCurrentValue = new Dictionary<string, float>();
+            FreeSpaceCurrentValues = new List<float>();
 
             //PC의 disk를 가져와서 각 Disk이름에 해당하는 PCPerformance를 초기화 (ex. C:, D:)
             IEnumerable<string> disks = new PerformanceCounterCategory("LogicalDisk").GetInstanceNames().TakeWhile(str => str.Contains(":")) ;
@@ -180,13 +180,14 @@ namespace MonitorigProcess
             return (int)mapProcessPerformance[process.Id].gdiCountCounter.GetNextValue();
         }
 
-        public Dictionary<string, float> GetFreeDiskSpace()
+        public List<float> GetFreeDiskSpace()
         {
+            FreeSpaceCurrentValues.Clear();
             foreach (var item in mapPCPerformance)
             {
-                mapFreeSpaceCurrentValue[item.Key] = item.Value.FreeDiskSpace.GetNextValue();
+                FreeSpaceCurrentValues.Add(item.Value.FreeDiskSpace.GetNextValue());
             }
-            return mapFreeSpaceCurrentValue;
+            return FreeSpaceCurrentValues;
         }
 
     }

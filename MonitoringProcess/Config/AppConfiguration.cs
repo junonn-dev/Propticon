@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
+using System.Linq;
 
 namespace MonitorigProcess.Config
 {
@@ -33,5 +36,18 @@ namespace MonitorigProcess.Config
 
         public static readonly string processGDI =
             ConfigurationManager.AppSettings["processGDI"];
+
+        public static readonly List<string> processCounterNames = new List<string>
+        {
+            ConfigurationManager.AppSettings["processCPU"],
+            ConfigurationManager.AppSettings["processMemory"],
+            ConfigurationManager.AppSettings["processThread"],
+            ConfigurationManager.AppSettings["processHandle"],
+            ConfigurationManager.AppSettings["processGDI"],
+        };
+
+        public static readonly List<string> pcCounterNames 
+            = new List<string>(new PerformanceCounterCategory("LogicalDisk").GetInstanceNames().TakeWhile(str => str.Contains(":")));
+
     }
 }
