@@ -101,6 +101,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\FreeDiskSpaceViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\FreeDiskSpaceViewer.Designer.cs">
+      <DependentUpon>FreeDiskSpaceViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\GraphBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -235,6 +241,9 @@
     <Compile Include="UserControls\uscRealTimeProcessView.Designer.cs">
       <DependentUpon>uscRealTimeProcessView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\FreeDiskSpaceViewer.resx">
+      <DependentUpon>FreeDiskSpaceViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\GraphMetrics.resx">
       <DependentUpon>GraphMetrics.cs</DependentUpon>
     </EmbeddedResource>

@@ -64,7 +64,7 @@
             // 
             this.tconProcessTab.Dock = System.Windows.Forms.DockStyle.Top;
             this.tconProcessTab.ItemSize = new System.Drawing.Size(95, 27);
-            this.tconProcessTab.Location = new System.Drawing.Point(1, 261);
+            this.tconProcessTab.Location = new System.Drawing.Point(1, 179);
             this.tconProcessTab.Margin = new System.Windows.Forms.Padding(1);
             this.tconProcessTab.Name = "tconProcessTab";
             this.tconProcessTab.SelectedIndex = 0;
@@ -115,7 +115,7 @@
             this.panel1.Location = new System.Drawing.Point(1, 1);
             this.panel1.Margin = new System.Windows.Forms.Padding(1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(598, 258);
+            this.panel1.Size = new System.Drawing.Size(598, 176);
             this.panel1.TabIndex = 14;
             // 
             // subtitleLabel1
@@ -167,7 +167,7 @@
             this.listView2.HideSelection = false;
             this.listView2.Location = new System.Drawing.Point(364, 53);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(215, 192);
+            this.listView2.Size = new System.Drawing.Size(215, 110);
             this.listView2.TabIndex = 7;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
@@ -203,7 +203,7 @@
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(16, 53);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(292, 192);
+            this.listView1.Size = new System.Drawing.Size(292, 110);
             this.listView1.TabIndex = 6;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -238,7 +238,7 @@
             this.BtnRemove.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.BtnRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnRemove.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
-            this.BtnRemove.Location = new System.Drawing.Point(311, 150);
+            this.BtnRemove.Location = new System.Drawing.Point(311, 105);
             this.BtnRemove.Name = "BtnRemove";
             this.BtnRemove.Size = new System.Drawing.Size(50, 30);
             this.BtnRemove.TabIndex = 5;
@@ -253,7 +253,7 @@
             this.BtnApply.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.BtnApply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnApply.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
-            this.BtnApply.Location = new System.Drawing.Point(311, 119);
+            this.BtnApply.Location = new System.Drawing.Point(311, 74);
             this.BtnApply.Name = "BtnApply";
             this.BtnApply.Size = new System.Drawing.Size(50, 30);
             this.BtnApply.TabIndex = 4;
@@ -276,7 +276,7 @@
             this.commonPanel1.Location = new System.Drawing.Point(601, 1);
             this.commonPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel1.Name = "commonPanel1";
-            this.commonPanel1.Size = new System.Drawing.Size(398, 258);
+            this.commonPanel1.Size = new System.Drawing.Size(398, 176);
             this.commonPanel1.TabIndex = 15;
             // 
             // lblEndDateInfo
@@ -354,7 +354,7 @@
             this.BtnMonitorStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.BtnMonitorStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnMonitorStart.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.BtnMonitorStart.Location = new System.Drawing.Point(151, 222);
+            this.BtnMonitorStart.Location = new System.Drawing.Point(152, 130);
             this.BtnMonitorStart.Name = "BtnMonitorStart";
             this.BtnMonitorStart.Size = new System.Drawing.Size(110, 23);
             this.BtnMonitorStart.TabIndex = 8;
@@ -369,7 +369,7 @@
             this.BtnMonitorEnd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.BtnMonitorEnd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnMonitorEnd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.BtnMonitorEnd.Location = new System.Drawing.Point(267, 222);
+            this.BtnMonitorEnd.Location = new System.Drawing.Point(268, 130);
             this.BtnMonitorEnd.Name = "BtnMonitorEnd";
             this.BtnMonitorEnd.Size = new System.Drawing.Size(111, 23);
             this.BtnMonitorEnd.TabIndex = 9;

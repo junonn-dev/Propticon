@@ -783,7 +783,7 @@ namespace MonitorigProcess
             {
                 return;
             }
-            tconProcessTab.TabPages.Add(strPID, strPID);
+            tconProcessTab.TabPages.Add(strPID, processName);
             tconProcessTab.TabPages[strPID].Margin = new Padding(1);
 
             measureEvents[PID] = null;
@@ -838,5 +838,9 @@ namespace MonitorigProcess
             Thread.Sleep(4000);
         }
     }
+
+    #region disk spaces event
+
+    #endregion
 
 }

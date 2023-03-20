@@ -20,7 +20,6 @@ namespace MonitorigProcess.UserControls
         {
             form.measureEvents[PID] = HandleLogEvent;
             lblPid.Text = PID.ToString();
-            lblProcessName.Text = processName;
 
             dgvStatistics.ColumnCount = 4;
             dgvStatistics.ColumnHeadersVisible = true;
