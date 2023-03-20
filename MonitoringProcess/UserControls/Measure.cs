@@ -12,6 +12,7 @@ using MonitorigProcess.UserControls;
 using static MonitorigProcess.Program;
 using System.IO;
 using MonitorigProcess.Repository;
+using MonitoringProcess.Data;
 
 namespace MonitorigProcess
 {
@@ -720,7 +721,7 @@ namespace MonitorigProcess
                 var threadCount = PCM.GetProcessThreadCount(pProcess[i]);
                 var handleCount = PCM.GetProcessHandleCount(pProcess[i]);
                 var gdiCount = PCM.GetProcessGdiCount(pProcess[i]);
-
+                
                 memoryUsage /= 1024*1024;    //memory megabyte 변환
 
                 // 4줄로...
@@ -742,9 +743,14 @@ namespace MonitorigProcess
                 string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} [{enLogLevel.Info.ToString()}] {sProcess[i].InstanceName} cpu (%): {Math.Round(cpuUsage,3).ToString()}, mem (MB): {Math.Round(memoryUsage,3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
                 ProcessPerformance processSet = PCM.GetProcessSet(pProcess[i]);
 
-                DataEventArgs args = new DataEventArgs(message, processSet);
-                OnRaiseMeasureEvent(pProcess[i].Id, args);
+                OnRaiseProcessMeasureEvent(pProcess[i].Id, new ProcessMeasureEventArgs(message, processSet));
             }
+            var freeSpaces = PCM.GetFreeDiskSpace();
+            foreach (var item in freeSpaces)
+            {
+                sb.Append(item.ToString()).Append(",");
+            }
+            OnRaisePCMeasureEvent(new PCMeasureEventArgs(freeSpaces));
             string strData = sb.ToString();
             logger.Log(sb.ToString(), dTime);
             sb.Clear();
@@ -754,13 +760,13 @@ namespace MonitorigProcess
         //https://stackoverflow.com/questions/2237927/is-there-any-way-to-create-indexed-events-in-c-sharp-or-some-workaround
 
         //public event EventHandler<DataEventArgs> measureEvent;
-        public Dictionary<int, EventHandler<DataEventArgs>> measureEvents = new Dictionary<int, EventHandler<DataEventArgs>>();
+        public Dictionary<int, EventHandler<ProcessMeasureEventArgs>> processMeasureEvents = new Dictionary<int, EventHandler<ProcessMeasureEventArgs>>();
 
 
-        private void OnRaiseMeasureEvent(int PID, DataEventArgs e)
+        private void OnRaiseProcessMeasureEvent(int PID, ProcessMeasureEventArgs e)
         {
 
-            EventHandler<DataEventArgs> eventHandler = measureEvents[PID];
+            EventHandler<ProcessMeasureEventArgs> eventHandler = processMeasureEvents[PID];
 
             if (eventHandler != null)
             {
@@ -777,10 +783,10 @@ namespace MonitorigProcess
             {
                 return;
             }
-            tconProcessTab.TabPages.Add(strPID, strPID);
+            tconProcessTab.TabPages.Add(strPID, processName);
             tconProcessTab.TabPages[strPID].Margin = new Padding(1);
 
-            measureEvents[PID] = null;
+            processMeasureEvents[PID] = null;
             uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this, PID, processName);
             tempUserControl.Dock = DockStyle.Fill;
 
@@ -794,7 +800,7 @@ namespace MonitorigProcess
                 return;
             }
             tconProcessTab.TabPages.RemoveByKey(PID.ToString());
-            measureEvents.Remove(PID);
+            processMeasureEvents.Remove(PID);
         }
 
         private void InitTabControl()
@@ -831,6 +837,20 @@ namespace MonitorigProcess
         {
             Thread.Sleep(4000);
         }
-    }
 
+        #region disk spaces event
+        public EventHandler<PCMeasureEventArgs> pcMeasureEvent;
+
+        private void OnRaisePCMeasureEvent(PCMeasureEventArgs e)
+        {
+            var eventHandler = pcMeasureEvent;
+            if (eventHandler != null)
+            {
+                eventHandler(this, e);
+                //var task = Task.Run(() => eventHandler(this, e));
+                //await task;
+            }
+        }
+        #endregion
+    }
 }

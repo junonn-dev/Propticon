@@ -29,7 +29,8 @@ namespace MonitorigProcess.Repository
         public static readonly string xpMemory = "Memory";
         public static readonly string xpThread = "Thread";
         public static readonly string xpHandle = "Handle";
-        
+        public static readonly string xpGDI = "GDI";
+
         public static readonly string xpMin = "Min";
         public static readonly string xpMax = "Max";
         public static readonly string xpAverage = "Average";
@@ -110,7 +111,7 @@ namespace MonitorigProcess.Repository
                     ResultSnapshot.ResultValues checkingResult = 
                         resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processCPU];
                     XElement xmlCpu = new XElement(xpCPU,
-                        new XElement(xpMin, checkingResult.minValue),
+                        new XElement(xpMin, checkingResult.minValue == float.MaxValue ? 0 : checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
                         new XElement(xpAverage, checkingResult.average));
 
@@ -121,7 +122,7 @@ namespace MonitorigProcess.Repository
                     ResultSnapshot.ResultValues checkingResult =
                          resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processMemory];
                     XElement xmlMemory = new XElement(xpMemory,
-                        new XElement(xpMin, checkingResult.minValue),
+                        new XElement(xpMin, checkingResult.minValue == float.MaxValue ? 0 : checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
                         new XElement(xpAverage, checkingResult.average));
 
@@ -132,7 +133,7 @@ namespace MonitorigProcess.Repository
                     ResultSnapshot.ResultValues checkingResult =
                          resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processThread];
                     XElement xmlThread = new XElement(xpThread,
-                        new XElement(xpMin, checkingResult.minValue),
+                        new XElement(xpMin, checkingResult.minValue == float.MaxValue ? 0 : checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
                         new XElement(xpAverage, checkingResult.average));
 
@@ -143,7 +144,7 @@ namespace MonitorigProcess.Repository
                     ResultSnapshot.ResultValues checkingResult =
                          resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processHandle];
                     XElement xmlHandle = new XElement(xpHandle,
-                        new XElement(xpMin, checkingResult.minValue),
+                        new XElement(xpMin, checkingResult.minValue == float.MaxValue ? 0 : checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
                         new XElement(xpAverage, checkingResult.average));
 
@@ -153,12 +154,12 @@ namespace MonitorigProcess.Repository
                 {
                     ResultSnapshot.ResultValues checkingResult =
                          resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processGDI];
-                    XElement xmlHandle = new XElement(xpHandle,
-                        new XElement(xpMin, checkingResult.minValue),
+                    XElement xmlGDI = new XElement(xpGDI,
+                        new XElement(xpMin, checkingResult.minValue==float.MaxValue?0:checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
                         new XElement(xpAverage, checkingResult.average));
 
-                    xmlProcess.Add(xmlHandle);
+                    xmlProcess.Add(xmlGDI);
                 }
 
                 xmlProcsesses.Add(xmlProcess);
@@ -246,23 +247,24 @@ namespace MonitorigProcess.Repository
                 return null;
             }
             var data = logParser.GetHoursLog(DateTime.Parse(graphViewerDto.startTime), DateTime.Parse(graphViewerDto.stopTime));
-
+            
             double[] xData = data.Item1.Select(time => time.ToOADate()).ToArray();
-            Dictionary<string, Dictionary<string, List<float>>> yData = data.Item2;
+            Dictionary<string, Dictionary<string, List<float>>> yDataProcessPerformance = data.Item2;
+            Dictionary<string, List<float>> yDataPCPerformance = data.Item3;
+
             //메모리 데이터는 MB로 변환
             /// Map 탐색 순서 : processName -> counterName -> value 
-            foreach (var item in yData)
+            foreach (var item in yDataProcessPerformance)
             {
                 item.Value[AppConfiguration.processMemory].Select(y => (double)y / (1024 * 1024));
             }
 
-            string[] counterNames = logParser.GetCounterNames();
-            int counterCount = logParser.GetCounterCount();
-
             graphViewerDto.xData = xData;
-            graphViewerDto.yData = yData;
-            graphViewerDto.counterNames = counterNames;
-            graphViewerDto.counterCount = counterCount;
+            graphViewerDto.yDataProcessPerformance = yDataProcessPerformance;
+            graphViewerDto.processCounterNames = logParser.GetProcessCounterNames();
+            graphViewerDto.processCounterCount = logParser.GetProcessCounterCount();
+            graphViewerDto.pcCounterNames = logParser.GetPCCounterNames();
+            graphViewerDto.pcCounterCount = logParser.GetPCCounterCount();
 
             return graphViewerDto;
         }

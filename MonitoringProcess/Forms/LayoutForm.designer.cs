@@ -34,14 +34,14 @@ namespace MonitorigProcess.Forms
             this.panel1 = new System.Windows.Forms.Panel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.guna2ImageButton1 = new Guna.UI2.WinForms.Guna2ImageButton();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.guna2ContainerControl1 = new Guna.UI2.WinForms.Guna2ContainerControl();
             this.label3 = new MonitorigProcess.UserControls.resources.TitleLabel();
             this.label2 = new MonitorigProcess.UserControls.resources.TitleLabel();
             this.label1 = new MonitorigProcess.UserControls.resources.TitleLabel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.guna2ContainerControl1 = new Guna.UI2.WinForms.Guna2ContainerControl();
-            this.dataViewer1 = new MonitorigProcess.UserControls.GraphViewer();
-            this.measure1 = new MonitorigProcess.Measure();
             this.home1 = new MonitorigProcess.UserControls.Home();
+            this.measure1 = new MonitorigProcess.Measure();
+            this.dataViewer1 = new MonitorigProcess.UserControls.GraphViewer();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -96,6 +96,29 @@ namespace MonitorigProcess.Forms
             this.guna2ImageButton1.Click += new System.EventHandler(this.guna2ImageButton1_Click);
             this.guna2ImageButton1.MouseEnter += new System.EventHandler(this.guna2ImageButton1_MouseEnter);
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.panel1);
+            this.flowLayoutPanel1.Controls.Add(this.guna2ContainerControl1);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 800);
+            this.flowLayoutPanel1.TabIndex = 3;
+            // 
+            // guna2ContainerControl1
+            // 
+            this.guna2ContainerControl1.Controls.Add(this.home1);
+            this.guna2ContainerControl1.Controls.Add(this.measure1);
+            this.guna2ContainerControl1.Controls.Add(this.dataViewer1);
+            this.guna2ContainerControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.guna2ContainerControl1.Location = new System.Drawing.Point(1, 51);
+            this.guna2ContainerControl1.Margin = new System.Windows.Forms.Padding(1);
+            this.guna2ContainerControl1.Name = "guna2ContainerControl1";
+            this.guna2ContainerControl1.Size = new System.Drawing.Size(1000, 748);
+            this.guna2ContainerControl1.TabIndex = 3;
+            this.guna2ContainerControl1.Text = "guna2ContainerControl1";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -132,54 +155,31 @@ namespace MonitorigProcess.Forms
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // flowLayoutPanel1
+            // home1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.panel1);
-            this.flowLayoutPanel1.Controls.Add(this.guna2ContainerControl1);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 650);
-            this.flowLayoutPanel1.TabIndex = 3;
-            // 
-            // guna2ContainerControl1
-            // 
-            this.guna2ContainerControl1.Controls.Add(this.dataViewer1);
-            this.guna2ContainerControl1.Controls.Add(this.measure1);
-            this.guna2ContainerControl1.Controls.Add(this.home1);
-            this.guna2ContainerControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.guna2ContainerControl1.Location = new System.Drawing.Point(1, 51);
-            this.guna2ContainerControl1.Margin = new System.Windows.Forms.Padding(1);
-            this.guna2ContainerControl1.Name = "guna2ContainerControl1";
-            this.guna2ContainerControl1.Size = new System.Drawing.Size(1000, 600);
-            this.guna2ContainerControl1.TabIndex = 3;
-            this.guna2ContainerControl1.Text = "guna2ContainerControl1";
-            // 
-            // dataViewer1
-            // 
-            this.dataViewer1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dataViewer1.Location = new System.Drawing.Point(0, 0);
-            this.dataViewer1.Name = "dataViewer1";
-            this.dataViewer1.Size = new System.Drawing.Size(1000, 600);
-            this.dataViewer1.TabIndex = 3;
+            this.home1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.home1.Location = new System.Drawing.Point(0, 749);
+            this.home1.Name = "home1";
+            this.home1.Size = new System.Drawing.Size(1000, 599);
+            this.home1.TabIndex = 4;
             // 
             // measure1
             // 
             this.measure1.bLoopState = false;
             this.measure1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.measure1.Location = new System.Drawing.Point(0, 599);
+            this.measure1.Location = new System.Drawing.Point(0, 0);
             this.measure1.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.measure1.Name = "measure1";
-            this.measure1.Size = new System.Drawing.Size(1000, 599);
+            this.measure1.Size = new System.Drawing.Size(1000, 749);
             this.measure1.TabIndex = 2;
             // 
-            // home1
+            // dataViewer1
             // 
-            this.home1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.home1.Location = new System.Drawing.Point(0, 0);
-            this.home1.Name = "home1";
-            this.home1.Size = new System.Drawing.Size(1000, 599);
-            this.home1.TabIndex = 4;
+            this.dataViewer1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataViewer1.Location = new System.Drawing.Point(0, 148);
+            this.dataViewer1.Name = "dataViewer1";
+            this.dataViewer1.Size = new System.Drawing.Size(1000, 600);
+            this.dataViewer1.TabIndex = 3;
             // 
             // LayoutForm
             // 
@@ -187,7 +187,7 @@ namespace MonitorigProcess.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(1000, 650);
+            this.ClientSize = new System.Drawing.Size(1000, 800);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -208,7 +208,6 @@ namespace MonitorigProcess.Forms
         private System.Windows.Forms.Panel panel1;
         private MonitorigProcess.UserControls.resources.TitleLabel label3;
         private MonitorigProcess.UserControls.resources.TitleLabel label2;
-        private MonitorigProcess.UserControls.resources.TitleLabel label1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private Measure measure1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
@@ -216,6 +215,7 @@ namespace MonitorigProcess.Forms
         private Guna.UI2.WinForms.Guna2ContainerControl guna2ContainerControl1;
         private UserControls.GraphViewer dataViewer1;
         private UserControls.Home home1;
+        private UserControls.resources.TitleLabel label1;
     }
 }
 

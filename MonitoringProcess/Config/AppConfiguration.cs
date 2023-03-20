@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
+using System.Linq;
 
 namespace MonitorigProcess.Config
 {
@@ -33,5 +36,22 @@ namespace MonitorigProcess.Config
 
         public static readonly string processGDI =
             ConfigurationManager.AppSettings["processGDI"];
+
+        public static readonly List<string> processCounterNames = new List<string>
+        {
+            ConfigurationManager.AppSettings["processCPU"],
+            ConfigurationManager.AppSettings["processMemory"],
+            ConfigurationManager.AppSettings["processThread"],
+            ConfigurationManager.AppSettings["processHandle"],
+            ConfigurationManager.AppSettings["processGDI"],
+        };
+
+        //disk 이름만 관리
+        public static readonly List<string> diskNames = new List<string>(new PerformanceCounterCategory("LogicalDisk").GetInstanceNames().Where(str => str.Contains(":")));
+
+        //not-process-counter인 전체 리스트를 포함
+        public static readonly List<string> pcCounterNames 
+            = new List<string>(diskNames);
+
     }
 }

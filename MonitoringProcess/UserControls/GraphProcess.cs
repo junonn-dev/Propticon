@@ -59,7 +59,7 @@ namespace MonitorigProcess.UserControls
             guna2TabControl1.Multiline = true;
 
             
-            foreach (KeyValuePair<string, Dictionary<string, List<float>>> process in dto.yData)
+            foreach (KeyValuePair<string, Dictionary<string, List<float>>> process in dto.yDataProcessPerformance)
             {
                 //프로세스 이름으로 탭 생성
                 string processName = process.Key;
@@ -77,9 +77,9 @@ namespace MonitorigProcess.UserControls
                 guna2TabControl1.TabPages[processName].AutoScroll = true;
 
                 //counter 수에 맞게 plot 생성하여 탭 페이지에 추가
-                for (int i = 0; i < dto.counterCount; i++)
+                for (int i = 0; i < dto.processCounterCount; i++)
                 {
-                    FormsPlot formsPlot = GetCommonPlot(360, 250, dto.counterNames[i], dto.counterNames[i]);
+                    FormsPlot formsPlot = GetCommonPlot(360, 250, dto.processCounterNames[i], dto.processCounterNames[i]);
 
                     flp.Controls.Add(formsPlot);
                 }

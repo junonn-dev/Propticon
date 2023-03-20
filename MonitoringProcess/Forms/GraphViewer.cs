@@ -45,8 +45,8 @@ namespace MonitorigProcess.Forms
             Dictionary<string, Dictionary<string, List<float>>> yData = data.Item2;
 
             //counter 수에 맞게 테이블 준비
-            string[] counterNames = logParser.GetCounterNames();
-            int counterCount = logParser.GetCounterCount();
+            string[] counterNames = logParser.GetProcessCounterNames();
+            int counterCount = logParser.GetProcessCounterCount();
             for (int i = 0; i < counterCount; i++)
             {
                 this.tlpViewer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent));
