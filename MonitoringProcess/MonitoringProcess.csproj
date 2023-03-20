@@ -87,11 +87,12 @@
     <Compile Include="CounterItem\BaseCounter.cs" />
     <Compile Include="CounterItem\GdiCounter.cs" />
     <Compile Include="CounterItem\PCPerformance.cs" />
+    <Compile Include="Data\PCMeasureEventArgs.cs" />
     <Compile Include="Repository\ReportRepository.cs" />
     <Compile Include="CounterItem\Counter.cs" />
     <Compile Include="CounterItem\ProcessPerformance.cs" />
     <Compile Include="CounterItem\WorstList.cs" />
-    <Compile Include="Data\DataEventArgs.cs" />
+    <Compile Include="Data\ProcessMeasureEventArgs.cs" />
     <Compile Include="Data\Record.cs" />
     <Compile Include="Data\GraphViewerDto.cs" />
     <Compile Include="Data\ResultSnapshot.cs" />

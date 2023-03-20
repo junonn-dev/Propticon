@@ -28,7 +28,7 @@ namespace MonitorigProcess
             FreeSpaceCurrentValues = new List<float>();
 
             //PC의 disk를 가져와서 각 Disk이름에 해당하는 PCPerformance를 초기화 (ex. C:, D:)
-            IEnumerable<string> disks = new PerformanceCounterCategory("LogicalDisk").GetInstanceNames().TakeWhile(str => str.Contains(":")) ;
+            IEnumerable<string> disks = AppConfiguration.diskNames;
             foreach (var item in disks)
             {
                 mapPCPerformance[item] = new PCPerformance(item);

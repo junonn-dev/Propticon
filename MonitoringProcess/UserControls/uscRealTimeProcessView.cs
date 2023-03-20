@@ -18,7 +18,7 @@ namespace MonitorigProcess.UserControls
 
         public uscRealTimeProcessView(Measure form, int PID, string processName) : this()
         {
-            form.measureEvents[PID] = HandleLogEvent;
+            form.processMeasureEvents[PID] = HandleLogEvent;
             lblPid.Text = PID.ToString();
 
             dgvStatistics.ColumnCount = 4;
@@ -57,7 +57,7 @@ namespace MonitorigProcess.UserControls
 
         }
 
-        public void HandleLogEvent(object sender, DataEventArgs e)
+        public void HandleLogEvent(object sender, ProcessMeasureEventArgs e)
         {
             lboxRealTimeLog.Invoke(new Action(delegate () { 
                 lboxRealTimeLog.Items.Insert(0, e.message); 

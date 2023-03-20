@@ -46,8 +46,12 @@ namespace MonitorigProcess.Config
             ConfigurationManager.AppSettings["processGDI"],
         };
 
+        //disk 이름만 관리
+        public static readonly List<string> diskNames = new List<string>(new PerformanceCounterCategory("LogicalDisk").GetInstanceNames().Where(str => str.Contains(":")));
+
+        //not-process-counter인 전체 리스트를 포함
         public static readonly List<string> pcCounterNames 
-            = new List<string>(new PerformanceCounterCategory("LogicalDisk").GetInstanceNames().TakeWhile(str => str.Contains(":")));
+            = new List<string>(diskNames);
 
     }
 }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.commonPanel1 = new MonitorigProcess.UserControls.resources.CommonPanel();
-            this.titleLabel1 = new MonitorigProcess.UserControls.resources.TitleLabel();
+            this.titleLabel1 = new MonitorigProcess.UserControls.resources.SubtitleLabel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.commonPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -81,6 +81,6 @@
 
         private MonitorigProcess.UserControls.resources.CommonPanel commonPanel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private MonitorigProcess.UserControls.resources.TitleLabel titleLabel1;
+        private MonitorigProcess.UserControls.resources.SubtitleLabel titleLabel1;
     }
 }
