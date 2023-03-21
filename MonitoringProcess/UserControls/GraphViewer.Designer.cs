@@ -62,17 +62,16 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 600);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 749);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // commonPanel1
             // 
             this.commonPanel1.Controls.Add(this.flowLayoutPanel2);
-            this.commonPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.commonPanel1.Location = new System.Drawing.Point(0, 1);
             this.commonPanel1.Margin = new System.Windows.Forms.Padding(0, 1, 1, 1);
             this.commonPanel1.Name = "commonPanel1";
-            this.commonPanel1.Size = new System.Drawing.Size(249, 599);
+            this.commonPanel1.Size = new System.Drawing.Size(249, 747);
             this.commonPanel1.TabIndex = 1;
             // 
             // flowLayoutPanel2
@@ -86,7 +85,7 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(249, 599);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(249, 747);
             this.flowLayoutPanel2.TabIndex = 2;
             // 
             // subtitleLabel1
@@ -139,7 +138,7 @@ namespace MonitorigProcess.UserControls
             // 
             this.treeView1.Location = new System.Drawing.Point(3, 61);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(244, 535);
+            this.treeView1.Size = new System.Drawing.Size(244, 684);
             this.treeView1.TabIndex = 0;
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
@@ -150,7 +149,7 @@ namespace MonitorigProcess.UserControls
             this.commonPanel2.Location = new System.Drawing.Point(251, 1);
             this.commonPanel2.Margin = new System.Windows.Forms.Padding(1, 1, 0, 0);
             this.commonPanel2.Name = "commonPanel2";
-            this.commonPanel2.Size = new System.Drawing.Size(749, 599);
+            this.commonPanel2.Size = new System.Drawing.Size(749, 745);
             this.commonPanel2.TabIndex = 2;
             // 
             // flowLayoutPanel3
@@ -161,7 +160,7 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(749, 599);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(749, 745);
             this.flowLayoutPanel3.TabIndex = 1;
             // 
             // subtitleLabel2
@@ -183,7 +182,7 @@ namespace MonitorigProcess.UserControls
             this.tconGraph.Margin = new System.Windows.Forms.Padding(1);
             this.tconGraph.Name = "tconGraph";
             this.tconGraph.SelectedIndex = 0;
-            this.tconGraph.Size = new System.Drawing.Size(747, 570);
+            this.tconGraph.Size = new System.Drawing.Size(747, 716);
             this.tconGraph.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
             this.tconGraph.TabButtonHoverState.FillColor = System.Drawing.Color.White;
             this.tconGraph.TabButtonHoverState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -209,7 +208,7 @@ namespace MonitorigProcess.UserControls
             this.tpOverview.Location = new System.Drawing.Point(4, 31);
             this.tpOverview.Name = "tpOverview";
             this.tpOverview.Padding = new System.Windows.Forms.Padding(3);
-            this.tpOverview.Size = new System.Drawing.Size(739, 535);
+            this.tpOverview.Size = new System.Drawing.Size(739, 681);
             this.tpOverview.TabIndex = 0;
             this.tpOverview.Text = "Overview";
             this.tpOverview.UseVisualStyleBackColor = true;
@@ -240,7 +239,7 @@ namespace MonitorigProcess.UserControls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "GraphViewer";
-            this.Size = new System.Drawing.Size(1000, 600);
+            this.Size = new System.Drawing.Size(1000, 749);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.commonPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);

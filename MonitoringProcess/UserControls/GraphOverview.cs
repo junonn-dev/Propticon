@@ -53,8 +53,8 @@ namespace MonitorigProcess.UserControls
                 formsPlot.Configuration.LockVerticalAxis = true;
                 formsPlot.MouseWheel += FormsPlot_MouseWheel;
                 formsPlot.Margin = new Padding(0);
-                formsPlot.Width = 360;
-                formsPlot.Height = 210;
+                formsPlot.Width = 340;
+                formsPlot.Height = 200;
 
                 formsPlot.Plot.Grid(false);
                 formsPlot.Plot.Title(dto.processCounterNames[i]);

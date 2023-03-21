@@ -46,6 +46,7 @@ namespace MonitorigProcess
 
         public void InitProcessMonitor(IEnumerable<Process> processes)
         {
+            mapProcessPerformance.Clear();
             foreach (Process process in processes)
             {            
                 if (process is null)
@@ -69,19 +70,6 @@ namespace MonitorigProcess
                         new ProcessPerformance(process.Id, process.ProcessName, instanceName));
                 }
             }
-
-            //monitor start/stop 번복 시 map 정보가 바뀜
-            //processes에 기존에 있던 process가 삭제되어 들어오면
-            //그 process의 processPerformance는 map에 계속 남아있게됨.
-            //아래 코드는 선택된 process가 아닌 것을 제거하는 시도(미완성, 230102) 
-            //아래를 주석처리하면 한 번 측정된 프로세스 정보는 프로그램 종료 전까지 map 메모리에 남음.
-            //foreach (KeyValuePair<string, ProcessSet> processSet in mapProcessSet)
-            //{
-            //    if (!processIds.Contains(processSet.Key))
-            //    {
-            //        mapProcessSet.Remove(processSet.Key);
-            //    }
-            //}
         }
 
         public float GetProcessCPUUsage(Process process, DateTime timeStamp)

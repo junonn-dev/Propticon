@@ -63,9 +63,10 @@ namespace MonitorigProcess.UserControls
                     process.Value[AppConfiguration.processMemory].Select(y => (double)y / (1024 * 1024));
                     string processName = process.Key;
 
-                    FormsPlot formsPlot = GetCommonPlot(180, 170, processName, processName);
+                    FormsPlot formsPlot = GetCommonPlot(210, 170, processName, processName);
 
                     flp.Controls.Add(formsPlot);
+                    flp.AutoScroll = true;
 
                     Dictionary<string, List<float>> counters = process.Value;
                     if (!counters.ContainsKey(counterName))

@@ -44,6 +44,7 @@ namespace MonitorigProcess.UserControls
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.Controls.Add(this.label1);
             this.flowLayoutPanel1.Controls.Add(this.contentLabel1);
             this.flowLayoutPanel1.Controls.Add(this.contentLabel2);
@@ -142,14 +143,14 @@ namespace MonitorigProcess.UserControls
             this.lblMostMemoryUsed.TabIndex = 8;
             this.lblMostMemoryUsed.Text = "lblMostMemoryUsed";
             // 
-            // DataOverview
+            // GraphOverview
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(0);
-            this.Name = "DataOverview";
+            this.Name = "GraphOverview";
             this.Size = new System.Drawing.Size(739, 535);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
