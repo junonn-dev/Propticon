@@ -24,7 +24,7 @@ namespace MonitoringProcess.CounterItem
 
         public override float GetNextValue()
         {
-            float value = -2f;
+            float value = 0;
             try
             {
                 value = GetGuiResources(this.process.Handle, 0);

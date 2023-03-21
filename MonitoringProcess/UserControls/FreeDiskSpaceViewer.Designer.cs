@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.commonPanel1 = new MonitorigProcess.UserControls.resources.CommonPanel();
-            this.titleLabel1 = new MonitorigProcess.UserControls.resources.SubtitleLabel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.titleLabel1 = new MonitorigProcess.UserControls.resources.SubtitleLabel();
             this.commonPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -45,14 +45,6 @@
             this.commonPanel1.Size = new System.Drawing.Size(1000, 150);
             this.commonPanel1.TabIndex = 0;
             // 
-            // titleLabel1
-            // 
-            this.titleLabel1.Location = new System.Drawing.Point(3, 0);
-            this.titleLabel1.Name = "titleLabel1";
-            this.titleLabel1.Size = new System.Drawing.Size(994, 25);
-            this.titleLabel1.TabIndex = 0;
-            this.titleLabel1.Text = "Disks Free Space";
-            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.titleLabel1);
@@ -62,6 +54,14 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 150);
             this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // titleLabel1
+            // 
+            this.titleLabel1.Location = new System.Drawing.Point(3, 0);
+            this.titleLabel1.Name = "titleLabel1";
+            this.titleLabel1.Size = new System.Drawing.Size(994, 25);
+            this.titleLabel1.TabIndex = 0;
+            this.titleLabel1.Text = "Disk Space";
             // 
             // FreeDiskSpaceViewer
             // 

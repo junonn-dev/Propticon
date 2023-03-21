@@ -175,10 +175,10 @@ namespace MonitorigProcess.Forms
             // 
             // dataViewer1
             // 
-            this.dataViewer1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dataViewer1.Location = new System.Drawing.Point(0, 148);
+            this.dataViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataViewer1.Location = new System.Drawing.Point(0, 0);
             this.dataViewer1.Name = "dataViewer1";
-            this.dataViewer1.Size = new System.Drawing.Size(1000, 600);
+            this.dataViewer1.Size = new System.Drawing.Size(1000, 748);
             this.dataViewer1.TabIndex = 3;
             // 
             // LayoutForm

@@ -93,23 +93,15 @@ namespace MonitoringProcess.UserControls
                 string diskName = AppConfiguration.diskNames[i];
                 FormsPlot formsPlot = (FormsPlot)this.flowLayoutPanel1.Controls[diskName];
 
-
                 double totalSize = diskTotalSizes[i];
                 double freeSpace = e.FreeDiskSpaceValues[i] * diskTotalSizes[i] / 100;
                 double usedSpace = totalSize - freeSpace;
                 //Free Disk Space = FreeDiskSpace(%) * diskTotalSize /100
-                double[] val = { totalSize,  usedSpace};
-                pies[i].Values = val;
+                pies[i].Values[0] = usedSpace;
+                pies[i].Values[1] = freeSpace;
                 pies[i].DonutLabel = Math.Round(usedSpace / totalSize * 100, 1).ToString() + "%";
                 formsPlot.Plot.XAxis.Label(Math.Round(usedSpace, 1) + "/" + Math.Round(totalSize, 1) + "(GB)", size: 10);
-                if (formsPlot.InvokeRequired)
-                {
-                    formsPlot.Invoke(new Action(formsPlot.Refresh));
-                }
-                else
-                {
-                    formsPlot.Refresh();
-                }
+                //formsPlot.Invoke(new Action(formsPlot.Refresh));
             }
 
 
