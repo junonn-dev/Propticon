@@ -5,12 +5,15 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using MonitorigProcess.Data;
+using ScottPlot.Plottable;
 
 namespace MonitorigProcess.UserControls
 {
     public partial class GraphOverview : UserControl
     {
         public GraphViewerDto dto { get; }
+        private List<FormsPlot> formsPlots = new List<FormsPlot>();
+        private Dictionary<string, List<IPlottable>> processPlotMap = new Dictionary<string, List<IPlottable>>();
 
         public GraphOverview(GraphViewerDto dto) 
         {
@@ -27,6 +30,7 @@ namespace MonitorigProcess.UserControls
             if (!DesignMode)
             {
                 LoadPlots();
+                CreateCheckboxes();
             }
         }
 
@@ -74,12 +78,14 @@ namespace MonitorigProcess.UserControls
                 formsPlot.Plot.SetOuterViewLimits(xMin, xMax, -5, 105);
 
                 this.flowLayoutPanel1.Controls.Add(formsPlot);
+                formsPlots.Add(formsPlot);
             }
 
             //logParser에서 받아온 데이터를 프로세스마다 counter 그래프에 입력
             foreach (var item in dto.yDataProcessPerformance)
             {
-                string insanceName = item.Key;
+                string instanceName = item.Key;
+                processPlotMap[instanceName] = new List<IPlottable>();
 
                 Dictionary<string, List<float>> counters = item.Value;
                 foreach (var counter in counters)
@@ -103,7 +109,8 @@ namespace MonitorigProcess.UserControls
                     
                     try
                     {
-                        plot.Plot.AddSignalXY(dto.xData, ys);
+                        SignalPlotXY signalPlot = plot.Plot.AddSignalXY(dto.xData, ys);
+                        processPlotMap[instanceName].Add(signalPlot);
                     }
                     catch (Exception e)
                     {
@@ -115,5 +122,30 @@ namespace MonitorigProcess.UserControls
             }
         }
 
+        private void CreateCheckboxes()
+        {
+            foreach (var item in processPlotMap)
+            {
+                CheckBox checkBox = new CheckBox();
+                checkBox.Checked = true;
+                checkBox.Text = item.Key;
+                checkBox.AutoSize = true;
+
+                SignalPlotXY plot = item.Value.FirstOrDefault() as SignalPlotXY;
+                checkBox.ForeColor = plot.LineColor;
+                checkBox.CheckStateChanged += CheckBox_CheckStateChanged;
+
+                this.flpProcessCheckBox.Controls.Add(checkBox);
+            }
+        }
+
+        private void CheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            CheckBox checkBox = sender as CheckBox;
+
+            processPlotMap[checkBox.Text].ForEach(plot => plot.IsVisible = checkBox.Checked);
+            
+            formsPlots.ForEach(plot => plot.Refresh());
+        }
     }
 }
