@@ -98,18 +98,26 @@ namespace MonitorigProcess.UserControls
             dgvStatistics.Rows[1].Cells[2].Value = Math.Round(e.processSet.workingSetCounter.GetMaxValue() / (1024 * 1024), 3).ToString();
             dgvStatistics.Rows[1].Cells[3].Value = Math.Round(e.processSet.workingSetCounter.GetAverage() / (1024 * 1024), 3).ToString();
 
-            dgvStatistics.Rows[2].Cells[1].Value = e.processSet.threadCountCounter.GetMinValue().ToString();
+            var threadMin = e.processSet.threadCountCounter.GetMinValue();
+            if (threadMin != float.MaxValue)
+            {
+                dgvStatistics.Rows[2].Cells[1].Value = Math.Round(threadMin, 3).ToString();
+            }
             dgvStatistics.Rows[2].Cells[2].Value = e.processSet.threadCountCounter.GetMaxValue().ToString();
             dgvStatistics.Rows[2].Cells[3].Value = Math.Round(e.processSet.threadCountCounter.GetAverage()).ToString();
 
-            dgvStatistics.Rows[3].Cells[1].Value = e.processSet.handleCountCounter.GetMinValue().ToString();
+            var handleMin = e.processSet.handleCountCounter.GetMinValue();
+            if (handleMin != float.MaxValue)
+            {
+                dgvStatistics.Rows[3].Cells[1].Value = Math.Round(handleMin, 3).ToString();
+            }
             dgvStatistics.Rows[3].Cells[2].Value = e.processSet.handleCountCounter.GetMaxValue().ToString();
             dgvStatistics.Rows[3].Cells[3].Value = Math.Round(e.processSet.handleCountCounter.GetAverage()).ToString();
 
             var gdiMin = e.processSet.gdiCountCounter.GetMinValue();
             if (gdiMin != float.MaxValue)
             {
-                dgvStatistics.Rows[4].Cells[1].Value = e.processSet.gdiCountCounter.GetMinValue().ToString();
+                dgvStatistics.Rows[4].Cells[1].Value = gdiMin.ToString();
             }
             dgvStatistics.Rows[4].Cells[2].Value = e.processSet.gdiCountCounter.GetMaxValue().ToString();
             dgvStatistics.Rows[4].Cells[3].Value = Math.Round(e.processSet.gdiCountCounter.GetAverage()).ToString();
