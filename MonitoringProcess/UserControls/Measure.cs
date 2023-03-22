@@ -31,7 +31,8 @@ namespace MonitorigProcess
         private bool bMonitorStart = false;
         private bool bStartTimeSet = false;
 
-        private string strPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\MonitorProcess.ini";
+        private string strPath = "MonitorProcess.ini";
+        //Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\MonitorProcess.ini";
 
         private PerformanceCounter cpu = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // Total Processor의 정보
         private PerformanceCounter ram = new PerformanceCounter("Memory", "Available MBytes"); // Total Memory 사용량 mb 정보
