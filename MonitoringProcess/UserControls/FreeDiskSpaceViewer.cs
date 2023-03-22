@@ -58,19 +58,19 @@ namespace MonitoringProcess.UserControls
 
                 //각 디스크에 해당하는 Pie준비해서 List<PiePlot>에 추가
                 PiePlot pie = formsPlot.Plot.AddPie(values);
-                var colorBold = ColorPallete.GetARGBColor(ColorAlphaValue.Alpha10, GlobalBrandColor.BrandColor2);
-                var colorLight = ColorPallete.GetARGBColor(ColorAlphaValue.Alpha04, GlobalBrandColor.BrandColor2);
+                double percent = Math.Round(usedSpace / totalSize * 100, 1);
+                pie.DonutLabel = percent.ToString() + "%";
+                var colors = GetSliceFillColors(percent);
+                pie.SliceFillColors = colors;
+                pie.CenterFont.Color = colors[0];
 
                 pie.DonutSize = .66;
-                pie.SliceFillColors = new Color[] { colorBold, colorLight };
-                pie.DonutLabel = Math.Round(usedSpace/totalSize * 100,1).ToString() + "%";
-                pie.CenterFont.Color = colorBold;
                 pie.CenterFont.Size = 17f;
                 pie.ShowLabels = true;
                 pie.Size = .7;
                 pies.Add(pie);
 
-                var fontColor = ColorPallete.GetARGBColor(255, GlobalBrandColor.BasicFontColor);
+                var fontColor = Color.Black;
                 this.flowLayoutPanel1.Controls.Add(formsPlot);
                 
                 //title을 왼쪽정렬 하고 싶다.
@@ -79,8 +79,6 @@ namespace MonitoringProcess.UserControls
                 formsPlot.Refresh();
             }
         }
-
-        
 
         public void HandleLogEvent(object sender, PCMeasureEventArgs e)
         {
@@ -94,16 +92,41 @@ namespace MonitoringProcess.UserControls
                 FormsPlot formsPlot = (FormsPlot)this.flowLayoutPanel1.Controls[diskName];
 
                 double totalSize = diskTotalSizes[i];
+                //Free Disk Space = FreeDiskSpace(%) * diskTotalSize /100
                 double freeSpace = e.FreeDiskSpaceValues[i] * diskTotalSizes[i] / 100;
                 double usedSpace = totalSize - freeSpace;
-                //Free Disk Space = FreeDiskSpace(%) * diskTotalSize /100
+                double percent = Math.Round(usedSpace / totalSize * 100, 1);
+                var colors = GetSliceFillColors(percent);
+
                 pies[i].Values[0] = usedSpace;
                 pies[i].Values[1] = freeSpace;
-                pies[i].DonutLabel = Math.Round(usedSpace / totalSize * 100, 1).ToString() + "%";
-                formsPlot.Plot.XAxis.Label(Math.Round(usedSpace, 1) + "/" + Math.Round(totalSize, 1) + "(GB)", size: 10);
-                //formsPlot.Invoke(new Action(formsPlot.Refresh));
+                pies[i].DonutLabel = percent.ToString() + "%";
+                pies[i].SliceFillColors = colors;
+                pies[i].CenterFont.Color = colors[0];
+                formsPlot.Plot.XAxis.Label(Math.Round(usedSpace, 1) + " / " + Math.Round(totalSize, 1) + "(GB)", size: 10);
+                formsPlot.Invoke(new Action(delegate () { formsPlot.Render(); }));
             }
 
+
+        }
+
+        private Color[] GetSliceFillColors(double diskUsagePercent)
+        {
+            Color originColor = Color.FromArgb((int)GlobalBrandColor.BrandColor2);
+            
+            if (diskUsagePercent>=80 && diskUsagePercent < 90)
+            {
+                originColor = Color.Orange;
+            }
+
+            else if (diskUsagePercent >= 90)
+            {
+                originColor = Color.Red;
+            }
+
+            var colorBold = Color.FromArgb((int)ColorAlphaValue.Alpha10, originColor);
+            var colorLight = Color.FromArgb((int)ColorAlphaValue.Alpha04, originColor);
+            return new Color[] { colorBold, colorLight };
 
         }
 

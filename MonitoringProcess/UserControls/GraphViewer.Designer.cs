@@ -138,7 +138,7 @@ namespace MonitorigProcess.UserControls
             // 
             this.treeView1.Location = new System.Drawing.Point(3, 61);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(244, 684);
+            this.treeView1.Size = new System.Drawing.Size(244, 683);
             this.treeView1.TabIndex = 0;
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
@@ -185,17 +185,17 @@ namespace MonitorigProcess.UserControls
             this.tconGraph.Size = new System.Drawing.Size(747, 716);
             this.tconGraph.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
             this.tconGraph.TabButtonHoverState.FillColor = System.Drawing.Color.White;
-            this.tconGraph.TabButtonHoverState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconGraph.TabButtonHoverState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconGraph.TabButtonHoverState.ForeColor = System.Drawing.Color.Black;
             this.tconGraph.TabButtonHoverState.InnerColor = System.Drawing.Color.Transparent;
             this.tconGraph.TabButtonIdleState.BorderColor = System.Drawing.Color.Empty;
             this.tconGraph.TabButtonIdleState.FillColor = System.Drawing.Color.White;
-            this.tconGraph.TabButtonIdleState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconGraph.TabButtonIdleState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconGraph.TabButtonIdleState.ForeColor = System.Drawing.Color.Gray;
             this.tconGraph.TabButtonIdleState.InnerColor = System.Drawing.Color.Transparent;
             this.tconGraph.TabButtonSelectedState.BorderColor = System.Drawing.Color.Empty;
             this.tconGraph.TabButtonSelectedState.FillColor = System.Drawing.Color.White;
-            this.tconGraph.TabButtonSelectedState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconGraph.TabButtonSelectedState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconGraph.TabButtonSelectedState.ForeColor = System.Drawing.Color.Black;
             this.tconGraph.TabButtonSelectedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
             this.tconGraph.TabButtonSize = new System.Drawing.Size(95, 27);
@@ -218,7 +218,7 @@ namespace MonitorigProcess.UserControls
             this.tpProcess.Location = new System.Drawing.Point(4, 31);
             this.tpProcess.Name = "tpProcess";
             this.tpProcess.Padding = new System.Windows.Forms.Padding(3);
-            this.tpProcess.Size = new System.Drawing.Size(739, 535);
+            this.tpProcess.Size = new System.Drawing.Size(739, 681);
             this.tpProcess.TabIndex = 1;
             this.tpProcess.Text = "Process";
             this.tpProcess.UseVisualStyleBackColor = true;
@@ -228,7 +228,7 @@ namespace MonitorigProcess.UserControls
             this.tpMetrics.Location = new System.Drawing.Point(4, 31);
             this.tpMetrics.Name = "tpMetrics";
             this.tpMetrics.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMetrics.Size = new System.Drawing.Size(739, 535);
+            this.tpMetrics.Size = new System.Drawing.Size(739, 681);
             this.tpMetrics.TabIndex = 2;
             this.tpMetrics.Text = "Metrics";
             this.tpMetrics.UseVisualStyleBackColor = true;

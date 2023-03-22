@@ -12,6 +12,7 @@ namespace MonitorigProcess.CounterItem
         private long recordCount;
         public WorstList worstList { get; set; }
         private string category;
+        private bool isFirstCheck;
 
         private PerformanceCounter performanceCounter;
 
@@ -21,6 +22,7 @@ namespace MonitorigProcess.CounterItem
             minValue = float.MaxValue;
             maxValue = 0;
             this.category = category;
+            isFirstCheck = true;
             try
             {
                 performanceCounter = new PerformanceCounter(category, counter, instance);
@@ -69,6 +71,12 @@ namespace MonitorigProcess.CounterItem
         /// <param name="value"></param>
         protected void CheckStatisticValue(float value)
         {
+            if(isFirstCheck && value == 0)
+            {
+                isFirstCheck = false;
+                return;
+            }
+            isFirstCheck = false;
             //Average계산과 RecordCount 증가 순서 주의,
             //RcordCount 증가 전에 Average 계산 하도록 구현됨 
             average = (double)((average * recordCount + value)) / (recordCount + 1); 

@@ -38,8 +38,6 @@ namespace MonitorigProcess.Forms
             this.guna2ContainerControl1 = new Guna.UI2.WinForms.Guna2ContainerControl();
             this.label3 = new MonitorigProcess.UserControls.resources.TitleLabel();
             this.label2 = new MonitorigProcess.UserControls.resources.TitleLabel();
-            this.label1 = new MonitorigProcess.UserControls.resources.TitleLabel();
-            this.home1 = new MonitorigProcess.UserControls.Home();
             this.measure1 = new MonitorigProcess.Measure();
             this.dataViewer1 = new MonitorigProcess.UserControls.GraphViewer();
             this.panel1.SuspendLayout();
@@ -54,7 +52,6 @@ namespace MonitorigProcess.Forms
             this.panel1.Controls.Add(this.flowLayoutPanel2);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
@@ -108,7 +105,6 @@ namespace MonitorigProcess.Forms
             // 
             // guna2ContainerControl1
             // 
-            this.guna2ContainerControl1.Controls.Add(this.home1);
             this.guna2ContainerControl1.Controls.Add(this.measure1);
             this.guna2ContainerControl1.Controls.Add(this.dataViewer1);
             this.guna2ContainerControl1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -122,7 +118,7 @@ namespace MonitorigProcess.Forms
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(175, 9);
+            this.label3.Location = new System.Drawing.Point(113, 9);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(5);
             this.label3.Size = new System.Drawing.Size(56, 31);
@@ -134,7 +130,7 @@ namespace MonitorigProcess.Forms
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(84, 9);
+            this.label2.Location = new System.Drawing.Point(22, 9);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(5);
             this.label2.Size = new System.Drawing.Size(85, 31);
@@ -142,26 +138,6 @@ namespace MonitorigProcess.Forms
             this.label2.Text = "Measure";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label2.Click += new System.EventHandler(this.label2_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(5);
-            this.label1.Size = new System.Drawing.Size(66, 31);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Home";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // home1
-            // 
-            this.home1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.home1.Location = new System.Drawing.Point(0, 749);
-            this.home1.Name = "home1";
-            this.home1.Size = new System.Drawing.Size(1000, 599);
-            this.home1.TabIndex = 4;
             // 
             // measure1
             // 
@@ -214,8 +190,6 @@ namespace MonitorigProcess.Forms
         private Guna.UI2.WinForms.Guna2ImageButton guna2ImageButton1;
         private Guna.UI2.WinForms.Guna2ContainerControl guna2ContainerControl1;
         private UserControls.GraphViewer dataViewer1;
-        private UserControls.Home home1;
-        private UserControls.resources.TitleLabel label1;
     }
 }
 

@@ -46,7 +46,7 @@
             // guna2TabControl1
             // 
             this.guna2TabControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.guna2TabControl1.ItemSize = new System.Drawing.Size(150, 27);
+            this.guna2TabControl1.ItemSize = new System.Drawing.Size(143, 27);
             this.guna2TabControl1.Location = new System.Drawing.Point(0, 0);
             this.guna2TabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.guna2TabControl1.Name = "guna2TabControl1";
@@ -54,20 +54,20 @@
             this.guna2TabControl1.Size = new System.Drawing.Size(739, 695);
             this.guna2TabControl1.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
             this.guna2TabControl1.TabButtonHoverState.FillColor = System.Drawing.Color.White;
-            this.guna2TabControl1.TabButtonHoverState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.guna2TabControl1.TabButtonHoverState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.guna2TabControl1.TabButtonHoverState.ForeColor = System.Drawing.Color.Black;
             this.guna2TabControl1.TabButtonHoverState.InnerColor = System.Drawing.Color.Transparent;
             this.guna2TabControl1.TabButtonIdleState.BorderColor = System.Drawing.Color.Empty;
             this.guna2TabControl1.TabButtonIdleState.FillColor = System.Drawing.Color.White;
-            this.guna2TabControl1.TabButtonIdleState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.guna2TabControl1.TabButtonIdleState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.guna2TabControl1.TabButtonIdleState.ForeColor = System.Drawing.Color.Gray;
             this.guna2TabControl1.TabButtonIdleState.InnerColor = System.Drawing.Color.Transparent;
             this.guna2TabControl1.TabButtonSelectedState.BorderColor = System.Drawing.Color.Empty;
             this.guna2TabControl1.TabButtonSelectedState.FillColor = System.Drawing.Color.White;
-            this.guna2TabControl1.TabButtonSelectedState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.guna2TabControl1.TabButtonSelectedState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.guna2TabControl1.TabButtonSelectedState.ForeColor = System.Drawing.Color.Black;
             this.guna2TabControl1.TabButtonSelectedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2TabControl1.TabButtonSize = new System.Drawing.Size(150, 27);
+            this.guna2TabControl1.TabButtonSize = new System.Drawing.Size(143, 27);
             this.guna2TabControl1.TabButtonTextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.guna2TabControl1.TabIndex = 1;
             this.guna2TabControl1.TabMenuBackColor = System.Drawing.Color.White;
