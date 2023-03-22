@@ -39,6 +39,7 @@ namespace MonitorigProcess.UserControls
             this.lblProcess = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.lblMostCpuUsed = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.lblMostMemoryUsed = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
+            this.flpProcessCheckBox = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,6 +55,7 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel1.Controls.Add(this.lblProcess);
             this.flowLayoutPanel1.Controls.Add(this.lblMostCpuUsed);
             this.flowLayoutPanel1.Controls.Add(this.lblMostMemoryUsed);
+            this.flowLayoutPanel1.Controls.Add(this.flpProcessCheckBox);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -143,6 +145,13 @@ namespace MonitorigProcess.UserControls
             this.lblMostMemoryUsed.TabIndex = 8;
             this.lblMostMemoryUsed.Text = "lblMostMemoryUsed";
             // 
+            // flpProcessCheckBox
+            // 
+            this.flpProcessCheckBox.Location = new System.Drawing.Point(3, 96);
+            this.flpProcessCheckBox.Name = "flpProcessCheckBox";
+            this.flpProcessCheckBox.Size = new System.Drawing.Size(733, 60);
+            this.flpProcessCheckBox.TabIndex = 10;
+            // 
             // GraphOverview
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -169,5 +178,6 @@ namespace MonitorigProcess.UserControls
         private resources.ContentHeaderLabel lblMostCpuUsed;
         private resources.ContentHeaderLabel lblMostMemoryUsed;
         private resources.ContentHeaderLabel lblProcess;
+        private System.Windows.Forms.FlowLayoutPanel flpProcessCheckBox;
     }
 }
