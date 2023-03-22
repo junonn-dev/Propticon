@@ -34,10 +34,10 @@ namespace MonitorigProcess.Forms
             this.panel1 = new System.Windows.Forms.Panel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.guna2ImageButton1 = new Guna.UI2.WinForms.Guna2ImageButton();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.guna2ContainerControl1 = new Guna.UI2.WinForms.Guna2ContainerControl();
             this.label3 = new MonitorigProcess.UserControls.resources.TitleLabel();
             this.label2 = new MonitorigProcess.UserControls.resources.TitleLabel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.guna2ContainerControl1 = new Guna.UI2.WinForms.Guna2ContainerControl();
             this.measure1 = new MonitorigProcess.Measure();
             this.dataViewer1 = new MonitorigProcess.UserControls.GraphViewer();
             this.panel1.SuspendLayout();
@@ -93,28 +93,6 @@ namespace MonitorigProcess.Forms
             this.guna2ImageButton1.Click += new System.EventHandler(this.guna2ImageButton1_Click);
             this.guna2ImageButton1.MouseEnter += new System.EventHandler(this.guna2ImageButton1_MouseEnter);
             // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Controls.Add(this.panel1);
-            this.flowLayoutPanel1.Controls.Add(this.guna2ContainerControl1);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 800);
-            this.flowLayoutPanel1.TabIndex = 3;
-            // 
-            // guna2ContainerControl1
-            // 
-            this.guna2ContainerControl1.Controls.Add(this.measure1);
-            this.guna2ContainerControl1.Controls.Add(this.dataViewer1);
-            this.guna2ContainerControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.guna2ContainerControl1.Location = new System.Drawing.Point(1, 51);
-            this.guna2ContainerControl1.Margin = new System.Windows.Forms.Padding(1);
-            this.guna2ContainerControl1.Name = "guna2ContainerControl1";
-            this.guna2ContainerControl1.Size = new System.Drawing.Size(1000, 748);
-            this.guna2ContainerControl1.TabIndex = 3;
-            this.guna2ContainerControl1.Text = "guna2ContainerControl1";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -138,6 +116,28 @@ namespace MonitorigProcess.Forms
             this.label2.Text = "Measure";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.panel1);
+            this.flowLayoutPanel1.Controls.Add(this.guna2ContainerControl1);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 800);
+            this.flowLayoutPanel1.TabIndex = 3;
+            // 
+            // guna2ContainerControl1
+            // 
+            this.guna2ContainerControl1.Controls.Add(this.measure1);
+            this.guna2ContainerControl1.Controls.Add(this.dataViewer1);
+            this.guna2ContainerControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.guna2ContainerControl1.Location = new System.Drawing.Point(1, 51);
+            this.guna2ContainerControl1.Margin = new System.Windows.Forms.Padding(1);
+            this.guna2ContainerControl1.Name = "guna2ContainerControl1";
+            this.guna2ContainerControl1.Size = new System.Drawing.Size(1000, 748);
+            this.guna2ContainerControl1.TabIndex = 3;
+            this.guna2ContainerControl1.Text = "guna2ContainerControl1";
             // 
             // measure1
             // 
