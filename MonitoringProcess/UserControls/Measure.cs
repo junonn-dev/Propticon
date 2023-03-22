@@ -477,6 +477,7 @@ namespace MonitorigProcess
                 dtEndDate = DateTime.Now.AddHours(1);
             }
 
+            OnMonitoringStart(new EventArgs());
             Thread.Sleep(1000);  // Thread 대기 Time
             SelectProcessThread();  // 선택 Process CPU 사용량 Check Thread
 
@@ -766,14 +767,7 @@ namespace MonitorigProcess
         private void OnRaiseProcessMeasureEvent(int PID, ProcessMeasureEventArgs e)
         {
 
-            EventHandler<ProcessMeasureEventArgs> eventHandler = processMeasureEvents[PID];
-
-            if (eventHandler != null)
-            {
-                eventHandler(this, e);
-                //var task = Task.Run(() => eventHandler(this, e));
-                //await task;
-            }
+            processMeasureEvents[PID]?.BeginInvoke(this, e,null,null);
         }
 
         private void AddProcessTab(int PID, string processName)
@@ -843,14 +837,18 @@ namespace MonitorigProcess
 
         private void OnRaisePCMeasureEvent(PCMeasureEventArgs e)
         {
-            var eventHandler = pcMeasureEvent;
-            if (eventHandler != null)
-            {
-                eventHandler(this, e);
-                //var task = Task.Run(() => eventHandler(this, e));
-                //await task;
-            }
+            pcMeasureEvent?.BeginInvoke(this, e,null,null);
         }
+        #endregion
+
+        #region Monitoring Start Event
+        public EventHandler<EventArgs> monitoringStartEvent;
+
+        private void OnMonitoringStart(EventArgs e)
+        {
+            monitoringStartEvent?.Invoke(this, e);
+        }
+
         #endregion
     }
 }

@@ -7,9 +7,9 @@ namespace MonitorigProcess.UserControls
 {
     public partial class uscRealTimeProcessView : UserControl
     {
-        private string cpuGroupName = "CPU Usage";
-        private string memoryGroupName = "Memory Usage";
-
+        private readonly string cpuGroupName = "CPU Usage";
+        private readonly string memoryGroupName = "Memory Usage";
+        private readonly string rowDefault = "-";
         public uscRealTimeProcessView()
         {
             InitializeComponent();
@@ -18,6 +18,8 @@ namespace MonitorigProcess.UserControls
 
         public uscRealTimeProcessView(Measure form, int PID, string processName) : this()
         {
+            form.monitoringStartEvent += InitStatisticsView;
+            form.monitoringStartEvent += InitWorstListView;
             form.processMeasureEvents[PID] = HandleLogEvent;
             lblPid.Text = PID.ToString();
 
@@ -41,7 +43,6 @@ namespace MonitorigProcess.UserControls
             dgvStatistics.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
             dgvStatistics.Columns[3].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            string rowDefault = "-";
             string[] row1 = new string[] { "CPU Usage", rowDefault, rowDefault, rowDefault };
             string[] row2 = new string[] { "Memory(MB)", rowDefault, rowDefault, rowDefault };
             string[] row3 = new string[] { "Thread", rowDefault, rowDefault, rowDefault };
@@ -53,8 +54,22 @@ namespace MonitorigProcess.UserControls
             dgvStatistics.Rows.Add(row3);
             dgvStatistics.Rows.Add(row4);
             dgvStatistics.Rows.Add(row5);
+        }
 
+        private void InitStatisticsView(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dgvStatistics.Rows)
+            {
+                for(int i = 1; i < row.Cells.Count; i++)
+                {
+                    row.Cells[i].Value = rowDefault;
+                }
+            }
+        }
 
+        private void InitWorstListView(object sender, EventArgs e)
+        {
+            lviewWorstList.Items.Clear();
         }
 
         public void HandleLogEvent(object sender, ProcessMeasureEventArgs e)
