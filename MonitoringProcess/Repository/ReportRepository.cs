@@ -8,7 +8,8 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using MonitorigProcess.Config;
 using MonitorigProcess.Data;
-using static System.ComponentModel.Design.ObjectSelectorEditor;
+using MonitoringProcess;
+using MonitoringProcess.Exception;
 
 namespace MonitorigProcess.Repository
 {
