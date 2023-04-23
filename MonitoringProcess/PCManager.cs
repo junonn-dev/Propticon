@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using MonitorigProcess.Config;
 using MonitorigProcess.CounterItem;
 using MonitorigProcess.Data;
@@ -13,8 +14,14 @@ namespace MonitorigProcess
 {
     public class PCManager
     {
+        //RAM 크기 가져오는 함수, 8GB, 16GB....
+        [DllImport("kernel32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetPhysicallyInstalledSystemMemory(out long TotalMemoryInKilobytes);
+
+        private long totalPhysicalMemoryMB;
         private Dictionary<int, ProcessPerformance> mapProcessPerformance;
-        private Dictionary<string, PCPerformance> mapPCPerformance;
+        private PCPerformance pcPerformance;
 
         public List<float> FreeSpaceCurrentValues { get; set; }
 
@@ -24,15 +31,12 @@ namespace MonitorigProcess
         public PCManager()
         {
             mapProcessPerformance = new Dictionary<int, ProcessPerformance>();
-            mapPCPerformance = new Dictionary<string, PCPerformance>();
+            pcPerformance = new PCPerformance();
             FreeSpaceCurrentValues = new List<float>();
 
-            //PC의 disk를 가져와서 각 Disk이름에 해당하는 PCPerformance를 초기화 (ex. C:, D:)
-            IEnumerable<string> disks = AppConfiguration.diskNames;
-            foreach (var item in disks)
-            {
-                mapPCPerformance[item] = new PCPerformance(item);
-            }            
+            long ramSizeKB = 0;
+            GetPhysicallyInstalledSystemMemory(out ramSizeKB);
+            totalPhysicalMemoryMB = ramSizeKB / 1024;
         }
 
         /// <summary>
@@ -156,6 +160,16 @@ namespace MonitorigProcess
                     processPerformance.gdiCountCounter.GetAverage());
             }
 
+            resultSnapshot.totalCpuResult = new ResultSnapshot.ResultValues(
+                pcPerformance.TotalCpuUsage.GetMinValue(),
+                pcPerformance.TotalCpuUsage.GetMaxValue(),
+                pcPerformance.TotalCpuUsage.GetAverage());
+
+            resultSnapshot.totalMemoryResult = new ResultSnapshot.ResultValues(
+                totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetMaxValue(),
+                totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetMinValue(),
+                totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetAverage());
+
             return resultSnapshot;
         }
 
@@ -171,11 +185,21 @@ namespace MonitorigProcess
         public List<float> GetFreeDiskSpace()
         {
             FreeSpaceCurrentValues.Clear();
-            foreach (var item in mapPCPerformance)
+            foreach (Counter item in pcPerformance.FreeDiskSpaceCounters)
             {
-                FreeSpaceCurrentValues.Add(item.Value.FreeDiskSpace.GetNextValue());
+                FreeSpaceCurrentValues.Add(item.GetNextValue());
             }
             return FreeSpaceCurrentValues;
+        }
+
+        public float GetTotalCPUUsage(DateTime timeStamp)
+        {
+            return pcPerformance.TotalCpuUsage.GetNextValue(timeStamp);
+        }
+
+        public float GetTotalMemoryUsage(DateTime timeStamp)
+        {
+            return totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetNextValue(timeStamp);
         }
 
     }

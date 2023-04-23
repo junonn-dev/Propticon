@@ -31,7 +31,6 @@ namespace MonitoringProcess.CounterItem
             }
             catch
             {
-                //monitoring 중간 프로세스 종료되면 -2 return
                 return value;
             }
             CheckStatisticValue(value);

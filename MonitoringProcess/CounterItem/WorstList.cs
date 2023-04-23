@@ -11,10 +11,18 @@ namespace MonitorigProcess.CounterItem
 
         public SortedDictionary<float, List<DateTime>> list { get; }
 
-        public WorstList()
+        public WorstList(bool recordWorstAscd)
         {          
-            //내림차순 정렬 위해
-            list = new SortedDictionary<float, List<DateTime>>(Comparer<float>.Create((x, y) => y.CompareTo(x)));
+            if(recordWorstAscd is true)
+            {
+                //SortedDictionary의 Default 정렬 순서는 Ascending
+                list = new SortedDictionary<float, List<DateTime>>();
+            }
+            else
+            {
+                //내림차순 정렬 위해
+                list = new SortedDictionary<float, List<DateTime>>(Comparer<float>.Create((x, y) => y.CompareTo(x)));
+            }
         }
 
         public void CheckRecord(float value, DateTime timeStamp)

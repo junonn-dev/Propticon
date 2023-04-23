@@ -716,6 +716,10 @@ namespace MonitorigProcess
                 bStartTimeSet = true;
             }
             sb.Append($"[{dTime:yyyy/MM/dd HH:mm:ss.FFF}],");
+
+            var totalCpuUsage = PCM.GetTotalCPUUsage(dTime);
+            var totalMemoryUsage = PCM.GetTotalMemoryUsage(dTime);
+
             for (int i = 0; i < iProcessMaxCnt; i++)
             {
                 var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i], dTime);
@@ -742,18 +746,21 @@ namespace MonitorigProcess
                     .Append(handleCount.ToString()).Append(",")
                     .Append(gdiCount.ToString()).Append(",");
 
-                string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} [{enLogLevel.Info.ToString()}] {sProcess[i].InstanceName} cpu (%): {Math.Round(cpuUsage,3).ToString()}, mem (MB): {Math.Round(memoryUsage,3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
+                string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} [{enLogLevel.Info.ToString()}] {sProcess[i].InstanceName} total_cpu(%): {Math.Round(totalCpuUsage, 3)}, total_mem(MB): {Math.Round(totalMemoryUsage, 3)} cpu (%): {Math.Round(cpuUsage,3).ToString()}, mem (MB): {Math.Round(memoryUsage,3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
                 ProcessPerformance processSet = PCM.GetProcessSet(pProcess[i]);
 
                 OnRaiseProcessMeasureEvent(pProcess[i].Id, new ProcessMeasureEventArgs(message, processSet));
             }
+            sb.Append(totalCpuUsage.ToString()).Append(",")
+                .Append(totalMemoryUsage.ToString()).Append(",");
+
             var freeSpaces = PCM.GetFreeDiskSpace();
             foreach (var item in freeSpaces)
             {
                 sb.Append(item.ToString()).Append(",");
             }
             OnRaisePCMeasureEvent(new PCMeasureEventArgs(freeSpaces));
-            string strData = sb.ToString();
+
             logger.Log(sb.ToString(), dTime);
             sb.Clear();
         }

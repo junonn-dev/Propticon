@@ -23,7 +23,7 @@ namespace MonitorigProcess
         private readonly string logPartialDirectoryFormat = AppConfiguration.logPartialDirectoryFormat;
         private readonly string logExtensionFormat = ".csv";
         bool isWriting;
-        private readonly IEnumerable<string> disks;
+        //private readonly IEnumerable<string> disks;
 
         //Singleton
         private Logger() {
@@ -33,7 +33,7 @@ namespace MonitorigProcess
             }
             
             //PC의 disk를 가져와서 각 Disk이름에 해당하는 PCPerformance를 초기화 (ex. C:, D:)
-            disks = new PerformanceCounterCategory("LogicalDisk").GetInstanceNames().TakeWhile(str => str.Contains(":"));
+            //disks = new PerformanceCounterCategory("LogicalDisk").GetInstanceNames().TakeWhile(str => str.Contains(":"));
 
             fileName = DateTime.Now.ToString(logFilenameFormat) +"_"+ logExtensionFormat;
             isWriting = false;
@@ -165,10 +165,15 @@ namespace MonitorigProcess
                 .Append("handle_" + sProcess[j].InstanceName).Append(",")
                 .Append("gdi_" + sProcess[j].InstanceName).Append(",");
             }
+            sb.Append("cpu_total").Append(",")
+                .Append("mem_total").Append(",");
+
+            List<string> disks = AppConfiguration.diskNames;
             foreach (var item in disks)
             {
                 sb.Append(item).Append(",");
             }
+            
             return sb.ToString();
         }
 

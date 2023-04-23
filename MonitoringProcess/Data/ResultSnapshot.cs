@@ -24,5 +24,8 @@ namespace MonitorigProcess.Data
         }
         //pid -> counter > resultValues
         public Dictionary<int, Dictionary<string, ResultValues>> mapResult { get; set; }
+
+        public ResultValues totalCpuResult { get; set; }
+        public ResultValues totalMemoryResult { get; set; }
     }
 }

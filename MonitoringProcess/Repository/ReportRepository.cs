@@ -20,6 +20,9 @@ namespace MonitorigProcess.Repository
         public static readonly string xpStart = "Start";
         public static readonly string xpEnd = "WillEnd";
         public static readonly string xpStop = "StoppedAt";
+        public static readonly string xpTotalCpu = "TotalCpuUsage";
+        public static readonly string xpTotalMemory = "TotalMemoryUsage";
+
         public static readonly string xpProcessCount = "ProcessCount";
         public static readonly string xpProcesses = "Processes";
         public static readonly string xpProcess = "Process";
@@ -91,6 +94,20 @@ namespace MonitorigProcess.Repository
 
             XElement stop = new XElement(xpStop, stopTime.ToString(AppConfiguration.xmlDateTimeFormat));
             root.Add(stop);
+
+            ResultSnapshot.ResultValues resultValues = resultSnapshot.totalCpuResult;
+            XElement totalCpu = new XElement(xpTotalCpu, 
+                new XElement(xpMin, resultValues.minValue == float.MaxValue ? 0 : resultValues.minValue),
+                        new XElement(xpMax, resultValues.maxValue),
+                        new XElement(xpAverage, resultValues.average));
+            root.Add(totalCpu);
+
+            resultValues = resultSnapshot.totalMemoryResult;
+            XElement totalMemory = new XElement(xpTotalMemory,
+                new XElement(xpMin, resultValues.minValue == float.MaxValue ? 0 : resultValues.minValue),
+                        new XElement(xpMax, resultValues.maxValue),
+                        new XElement(xpAverage, resultValues.average));
+            root.Add(totalMemory);
 
             XElement procCount = new XElement(xpProcessCount, processCount.ToString());
             root.Add(procCount);

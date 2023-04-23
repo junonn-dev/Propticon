@@ -16,16 +16,23 @@ namespace MonitorigProcess.CounterItem
 
         private PerformanceCounter performanceCounter;
 
-        public Counter(string category, string counter, string instance)
+        public Counter(string category, string counter, string instance = "", bool recordWorstAscd = false)
         {
-            worstList = new WorstList();
+            worstList = new WorstList(recordWorstAscd);
             minValue = float.MaxValue;
             maxValue = 0;
             this.category = category;
             isFirstCheck = true;
             try
             {
-                performanceCounter = new PerformanceCounter(category, counter, instance);
+                if (string.IsNullOrEmpty(instance))
+                {
+                    performanceCounter = new PerformanceCounter(category, counter);
+                }
+                else
+                {
+                    performanceCounter = new PerformanceCounter(category, counter, instance);
+                }
             }
             catch
             {
