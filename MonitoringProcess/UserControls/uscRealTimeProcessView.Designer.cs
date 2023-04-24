@@ -38,7 +38,6 @@ namespace MonitorigProcess.UserControls
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.commonPanel2 = new MonitorigProcess.UserControls.resources.CommonPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.subtitleLabel2 = new MonitorigProcess.UserControls.resources.SubtitleLabel();
@@ -60,6 +59,7 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.subtitleLabel3 = new MonitorigProcess.UserControls.resources.SubtitleLabel();
             this.lboxRealTimeLog = new System.Windows.Forms.ListBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this.commonPanel2.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -86,26 +86,17 @@ namespace MonitorigProcess.UserControls
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1000, 391);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1100, 391);
             this.tableLayoutPanel1.TabIndex = 1;
-            // 
-            // panel1
-            // 
-            this.panel1.AutoScroll = true;
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1000, 391);
-            this.panel1.TabIndex = 5;
             // 
             // commonPanel2
             // 
             this.commonPanel2.Controls.Add(this.flowLayoutPanel2);
             this.commonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.commonPanel2.Location = new System.Drawing.Point(500, 1);
+            this.commonPanel2.Location = new System.Drawing.Point(550, 1);
             this.commonPanel2.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel2.Name = "commonPanel2";
-            this.commonPanel2.Size = new System.Drawing.Size(499, 232);
+            this.commonPanel2.Size = new System.Drawing.Size(549, 232);
             this.commonPanel2.TabIndex = 1;
             // 
             // flowLayoutPanel2
@@ -115,7 +106,7 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(499, 232);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(549, 232);
             this.flowLayoutPanel2.TabIndex = 2;
             // 
             // subtitleLabel2
@@ -160,7 +151,7 @@ namespace MonitorigProcess.UserControls
             this.lviewWorstList.Location = new System.Drawing.Point(3, 32);
             this.lviewWorstList.MultiSelect = false;
             this.lviewWorstList.Name = "lviewWorstList";
-            this.lviewWorstList.Size = new System.Drawing.Size(493, 196);
+            this.lviewWorstList.Size = new System.Drawing.Size(536, 196);
             this.lviewWorstList.TabIndex = 0;
             this.lviewWorstList.UseCompatibleStateImageBehavior = false;
             this.lviewWorstList.View = System.Windows.Forms.View.Details;
@@ -187,7 +178,7 @@ namespace MonitorigProcess.UserControls
             this.commonPanel1.Location = new System.Drawing.Point(1, 1);
             this.commonPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel1.Name = "commonPanel1";
-            this.commonPanel1.Size = new System.Drawing.Size(497, 232);
+            this.commonPanel1.Size = new System.Drawing.Size(547, 232);
             this.commonPanel1.TabIndex = 5;
             // 
             // flowLayoutPanel1
@@ -199,7 +190,7 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(497, 232);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(547, 232);
             this.flowLayoutPanel1.TabIndex = 5;
             // 
             // subtitleLabel1
@@ -214,7 +205,7 @@ namespace MonitorigProcess.UserControls
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label2.Location = new System.Drawing.Point(408, 5);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.label2.Name = "label2";
@@ -248,7 +239,7 @@ namespace MonitorigProcess.UserControls
             this.dgvStatistics.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Malgun Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.GrayText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGray;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.GrayText;
@@ -263,7 +254,7 @@ namespace MonitorigProcess.UserControls
             this.dgvStatistics.Cursor = System.Windows.Forms.Cursors.Default;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Malgun Gothic", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("맑은 고딕", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.ActiveBorder;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
@@ -276,7 +267,7 @@ namespace MonitorigProcess.UserControls
             this.dgvStatistics.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvStatistics.RowHeadersVisible = false;
             this.dgvStatistics.RowTemplate.Height = 23;
-            this.dgvStatistics.Size = new System.Drawing.Size(496, 195);
+            this.dgvStatistics.Size = new System.Drawing.Size(546, 195);
             this.dgvStatistics.TabIndex = 4;
             // 
             // colCounter
@@ -307,7 +298,7 @@ namespace MonitorigProcess.UserControls
             this.commonPanel3.Location = new System.Drawing.Point(1, 235);
             this.commonPanel3.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel3.Name = "commonPanel3";
-            this.commonPanel3.Size = new System.Drawing.Size(998, 155);
+            this.commonPanel3.Size = new System.Drawing.Size(1098, 155);
             this.commonPanel3.TabIndex = 1;
             // 
             // flowLayoutPanel3
@@ -317,7 +308,7 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(998, 155);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(1098, 155);
             this.flowLayoutPanel3.TabIndex = 1;
             // 
             // subtitleLabel3
@@ -339,8 +330,17 @@ namespace MonitorigProcess.UserControls
             this.lboxRealTimeLog.Location = new System.Drawing.Point(3, 32);
             this.lboxRealTimeLog.Name = "lboxRealTimeLog";
             this.lboxRealTimeLog.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lboxRealTimeLog.Size = new System.Drawing.Size(985, 120);
+            this.lboxRealTimeLog.Size = new System.Drawing.Size(1085, 120);
             this.lboxRealTimeLog.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1100, 391);
+            this.panel1.TabIndex = 5;
             // 
             // uscRealTimeProcessView
             // 
@@ -350,7 +350,7 @@ namespace MonitorigProcess.UserControls
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Name = "uscRealTimeProcessView";
-            this.Size = new System.Drawing.Size(1000, 391);
+            this.Size = new System.Drawing.Size(1100, 391);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.commonPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);

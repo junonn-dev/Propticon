@@ -23,16 +23,23 @@ namespace MonitoringProcess.UserControls
     {
         private List<double> diskTotalSizes = new List<double>();
         private List<PiePlot> pies = new List<PiePlot>();
-        public FreeDiskSpaceViewer(Measure form)
+
+        public FreeDiskSpaceViewer()
         {
             InitializeComponent();
+        }
+        public FreeDiskSpaceViewer(Measure form) : base()
+        {
             form.pcMeasureEvent += HandleLogEvent;
         }
 
         protected override void OnLoad(EventArgs e)
         {
-            base.OnLoad(e);
-            LoadPlots();
+            if (!DesignMode)
+            {
+                base.OnLoad(e);
+                LoadPlots();
+            }
         }
 
         private void LoadPlots()

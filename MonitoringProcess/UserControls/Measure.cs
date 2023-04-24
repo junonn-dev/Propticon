@@ -13,6 +13,7 @@ using static MonitorigProcess.Program;
 using System.IO;
 using MonitorigProcess.Repository;
 using MonitoringProcess.Data;
+using MonitoringProcess.CounterItem;
 
 namespace MonitorigProcess
 {
@@ -31,7 +32,7 @@ namespace MonitorigProcess
         private bool bMonitorStart = false;
         private bool bStartTimeSet = false;
 
-        private string strPath = "MonitorProcess.ini";
+        private string strPath = System.Windows.Forms.Application.StartupPath + "\\MonitorProcess.ini";
         //Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\MonitorProcess.ini";
 
         private PerformanceCounter cpu = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // Total Processor의 정보
@@ -688,6 +689,7 @@ namespace MonitorigProcess
                 return;
             }
             ClearListView(listView2);
+            DeleteAllProcessTabControl();
 
             for (int i = 0; i < Constants.maxconfig; i++)
             {
@@ -696,8 +698,6 @@ namespace MonitorigProcess
             }
             writeConfig();
             iProcessMaxCnt = 0;
-
-            DeleteAllTabControl();
         }
 
         private void BtnMonitorEnd_Click(object sender, EventArgs e)
@@ -746,9 +746,9 @@ namespace MonitorigProcess
                     .Append(handleCount.ToString()).Append(",")
                     .Append(gdiCount.ToString()).Append(",");
 
-                string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} [{enLogLevel.Info.ToString()}] {sProcess[i].InstanceName} total_cpu(%): {Math.Round(totalCpuUsage, 3)}, total_mem(MB): {Math.Round(totalMemoryUsage, 3)} cpu (%): {Math.Round(cpuUsage,3).ToString()}, mem (MB): {Math.Round(memoryUsage,3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
+                string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} {sProcess[i].InstanceName} - cpu (%): {Math.Round(cpuUsage,3).ToString()}, mem (MB): {Math.Round(memoryUsage,3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
                 ProcessPerformance processSet = PCM.GetProcessSet(pProcess[i]);
-
+                
                 OnRaiseProcessMeasureEvent(pProcess[i].Id, new ProcessMeasureEventArgs(message, processSet));
             }
             sb.Append(totalCpuUsage.ToString()).Append(",")
@@ -759,7 +759,8 @@ namespace MonitorigProcess
             {
                 sb.Append(item.ToString()).Append(",");
             }
-            OnRaisePCMeasureEvent(new PCMeasureEventArgs(freeSpaces));
+            string pcPerfMessage = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} - total_cpu (%): {Math.Round(totalCpuUsage, 3)}, total_mem (MB): {Math.Round(totalMemoryUsage, 3)}";
+            OnRaisePCMeasureEvent(new PCMeasureEventArgs(pcPerfMessage, freeSpaces,PCM.pcPerformance));
 
             logger.Log(sb.ToString(), dTime);
             sb.Clear();
@@ -776,6 +777,23 @@ namespace MonitorigProcess
         {
 
             processMeasureEvents[PID]?.BeginInvoke(this, e,null,null);
+        }
+
+        private void AddPcPerformanceTab()
+        {
+            string key = "-1"; //Magic Number
+            if (tconProcessTab.TabPages.ContainsKey(key))
+            {
+                return;
+            }
+
+            tconProcessTab.TabPages.Add(key, "Total");
+            tconProcessTab.TabPages[key].Margin = new Padding(1);
+
+            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this);
+            tempUserControl.Dock = DockStyle.Fill;
+
+            tconProcessTab.TabPages[key].Controls.Add(tempUserControl);
         }
 
         private void AddProcessTab(int PID, string processName)
@@ -807,15 +825,19 @@ namespace MonitorigProcess
 
         private void InitTabControl()
         {
+            AddPcPerformanceTab();
             for (int i = 0; i < iProcessMaxCnt; i++)
             {
                 AddProcessTab(sProcess[i].Pid, sProcess[i].ProcessName);
             }
         }
 
-        private void DeleteAllTabControl()
+        private void DeleteAllProcessTabControl()
         {
-            tconProcessTab.TabPages.Clear();
+            for (int i = 0; i < iProcessMaxCnt; i++)
+            {
+                DeleteProcessTab(sProcess[i].Pid);
+            }
         }
 
         #endregion

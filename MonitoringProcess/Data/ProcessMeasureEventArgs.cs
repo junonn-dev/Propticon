@@ -1,5 +1,6 @@
 ﻿using System;
 using MonitorigProcess.CounterItem;
+using MonitoringProcess.CounterItem;
 
 namespace MonitorigProcess.Data
 {
@@ -8,7 +9,6 @@ namespace MonitorigProcess.Data
         public string message { get; set; }
 
         public ProcessPerformance processSet { get; set; }
-
 
         public ProcessMeasureEventArgs(string message, ProcessPerformance processSet)
         {

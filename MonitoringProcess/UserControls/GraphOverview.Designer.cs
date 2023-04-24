@@ -31,6 +31,7 @@ namespace MonitorigProcess.UserControls
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
+            this.flpProcessCheckBox = new System.Windows.Forms.FlowLayoutPanel();
             this.contentLabel1 = new MonitorigProcess.UserControls.resources.ContentLabel();
             this.contentLabel2 = new MonitorigProcess.UserControls.resources.ContentLabel();
             this.contentLabel3 = new MonitorigProcess.UserControls.resources.ContentLabel();
@@ -39,7 +40,6 @@ namespace MonitorigProcess.UserControls
             this.lblProcess = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.lblMostCpuUsed = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.lblMostMemoryUsed = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
-            this.flpProcessCheckBox = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,7 +65,7 @@ namespace MonitorigProcess.UserControls
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Malgun Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.Location = new System.Drawing.Point(10, 10);
             this.label1.Margin = new System.Windows.Forms.Padding(10, 10, 0, 10);
             this.label1.Name = "label1";
@@ -73,84 +73,93 @@ namespace MonitorigProcess.UserControls
             this.label1.TabIndex = 0;
             this.label1.Text = "Performance Result";
             // 
+            // flpProcessCheckBox
+            // 
+            this.flpProcessCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.flpProcessCheckBox.Location = new System.Drawing.Point(3, 96);
+            this.flpProcessCheckBox.Name = "flpProcessCheckBox";
+            this.flpProcessCheckBox.Size = new System.Drawing.Size(733, 60);
+            this.flpProcessCheckBox.TabIndex = 10;
+            // 
             // contentLabel1
             // 
+            this.contentLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.contentLabel1.Location = new System.Drawing.Point(10, 43);
             this.contentLabel1.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
             this.contentLabel1.Name = "contentLabel1";
-            this.contentLabel1.Size = new System.Drawing.Size(150, 20);
+            this.contentLabel1.Size = new System.Drawing.Size(170, 20);
             this.contentLabel1.TabIndex = 2;
             this.contentLabel1.Text = "Total Time";
             // 
             // contentLabel2
             // 
-            this.contentLabel2.Location = new System.Drawing.Point(173, 43);
+            this.contentLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.contentLabel2.Location = new System.Drawing.Point(193, 43);
             this.contentLabel2.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
             this.contentLabel2.Name = "contentLabel2";
-            this.contentLabel2.Size = new System.Drawing.Size(150, 20);
+            this.contentLabel2.Size = new System.Drawing.Size(170, 20);
             this.contentLabel2.TabIndex = 3;
             this.contentLabel2.Text = "Process";
             // 
             // contentLabel3
             // 
-            this.contentLabel3.Location = new System.Drawing.Point(336, 43);
+            this.contentLabel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.contentLabel3.Location = new System.Drawing.Point(376, 43);
             this.contentLabel3.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
             this.contentLabel3.Name = "contentLabel3";
-            this.contentLabel3.Size = new System.Drawing.Size(150, 20);
+            this.contentLabel3.Size = new System.Drawing.Size(170, 20);
             this.contentLabel3.TabIndex = 4;
             this.contentLabel3.Text = "Most CPU Used";
             // 
             // contentLabel4
             // 
-            this.contentLabel4.Location = new System.Drawing.Point(499, 43);
+            this.contentLabel4.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.contentLabel4.Location = new System.Drawing.Point(559, 43);
             this.contentLabel4.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
             this.contentLabel4.Name = "contentLabel4";
-            this.contentLabel4.Size = new System.Drawing.Size(150, 20);
+            this.contentLabel4.Size = new System.Drawing.Size(170, 20);
             this.contentLabel4.TabIndex = 5;
             this.contentLabel4.Text = "Most Memory Used";
             // 
             // lblTotalTime
             // 
+            this.lblTotalTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotalTime.Location = new System.Drawing.Point(10, 63);
             this.lblTotalTime.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
             this.lblTotalTime.Name = "lblTotalTime";
-            this.lblTotalTime.Size = new System.Drawing.Size(150, 30);
+            this.lblTotalTime.Size = new System.Drawing.Size(170, 30);
             this.lblTotalTime.TabIndex = 6;
             this.lblTotalTime.Text = "lblTotalTime";
             // 
             // lblProcess
             // 
-            this.lblProcess.Location = new System.Drawing.Point(173, 63);
+            this.lblProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblProcess.Location = new System.Drawing.Point(193, 63);
             this.lblProcess.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
             this.lblProcess.Name = "lblProcess";
-            this.lblProcess.Size = new System.Drawing.Size(150, 30);
+            this.lblProcess.Size = new System.Drawing.Size(170, 30);
             this.lblProcess.TabIndex = 9;
             this.lblProcess.Text = "lblProcess";
             // 
             // lblMostCpuUsed
             // 
-            this.lblMostCpuUsed.Location = new System.Drawing.Point(336, 63);
+            this.lblMostCpuUsed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMostCpuUsed.Location = new System.Drawing.Point(376, 63);
             this.lblMostCpuUsed.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
             this.lblMostCpuUsed.Name = "lblMostCpuUsed";
-            this.lblMostCpuUsed.Size = new System.Drawing.Size(150, 30);
+            this.lblMostCpuUsed.Size = new System.Drawing.Size(170, 30);
             this.lblMostCpuUsed.TabIndex = 7;
             this.lblMostCpuUsed.Text = "lblMostCpuUsed";
             // 
             // lblMostMemoryUsed
             // 
-            this.lblMostMemoryUsed.Location = new System.Drawing.Point(499, 63);
+            this.lblMostMemoryUsed.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblMostMemoryUsed.Location = new System.Drawing.Point(559, 63);
             this.lblMostMemoryUsed.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
             this.lblMostMemoryUsed.Name = "lblMostMemoryUsed";
-            this.lblMostMemoryUsed.Size = new System.Drawing.Size(150, 30);
+            this.lblMostMemoryUsed.Size = new System.Drawing.Size(170, 30);
             this.lblMostMemoryUsed.TabIndex = 8;
             this.lblMostMemoryUsed.Text = "lblMostMemoryUsed";
-            // 
-            // flpProcessCheckBox
-            // 
-            this.flpProcessCheckBox.Location = new System.Drawing.Point(3, 96);
-            this.flpProcessCheckBox.Name = "flpProcessCheckBox";
-            this.flpProcessCheckBox.Size = new System.Drawing.Size(733, 60);
-            this.flpProcessCheckBox.TabIndex = 10;
             // 
             // GraphOverview
             // 

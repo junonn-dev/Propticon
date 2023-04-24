@@ -55,7 +55,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.BtnMonitorStart = new MonitorigProcess.UserControls.resources.ColoredButton();
             this.BtnMonitorEnd = new MonitorigProcess.UserControls.resources.ColoredButton();
-            this.freeDiskSpaceViewer1 = new MonitoringProcess.UserControls.FreeDiskSpaceViewer(this);
+            this.freeDiskSpaceViewer1 = new MonitoringProcess.UserControls.FreeDiskSpaceViewer();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.commonPanel1.SuspendLayout();
@@ -69,20 +69,20 @@
             this.tconProcessTab.Margin = new System.Windows.Forms.Padding(1);
             this.tconProcessTab.Name = "tconProcessTab";
             this.tconProcessTab.SelectedIndex = 0;
-            this.tconProcessTab.Size = new System.Drawing.Size(998, 418);
+            this.tconProcessTab.Size = new System.Drawing.Size(1098, 418);
             this.tconProcessTab.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
             this.tconProcessTab.TabButtonHoverState.FillColor = System.Drawing.Color.White;
-            this.tconProcessTab.TabButtonHoverState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconProcessTab.TabButtonHoverState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconProcessTab.TabButtonHoverState.ForeColor = System.Drawing.Color.Black;
             this.tconProcessTab.TabButtonHoverState.InnerColor = System.Drawing.Color.Transparent;
             this.tconProcessTab.TabButtonIdleState.BorderColor = System.Drawing.Color.Empty;
             this.tconProcessTab.TabButtonIdleState.FillColor = System.Drawing.Color.White;
-            this.tconProcessTab.TabButtonIdleState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconProcessTab.TabButtonIdleState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconProcessTab.TabButtonIdleState.ForeColor = System.Drawing.Color.Gray;
             this.tconProcessTab.TabButtonIdleState.InnerColor = System.Drawing.Color.Transparent;
             this.tconProcessTab.TabButtonSelectedState.BorderColor = System.Drawing.Color.Empty;
             this.tconProcessTab.TabButtonSelectedState.FillColor = System.Drawing.Color.White;
-            this.tconProcessTab.TabButtonSelectedState.Font = new System.Drawing.Font("Malgun Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tconProcessTab.TabButtonSelectedState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.tconProcessTab.TabButtonSelectedState.ForeColor = System.Drawing.Color.Black;
             this.tconProcessTab.TabButtonSelectedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
             this.tconProcessTab.TabButtonSize = new System.Drawing.Size(95, 27);
@@ -99,7 +99,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 750);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1100, 750);
             this.flowLayoutPanel1.TabIndex = 16;
             // 
             // panel1
@@ -278,16 +278,18 @@
             this.commonPanel1.Location = new System.Drawing.Point(601, 1);
             this.commonPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel1.Name = "commonPanel1";
-            this.commonPanel1.Size = new System.Drawing.Size(398, 178);
+            this.commonPanel1.Size = new System.Drawing.Size(498, 178);
             this.commonPanel1.TabIndex = 15;
             // 
             // lblEndDateInfo
             // 
+            this.lblEndDateInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEndDateInfo.BackColor = System.Drawing.Color.White;
             this.lblEndDateInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblEndDateInfo.Location = new System.Drawing.Point(108, 83);
             this.lblEndDateInfo.Name = "lblEndDateInfo";
-            this.lblEndDateInfo.Size = new System.Drawing.Size(271, 21);
+            this.lblEndDateInfo.Size = new System.Drawing.Size(371, 21);
             this.lblEndDateInfo.TabIndex = 13;
             this.lblEndDateInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -302,11 +304,13 @@
             // 
             // lblStartDateInfo
             // 
+            this.lblStartDateInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStartDateInfo.BackColor = System.Drawing.Color.White;
             this.lblStartDateInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblStartDateInfo.Location = new System.Drawing.Point(108, 58);
             this.lblStartDateInfo.Name = "lblStartDateInfo";
-            this.lblStartDateInfo.Size = new System.Drawing.Size(271, 21);
+            this.lblStartDateInfo.Size = new System.Drawing.Size(371, 21);
             this.lblStartDateInfo.TabIndex = 12;
             this.lblStartDateInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -330,12 +334,14 @@
             // 
             // dateTimePickerEndDate
             // 
+            this.dateTimePickerEndDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dateTimePickerEndDate.CustomFormat = "yyyy-MM-dd HH시 mm분";
             this.dateTimePickerEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePickerEndDate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.dateTimePickerEndDate.Location = new System.Drawing.Point(108, 31);
             this.dateTimePickerEndDate.Name = "dateTimePickerEndDate";
-            this.dateTimePickerEndDate.Size = new System.Drawing.Size(271, 21);
+            this.dateTimePickerEndDate.Size = new System.Drawing.Size(371, 21);
             this.dateTimePickerEndDate.TabIndex = 4;
             this.dateTimePickerEndDate.Value = new System.DateTime(2022, 12, 13, 15, 25, 11, 674);
             this.dateTimePickerEndDate.ValueChanged += new System.EventHandler(this.dateTimePickerEndDate_ValueChanged);
@@ -351,12 +357,13 @@
             // 
             // BtnMonitorStart
             // 
+            this.BtnMonitorStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnMonitorStart.FlatAppearance.BorderSize = 0;
             this.BtnMonitorStart.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
             this.BtnMonitorStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.BtnMonitorStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnMonitorStart.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.BtnMonitorStart.Location = new System.Drawing.Point(152, 130);
+            this.BtnMonitorStart.Location = new System.Drawing.Point(252, 130);
             this.BtnMonitorStart.Name = "BtnMonitorStart";
             this.BtnMonitorStart.Size = new System.Drawing.Size(110, 23);
             this.BtnMonitorStart.TabIndex = 8;
@@ -366,12 +373,13 @@
             // 
             // BtnMonitorEnd
             // 
+            this.BtnMonitorEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnMonitorEnd.FlatAppearance.BorderSize = 0;
             this.BtnMonitorEnd.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
             this.BtnMonitorEnd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.BtnMonitorEnd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnMonitorEnd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.BtnMonitorEnd.Location = new System.Drawing.Point(268, 130);
+            this.BtnMonitorEnd.Location = new System.Drawing.Point(368, 130);
             this.BtnMonitorEnd.Name = "BtnMonitorEnd";
             this.BtnMonitorEnd.Size = new System.Drawing.Size(111, 23);
             this.BtnMonitorEnd.TabIndex = 9;
@@ -384,7 +392,7 @@
             this.freeDiskSpaceViewer1.Location = new System.Drawing.Point(1, 601);
             this.freeDiskSpaceViewer1.Margin = new System.Windows.Forms.Padding(1);
             this.freeDiskSpaceViewer1.Name = "freeDiskSpaceViewer1";
-            this.freeDiskSpaceViewer1.Size = new System.Drawing.Size(1000, 148);
+            this.freeDiskSpaceViewer1.Size = new System.Drawing.Size(1096, 146);
             this.freeDiskSpaceViewer1.TabIndex = 16;
             // 
             // Measure
@@ -393,7 +401,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "Measure";
-            this.Size = new System.Drawing.Size(1000, 750);
+            this.Size = new System.Drawing.Size(1100, 750);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using MonitorigProcess.Data;
+using MonitoringProcess.Data;
+using MonitoringProcess.Helper;
 
 namespace MonitorigProcess.UserControls
 {
@@ -14,6 +16,42 @@ namespace MonitorigProcess.UserControls
         {
             InitializeComponent();
             lviewWorstList.Items.Clear();
+        }
+
+        public uscRealTimeProcessView(Measure form) : this()
+        {
+            form.monitoringStartEvent += InitStatisticsView;
+            form.monitoringStartEvent += InitWorstListView;
+
+            label2.Visible = false;
+            lblPid.Text = "";
+            form.pcMeasureEvent = HandlePcPerformanceLogEvent; //pc Performance를 위한 키값은 -1
+
+            dgvStatistics.ColumnCount = 4;
+            dgvStatistics.ColumnHeadersVisible = true;
+            dgvStatistics.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvStatistics.AllowUserToAddRows = false;
+            dgvStatistics.AllowUserToDeleteRows = false;
+            dgvStatistics.AllowUserToOrderColumns = true;
+            dgvStatistics.AllowDrop = false;
+            dgvStatistics.AllowUserToResizeColumns = false;
+            dgvStatistics.AllowUserToResizeRows = false;
+            dgvStatistics.ReadOnly = true;
+            dgvStatistics.Columns[0].Name = "counter";
+            dgvStatistics.Columns[1].Name = "min";
+            dgvStatistics.Columns[2].Name = "max";
+            dgvStatistics.Columns[3].Name = "avg";
+
+            dgvStatistics.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgvStatistics.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgvStatistics.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgvStatistics.Columns[3].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            string[] row1 = new string[] { "CPU Usage", rowDefault, rowDefault, rowDefault };
+            string[] row2 = new string[] { "Memory(MB)", rowDefault, rowDefault, rowDefault };
+
+            dgvStatistics.Rows.Add(row1);
+            dgvStatistics.Rows.Add(row2);
         }
 
         public uscRealTimeProcessView(Measure form, int PID, string processName) : this()
@@ -72,6 +110,51 @@ namespace MonitorigProcess.UserControls
             lviewWorstList.Items.Clear();
         }
 
+        public void HandlePcPerformanceLogEvent(object sender, PCMeasureEventArgs e)
+        {
+            lboxRealTimeLog.Invoke(new Action(delegate () {
+                lboxRealTimeLog.Items.Insert(0, e.Message);
+                if (lboxRealTimeLog.Items.Count > 20)
+                    lboxRealTimeLog.Items.RemoveAt(20);
+            }));
+
+            //available MByte를 측정하기 때문에, 사용중인 메모리량은
+            //전체 물리메모리 - available MBytes로 계산함.
+            long memMB = TotalPhysicalMemory.GetMBValue();
+            var newMemoryWorst = new SortedDictionary<float, List<DateTime>>(Comparer<float>.Create((x, y) => y.CompareTo(x)));
+            var availableMBWorst = e.PcPerformanceSet.AvailableMemoryMBytes.worstList.list;
+            foreach (KeyValuePair<float, List<DateTime>> item in availableMBWorst)
+            {
+                float prevKey = item.Key;
+                float newKey = memMB - item.Key;
+
+                newMemoryWorst.Add(newKey, item.Value);
+            }
+
+            lviewWorstList.Invoke(new Action(delegate ()
+            {
+                parseWorstList(e.PcPerformanceSet.TotalCpuUsage.worstList.list, cpuGroupName);
+                parseWorstList(newMemoryWorst, memoryGroupName, true);
+            }));
+
+
+            var cpuCounter = e.PcPerformanceSet.TotalCpuUsage;
+            var availableMemoryCounter = e.PcPerformanceSet.AvailableMemoryMBytes;
+
+            var cpuMin = cpuCounter.GetMinValue();
+            if (cpuMin != float.MaxValue)
+            {
+                dgvStatistics.Rows[0].Cells[1].Value = Math.Round(cpuMin, 3).ToString();
+            }
+            dgvStatistics.Rows[0].Cells[2].Value = Math.Round(cpuCounter.GetMaxValue(), 3).ToString();
+            dgvStatistics.Rows[0].Cells[3].Value = Math.Round(cpuCounter.GetAverage(), 3).ToString();
+
+            dgvStatistics.Rows[1].Cells[1].Value = Math.Round((memMB - availableMemoryCounter.GetMaxValue()), 3).ToString();
+            dgvStatistics.Rows[1].Cells[2].Value = Math.Round((memMB - availableMemoryCounter.GetMinValue()), 3).ToString();
+            dgvStatistics.Rows[1].Cells[3].Value = Math.Round((memMB - availableMemoryCounter.GetAverage()), 3).ToString();
+            
+        }
+
         public void HandleLogEvent(object sender, ProcessMeasureEventArgs e)
         {
             lboxRealTimeLog.Invoke(new Action(delegate () { 
@@ -125,7 +208,7 @@ namespace MonitorigProcess.UserControls
 
         }
 
-        private void parseWorstList(SortedDictionary<float, List<DateTime>> map, string groupName)
+        private void parseWorstList(SortedDictionary<float, List<DateTime>> map, string groupName, bool isMemoryMB = false)
         {
             //받아온 worstList를 deep copy하는 이유
             //스레드 주기 짧아지면 참조한 worst list가 업데이트됨
@@ -155,7 +238,7 @@ namespace MonitorigProcess.UserControls
                 }
                 else if(groupName == memoryGroupName)
                 {
-                    strValue = Math.Round(item.Key/(1024*1024), 3).ToString();
+                    strValue = isMemoryMB==true? Math.Round(item.Key, 3).ToString() : Math.Round(item.Key/(1024*1024), 3).ToString();
                 }
                 lviewWorstList.Items[itemKey].SubItems[1].Text = strValue;
 
@@ -164,6 +247,6 @@ namespace MonitorigProcess.UserControls
                     = times[0].ToString();
             }
             
-        }
+        }        
     }
 }

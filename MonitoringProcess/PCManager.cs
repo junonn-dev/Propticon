@@ -21,7 +21,7 @@ namespace MonitorigProcess
 
         private long totalPhysicalMemoryMB;
         private Dictionary<int, ProcessPerformance> mapProcessPerformance;
-        private PCPerformance pcPerformance;
+        public PCPerformance pcPerformance { get; private set; }
 
         public List<float> FreeSpaceCurrentValues { get; set; }
 
@@ -51,6 +51,7 @@ namespace MonitorigProcess
         public void InitProcessMonitor(IEnumerable<Process> processes)
         {
             mapProcessPerformance.Clear();
+            pcPerformance = new PCPerformance();
             foreach (Process process in processes)
             {            
                 if (process is null)

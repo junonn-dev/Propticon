@@ -42,7 +42,7 @@
             this.commonPanel1.Location = new System.Drawing.Point(0, 0);
             this.commonPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel1.Name = "commonPanel1";
-            this.commonPanel1.Size = new System.Drawing.Size(1000, 150);
+            this.commonPanel1.Size = new System.Drawing.Size(1100, 150);
             this.commonPanel1.TabIndex = 0;
             // 
             // flowLayoutPanel1
@@ -52,14 +52,14 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 150);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1100, 150);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // titleLabel1
             // 
             this.titleLabel1.Location = new System.Drawing.Point(3, 0);
             this.titleLabel1.Name = "titleLabel1";
-            this.titleLabel1.Size = new System.Drawing.Size(994, 25);
+            this.titleLabel1.Size = new System.Drawing.Size(1094, 25);
             this.titleLabel1.TabIndex = 0;
             this.titleLabel1.Text = "Disk Space";
             // 
@@ -70,7 +70,7 @@
             this.Controls.Add(this.commonPanel1);
             this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "FreeDiskSpaceViewer";
-            this.Size = new System.Drawing.Size(1000, 150);
+            this.Size = new System.Drawing.Size(1100, 150);
             this.commonPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
