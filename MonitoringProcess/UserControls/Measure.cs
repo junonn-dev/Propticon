@@ -14,6 +14,7 @@ using System.IO;
 using MonitorigProcess.Repository;
 using MonitoringProcess.Data;
 using MonitoringProcess.CounterItem;
+using System.ComponentModel;
 
 namespace MonitorigProcess
 {
@@ -47,6 +48,8 @@ namespace MonitorigProcess
         private Process[] pProcess = new Process[Constants.maxconfig];  // 선택된 프로세스 정보
         #endregion
 
+        private BindingList<SelectedProcess> selectedProcesses = new BindingList<SelectedProcess>();
+
         string message;
         int iSelected;
         public int iProcessMaxCnt = 0;
@@ -60,9 +63,6 @@ namespace MonitorigProcess
         IniFile ini;
         Logger logger;
         StringBuilder sb = new StringBuilder();
-        StringBuilder sb2 = new StringBuilder();
-        StringBuilder filename = new StringBuilder();
-        PCManager[] pcManger = new PCManager[Constants.maxconfig];
         PCManager PCM = new PCManager();
         Thread selectcputhread;
 
@@ -92,7 +92,9 @@ namespace MonitorigProcess
                 InitListView();
                 UpdateListView();
                 InitSelectedListView();
-                InitTabControl();
+
+                processMonitoredList.DataSource = selectedProcesses;
+                processMonitoredList.DisplayMember = "Name";
             }
             base.OnLoad(e);
         }
@@ -392,18 +394,12 @@ namespace MonitorigProcess
                 return;
             }
 
-            if (iProcessMaxCnt > 9)
+            if (iProcessMaxCnt >= Constants.maxconfig)
             {
-                MessageBox.Show("모니터링 최대개수는 10개입니다!!!");
+                MessageBox.Show($"모니터링 최대개수는 {Constants.maxconfig}개입니다!!!");
                 return;
             }
             InsertSelectedListView();
-
-            foreach (ListViewItem item in listView1.SelectedItems)
-            {
-                AddProcessTab(int.Parse(item.SubItems[1].Text), item.SubItems[2].Text);
-            }
-
         }
 
         // listview 선택된 process remove
@@ -419,11 +415,6 @@ namespace MonitorigProcess
             {
                 MessageBox.Show("선택된 프로세스가 없습니다!");
                 return;
-            }
-
-            foreach (ListViewItem item in listView2.SelectedItems)
-            {
-                DeleteProcessTab(int.Parse(item.SubItems[0].Text));
             }
 
             RemoveSelectedListView();
@@ -479,11 +470,18 @@ namespace MonitorigProcess
                 dtEndDate = DateTime.Now.AddHours(1);
             }
 
+            DeleteAllProcessView();
+            selectedProcesses.Clear();
+            for (int i = 0; i < iProcessMaxCnt; i++)
+            {
+                StProcess process = sProcess[i];
+                selectedProcesses.Add(new SelectedProcess(process.Pid, process.ProcessName, process.InstanceName));
+                InitProcessView(process.Pid, process.ProcessName);
+            }
+
             OnMonitoringStart(new EventArgs());
             Thread.Sleep(1000);  // Thread 대기 Time
             SelectProcessThread();  // 선택 Process CPU 사용량 Check Thread
-
-            //bCheck = true;
         }
 
         // text 변경시 listview 해당 문자열 찾기
@@ -611,7 +609,6 @@ namespace MonitorigProcess
                 Thread.Sleep(iThreadTime);  // Thread 대기 Time
                 if (checkDateTime(dtEndDate))
                 {
-                    
                     break;
                 }
             }
@@ -660,11 +657,6 @@ namespace MonitorigProcess
 
         #endregion
 
-        private void dateTimePickerStartDate_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void dateTimePickerEndDate_ValueChanged(object sender, EventArgs e)
         {
             dtEndDate = dateTimePickerEndDate.Value;
@@ -681,6 +673,7 @@ namespace MonitorigProcess
                 }
             }
         }
+
         private void BtnListClear_Click(object sender, EventArgs e)
         {
             if (bMonitorStart)
@@ -689,7 +682,6 @@ namespace MonitorigProcess
                 return;
             }
             ClearListView(listView2);
-            DeleteAllProcessTabControl();
 
             for (int i = 0; i < Constants.maxconfig; i++)
             {
@@ -730,16 +722,6 @@ namespace MonitorigProcess
                 
                 memoryUsage /= 1024*1024;    //memory megabyte 변환
 
-                // 4줄로...
-                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu: {cpuUsage.ToString()} %");
-                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} mem: {memoryUsage.ToString()} %");
-                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} threadCnt: {threadCount.ToString()} cnt");
-                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} HandleCnt: {handleCount.ToString()} cnt");
-
-                // 한줄로...
-                //Log(lboxProcessLog, enLogLevel.Info, $"{sProcess[i].InstanceName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
-                //Log(listBox1, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (%): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
-
                 sb.Append(cpuUsage.ToString()).Append(",")
                     .Append(memoryUsage.ToString()).Append(",")
                     .Append(threadCount.ToString()).Append(",")
@@ -772,71 +754,82 @@ namespace MonitorigProcess
         //public event EventHandler<DataEventArgs> measureEvent;
         public Dictionary<int, EventHandler<ProcessMeasureEventArgs>> processMeasureEvents = new Dictionary<int, EventHandler<ProcessMeasureEventArgs>>();
 
-
         private void OnRaiseProcessMeasureEvent(int PID, ProcessMeasureEventArgs e)
         {
-
             processMeasureEvents[PID]?.BeginInvoke(this, e,null,null);
         }
 
-        private void AddPcPerformanceTab()
+        //private void AddPcPerformanceTab()
+        //{
+        //    string key = "-1"; //Magic Number
+        //    if (tconProcessTab.TabPages.ContainsKey(key))
+        //    {
+        //        return;
+        //    }
+
+        //    tconProcessTab.TabPages.Add(key, "Total");
+        //    tconProcessTab.TabPages[key].Margin = new Padding(1);
+
+        //    uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this);
+        //    tempUserControl.Dock = DockStyle.Fill;
+
+        //    tconProcessTab.TabPages[key].Controls.Add(tempUserControl);
+        //}
+
+        private void processMonitoredList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string key = "-1"; //Magic Number
-            if (tconProcessTab.TabPages.ContainsKey(key))
+            SelectedProcess selectedProcess = (SelectedProcess)processMonitoredList.SelectedItem;
+            if(selectedProcess is null)
             {
                 return;
             }
-
-            tconProcessTab.TabPages.Add(key, "Total");
-            tconProcessTab.TabPages[key].Margin = new Padding(1);
-
-            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this);
-            tempUserControl.Dock = DockStyle.Fill;
-
-            tconProcessTab.TabPages[key].Controls.Add(tempUserControl);
+            ShowProcessView(selectedProcess.Id, selectedProcess.Name);
         }
 
-        private void AddProcessTab(int PID, string processName)
+        private Control currentDisplayedProcessView = null;
+
+        private void ShowProcessView(int PID, string processName)
         {
             string strPID = PID.ToString();
-            if (tconProcessTab.TabPages.ContainsKey(strPID))
+            if (currentDisplayedProcessView != null)
             {
-                return;
+                currentDisplayedProcessView.Visible = false;
             }
-            tconProcessTab.TabPages.Add(strPID, processName);
-            tconProcessTab.TabPages[strPID].Margin = new Padding(1);
+            if (processViewContainer.Controls.ContainsKey(strPID))
+            {
+                processViewContainer.Controls[strPID].Visible = true;
+                currentDisplayedProcessView = processViewContainer.Controls[strPID];
+            }
+        }
+
+        private void InitProcessView(int PID, string processName)
+        {
+            string strPID = PID.ToString();
 
             processMeasureEvents[PID] = null;
-            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this, PID, processName);
+            Control tempUserControl = new uscRealTimeProcessView(this, PID, processName);
             tempUserControl.Dock = DockStyle.Fill;
+            tempUserControl.Name = strPID;
+            tempUserControl.Visible = false;
 
-            tconProcessTab.TabPages[strPID].Controls.Add(tempUserControl);
+            processViewContainer.Controls.Add(tempUserControl);
         }
 
-        private void DeleteProcessTab(int PID)
+        private void DeleteProcessView(string strPID)
         {
-            if (!tconProcessTab.TabPages.ContainsKey(PID.ToString()))
+            if (!processViewContainer.Controls.ContainsKey(strPID))
             {
                 return;
             }
-            tconProcessTab.TabPages.RemoveByKey(PID.ToString());
-            processMeasureEvents.Remove(PID);
+            processViewContainer.Controls.RemoveByKey(strPID);
+            processMeasureEvents.Remove(int.Parse(strPID));
         }
 
-        private void InitTabControl()
+        private void DeleteAllProcessView()
         {
-            AddPcPerformanceTab();
-            for (int i = 0; i < iProcessMaxCnt; i++)
+            foreach (Control item in processViewContainer.Controls)
             {
-                AddProcessTab(sProcess[i].Pid, sProcess[i].ProcessName);
-            }
-        }
-
-        private void DeleteAllProcessTabControl()
-        {
-            for (int i = 0; i < iProcessMaxCnt; i++)
-            {
-                DeleteProcessTab(sProcess[i].Pid);
+                DeleteProcessView(item.Name);
             }
         }
 
@@ -880,5 +873,7 @@ namespace MonitorigProcess
         }
 
         #endregion
+
+
     }
 }
