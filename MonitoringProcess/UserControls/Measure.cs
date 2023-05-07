@@ -65,6 +65,8 @@ namespace MonitorigProcess
         StringBuilder sb = new StringBuilder();
         PCManager PCM = new PCManager();
         Thread selectcputhread;
+        private int processViewSelectedPid = 0;
+
 
         public Measure()
         {
@@ -96,6 +98,7 @@ namespace MonitorigProcess
                 processMonitoredList.DataSource = selectedProcesses;
                 processMonitoredList.DisplayMember = "Name";
             }
+            processDetailView.InitView(this);
             base.OnLoad(e);
         }
 
@@ -470,14 +473,13 @@ namespace MonitorigProcess
                 dtEndDate = DateTime.Now.AddHours(1);
             }
 
-            DeleteAllProcessView();
             selectedProcesses.Clear();
             for (int i = 0; i < iProcessMaxCnt; i++)
             {
                 StProcess process = sProcess[i];
                 selectedProcesses.Add(new SelectedProcess(process.Pid, process.ProcessName, process.InstanceName));
-                InitProcessView(process.Pid, process.ProcessName);
             }
+            processViewSelectedPid = selectedProcesses[0].Id;
 
             OnMonitoringStart(new EventArgs());
             Thread.Sleep(1000);  // Thread 대기 Time
@@ -729,10 +731,14 @@ namespace MonitorigProcess
                     .Append(gdiCount.ToString()).Append(",");
 
                 string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} {sProcess[i].InstanceName} - cpu (%): {Math.Round(cpuUsage,3).ToString()}, mem (MB): {Math.Round(memoryUsage,3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
-                ProcessPerformance processSet = PCM.GetProcessSet(pProcess[i]);
-                
-                OnRaiseProcessMeasureEvent(pProcess[i].Id, new ProcessMeasureEventArgs(message, processSet));
+
+                if(pProcess[i].Id == processViewSelectedPid)
+                {
+                    ProcessPerformance processSet = PCM.GetProcessSet(processViewSelectedPid);
+                    OnRaiseProcessMeasureEvent(processViewSelectedPid, new ProcessMeasureEventArgs(message, processSet));
+                }
             }
+
             sb.Append(totalCpuUsage.ToString()).Append(",")
                 .Append(totalMemoryUsage.ToString()).Append(",");
 
@@ -752,30 +758,13 @@ namespace MonitorigProcess
         //https://stackoverflow.com/questions/2237927/is-there-any-way-to-create-indexed-events-in-c-sharp-or-some-workaround
 
         //public event EventHandler<DataEventArgs> measureEvent;
-        public Dictionary<int, EventHandler<ProcessMeasureEventArgs>> processMeasureEvents = new Dictionary<int, EventHandler<ProcessMeasureEventArgs>>();
+        public EventHandler<ProcessMeasureEventArgs> processMeasureEvents;
 
         private void OnRaiseProcessMeasureEvent(int PID, ProcessMeasureEventArgs e)
         {
-            processMeasureEvents[PID]?.BeginInvoke(this, e,null,null);
+            processMeasureEvents?.BeginInvoke(this, e,null,null);
         }
-
-        //private void AddPcPerformanceTab()
-        //{
-        //    string key = "-1"; //Magic Number
-        //    if (tconProcessTab.TabPages.ContainsKey(key))
-        //    {
-        //        return;
-        //    }
-
-        //    tconProcessTab.TabPages.Add(key, "Total");
-        //    tconProcessTab.TabPages[key].Margin = new Padding(1);
-
-        //    uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this);
-        //    tempUserControl.Dock = DockStyle.Fill;
-
-        //    tconProcessTab.TabPages[key].Controls.Add(tempUserControl);
-        //}
-
+        
         private void processMonitoredList_SelectedIndexChanged(object sender, EventArgs e)
         {
             SelectedProcess selectedProcess = (SelectedProcess)processMonitoredList.SelectedItem;
@@ -783,55 +772,10 @@ namespace MonitorigProcess
             {
                 return;
             }
-            ShowProcessView(selectedProcess.Id, selectedProcess.Name);
-        }
-
-        private Control currentDisplayedProcessView = null;
-
-        private void ShowProcessView(int PID, string processName)
-        {
-            string strPID = PID.ToString();
-            if (currentDisplayedProcessView != null)
-            {
-                currentDisplayedProcessView.Visible = false;
-            }
-            if (processViewContainer.Controls.ContainsKey(strPID))
-            {
-                processViewContainer.Controls[strPID].Visible = true;
-                currentDisplayedProcessView = processViewContainer.Controls[strPID];
-            }
-        }
-
-        private void InitProcessView(int PID, string processName)
-        {
-            string strPID = PID.ToString();
-
-            processMeasureEvents[PID] = null;
-            Control tempUserControl = new uscRealTimeProcessView(this, PID, processName);
-            tempUserControl.Dock = DockStyle.Fill;
-            tempUserControl.Name = strPID;
-            tempUserControl.Visible = false;
-
-            processViewContainer.Controls.Add(tempUserControl);
-        }
-
-        private void DeleteProcessView(string strPID)
-        {
-            if (!processViewContainer.Controls.ContainsKey(strPID))
-            {
-                return;
-            }
-            processViewContainer.Controls.RemoveByKey(strPID);
-            processMeasureEvents.Remove(int.Parse(strPID));
-        }
-
-        private void DeleteAllProcessView()
-        {
-            foreach (Control item in processViewContainer.Controls)
-            {
-                DeleteProcessView(item.Name);
-            }
-        }
+            processViewSelectedPid = selectedProcess.Id;
+            processDetailView.ShowInformation(processViewSelectedPid, 
+               PCM.GetProcessSet(processViewSelectedPid));
+        }       
 
         #endregion
 
@@ -874,6 +818,6 @@ namespace MonitorigProcess
 
         #endregion
 
-
+        
     }
 }

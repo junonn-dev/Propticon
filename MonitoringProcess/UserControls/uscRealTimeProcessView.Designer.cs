@@ -78,7 +78,7 @@ namespace MonitorigProcess.UserControls
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.00001F));
             this.tableLayoutPanel1.Controls.Add(this.commonPanel2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.commonPanel1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.commonPanel3, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.commonPanel3, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
@@ -86,17 +86,18 @@ namespace MonitorigProcess.UserControls
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1100, 391);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(910, 415);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // commonPanel2
             // 
             this.commonPanel2.Controls.Add(this.flowLayoutPanel2);
             this.commonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.commonPanel2.Location = new System.Drawing.Point(550, 1);
+            this.commonPanel2.Location = new System.Drawing.Point(455, 1);
             this.commonPanel2.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel2.Name = "commonPanel2";
-            this.commonPanel2.Size = new System.Drawing.Size(549, 232);
+            this.commonPanel2.Size = new System.Drawing.Size(454, 247);
             this.commonPanel2.TabIndex = 1;
             // 
             // flowLayoutPanel2
@@ -106,7 +107,7 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(549, 232);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(454, 247);
             this.flowLayoutPanel2.TabIndex = 2;
             // 
             // subtitleLabel2
@@ -151,7 +152,7 @@ namespace MonitorigProcess.UserControls
             this.lviewWorstList.Location = new System.Drawing.Point(3, 32);
             this.lviewWorstList.MultiSelect = false;
             this.lviewWorstList.Name = "lviewWorstList";
-            this.lviewWorstList.Size = new System.Drawing.Size(536, 196);
+            this.lviewWorstList.Size = new System.Drawing.Size(536, 211);
             this.lviewWorstList.TabIndex = 0;
             this.lviewWorstList.UseCompatibleStateImageBehavior = false;
             this.lviewWorstList.View = System.Windows.Forms.View.Details;
@@ -178,8 +179,7 @@ namespace MonitorigProcess.UserControls
             this.commonPanel1.Location = new System.Drawing.Point(1, 1);
             this.commonPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel1.Name = "commonPanel1";
-            this.tableLayoutPanel1.SetRowSpan(this.commonPanel1, 2);
-            this.commonPanel1.Size = new System.Drawing.Size(547, 389);
+            this.commonPanel1.Size = new System.Drawing.Size(452, 247);
             this.commonPanel1.TabIndex = 5;
             // 
             // flowLayoutPanel1
@@ -191,7 +191,7 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(547, 389);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(452, 247);
             this.flowLayoutPanel1.TabIndex = 5;
             // 
             // subtitleLabel1
@@ -199,7 +199,7 @@ namespace MonitorigProcess.UserControls
             this.subtitleLabel1.Location = new System.Drawing.Point(4, 4);
             this.subtitleLabel1.Margin = new System.Windows.Forms.Padding(4);
             this.subtitleLabel1.Name = "subtitleLabel1";
-            this.subtitleLabel1.Size = new System.Drawing.Size(397, 25);
+            this.subtitleLabel1.Size = new System.Drawing.Size(256, 25);
             this.subtitleLabel1.TabIndex = 0;
             this.subtitleLabel1.Text = "Information";
             // 
@@ -207,7 +207,7 @@ namespace MonitorigProcess.UserControls
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Gulim", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(408, 5);
+            this.label2.Location = new System.Drawing.Point(267, 5);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 12);
@@ -218,13 +218,13 @@ namespace MonitorigProcess.UserControls
             // 
             this.lblPid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPid.AutoSize = true;
-            this.lblPid.Location = new System.Drawing.Point(451, 5);
+            this.lblPid.Location = new System.Drawing.Point(310, 5);
             this.lblPid.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.lblPid.Name = "lblPid";
             this.lblPid.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lblPid.Size = new System.Drawing.Size(36, 12);
             this.lblPid.TabIndex = 3;
-            this.lblPid.Text = "lblPid";
+            this.lblPid.Text = "";
             // 
             // dgvStatistics
             // 
@@ -268,7 +268,7 @@ namespace MonitorigProcess.UserControls
             this.dgvStatistics.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgvStatistics.RowHeadersVisible = false;
             this.dgvStatistics.RowTemplate.Height = 23;
-            this.dgvStatistics.Size = new System.Drawing.Size(546, 195);
+            this.dgvStatistics.Size = new System.Drawing.Size(451, 213);
             this.dgvStatistics.TabIndex = 4;
             // 
             // colCounter
@@ -293,12 +293,13 @@ namespace MonitorigProcess.UserControls
             // 
             // commonPanel3
             // 
+            this.tableLayoutPanel1.SetColumnSpan(this.commonPanel3, 2);
             this.commonPanel3.Controls.Add(this.flowLayoutPanel3);
             this.commonPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.commonPanel3.Location = new System.Drawing.Point(550, 235);
+            this.commonPanel3.Location = new System.Drawing.Point(1, 250);
             this.commonPanel3.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel3.Name = "commonPanel3";
-            this.commonPanel3.Size = new System.Drawing.Size(549, 155);
+            this.commonPanel3.Size = new System.Drawing.Size(908, 164);
             this.commonPanel3.TabIndex = 1;
             // 
             // flowLayoutPanel3
@@ -308,7 +309,7 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(549, 155);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(908, 164);
             this.flowLayoutPanel3.TabIndex = 1;
             // 
             // subtitleLabel3
@@ -339,7 +340,7 @@ namespace MonitorigProcess.UserControls
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1100, 391);
+            this.panel1.Size = new System.Drawing.Size(910, 415);
             this.panel1.TabIndex = 5;
             // 
             // uscRealTimeProcessView
@@ -350,7 +351,7 @@ namespace MonitorigProcess.UserControls
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Name = "uscRealTimeProcessView";
-            this.Size = new System.Drawing.Size(1100, 391);
+            this.Size = new System.Drawing.Size(910, 415);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.commonPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);

@@ -118,6 +118,11 @@ namespace MonitorigProcess
             return mapProcessPerformance[process.Id];
         }
 
+        public ProcessPerformance GetProcessSet(int pid)
+        {
+            return mapProcessPerformance[pid];
+        }
+
         //map에 현재 측정중인 프로세스 정보만 담겨있으면 processes 주입 필요 없는데,
         //map에 미사용 프로세스 해제가 안된 상태라 processes 가져와야 함
         public ResultSnapshot GetResultSnapshot(IEnumerable<Process> processes, int processCount)

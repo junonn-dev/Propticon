@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using MonitorigProcess.CounterItem;
 using MonitorigProcess.Data;
 using MonitoringProcess.Data;
 using MonitoringProcess.Helper;
@@ -18,48 +19,11 @@ namespace MonitorigProcess.UserControls
             lviewWorstList.Items.Clear();
         }
 
-        public uscRealTimeProcessView(Measure form) : this()
+        public void InitView(Measure form)
         {
             form.monitoringStartEvent += InitStatisticsView;
             form.monitoringStartEvent += InitWorstListView;
-
-            label2.Visible = false;
-            lblPid.Text = "";
-            form.pcMeasureEvent = HandlePcPerformanceLogEvent; //pc Performance를 위한 키값은 -1
-
-            dgvStatistics.ColumnCount = 4;
-            dgvStatistics.ColumnHeadersVisible = true;
-            dgvStatistics.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvStatistics.AllowUserToAddRows = false;
-            dgvStatistics.AllowUserToDeleteRows = false;
-            dgvStatistics.AllowUserToOrderColumns = true;
-            dgvStatistics.AllowDrop = false;
-            dgvStatistics.AllowUserToResizeColumns = false;
-            dgvStatistics.AllowUserToResizeRows = false;
-            dgvStatistics.ReadOnly = true;
-            dgvStatistics.Columns[0].Name = "counter";
-            dgvStatistics.Columns[1].Name = "min";
-            dgvStatistics.Columns[2].Name = "max";
-            dgvStatistics.Columns[3].Name = "avg";
-
-            dgvStatistics.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgvStatistics.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgvStatistics.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dgvStatistics.Columns[3].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-            string[] row1 = new string[] { "CPU Usage", rowDefault, rowDefault, rowDefault };
-            string[] row2 = new string[] { "Memory(MB)", rowDefault, rowDefault, rowDefault };
-
-            dgvStatistics.Rows.Add(row1);
-            dgvStatistics.Rows.Add(row2);
-        }
-
-        public uscRealTimeProcessView(Measure form, int PID, string processName) : this()
-        {
-            form.monitoringStartEvent += InitStatisticsView;
-            form.monitoringStartEvent += InitWorstListView;
-            form.processMeasureEvents[PID] = HandleLogEvent;
-            lblPid.Text = PID.ToString();
+            form.processMeasureEvents += HandleLogEvent;
 
             dgvStatistics.ColumnCount = 4;
             dgvStatistics.ColumnHeadersVisible = true;
@@ -105,7 +69,7 @@ namespace MonitorigProcess.UserControls
             }
         }
 
-        private void InitWorstListView(object sender, EventArgs e)
+        public void InitWorstListView(object sender, EventArgs e)
         {
             lviewWorstList.Items.Clear();
         }
@@ -246,7 +210,68 @@ namespace MonitorigProcess.UserControls
                 lviewWorstList.Items[itemKey].SubItems[2].Text
                     = times[0].ToString();
             }
-            
         }        
+
+        public void ShowInformation(int pid, ProcessPerformance processPerformance)
+        {
+            this.lblPid.Text = pid.ToString();
+
+            InitWorstListView(null,null);
+
+            parseWorstList(processPerformance.processorTimeCounter.worstList.list, cpuGroupName);
+            parseWorstList(processPerformance.workingSetCounter.worstList.list, memoryGroupName);
+
+            var cpuMin = processPerformance.processorTimeCounter.GetMinValue();
+            if (cpuMin != float.MaxValue)
+            {
+                dgvStatistics.Rows[0].Cells[1].Value = Math.Round(processPerformance.processorTimeCounter.GetMinValue(), 3).ToString();
+            }
+            else
+            {
+                dgvStatistics.Rows[0].Cells[1].Value = rowDefault;
+            }
+            dgvStatistics.Rows[0].Cells[2].Value = Math.Round(processPerformance.processorTimeCounter.GetMaxValue(), 3).ToString();
+            dgvStatistics.Rows[0].Cells[3].Value = Math.Round(processPerformance.processorTimeCounter.GetAverage(), 3).ToString();
+
+            dgvStatistics.Rows[1].Cells[1].Value = Math.Round(processPerformance.workingSetCounter.GetMinValue() / (1024 * 1024), 3).ToString();
+            dgvStatistics.Rows[1].Cells[2].Value = Math.Round(processPerformance.workingSetCounter.GetMaxValue() / (1024 * 1024), 3).ToString();
+            dgvStatistics.Rows[1].Cells[3].Value = Math.Round(processPerformance.workingSetCounter.GetAverage() / (1024 * 1024), 3).ToString();
+
+            var threadMin = processPerformance.threadCountCounter.GetMinValue();
+            if (threadMin != float.MaxValue)
+            {
+                dgvStatistics.Rows[2].Cells[1].Value = Math.Round(threadMin, 3).ToString();
+            }
+            else
+            {
+                dgvStatistics.Rows[2].Cells[1].Value = rowDefault;
+            }
+            dgvStatistics.Rows[2].Cells[2].Value = processPerformance.threadCountCounter.GetMaxValue().ToString();
+            dgvStatistics.Rows[2].Cells[3].Value = Math.Round(processPerformance.threadCountCounter.GetAverage()).ToString();
+
+            var handleMin = processPerformance.handleCountCounter.GetMinValue();
+            if (handleMin != float.MaxValue)
+            {
+                dgvStatistics.Rows[3].Cells[1].Value = Math.Round(handleMin, 3).ToString();
+            }
+            else
+            {
+                dgvStatistics.Rows[3].Cells[1].Value = rowDefault;
+            }
+            dgvStatistics.Rows[3].Cells[2].Value = processPerformance.handleCountCounter.GetMaxValue().ToString();
+            dgvStatistics.Rows[3].Cells[3].Value = Math.Round(processPerformance.handleCountCounter.GetAverage()).ToString();
+
+            var gdiMin = processPerformance.gdiCountCounter.GetMinValue();
+            if (gdiMin != float.MaxValue)
+            {
+                dgvStatistics.Rows[4].Cells[1].Value = gdiMin.ToString();
+            }
+            else
+            {
+                dgvStatistics.Rows[4].Cells[1].Value = rowDefault;
+            }
+            dgvStatistics.Rows[4].Cells[2].Value = processPerformance.gdiCountCounter.GetMaxValue().ToString();
+            dgvStatistics.Rows[4].Cells[3].Value = Math.Round(processPerformance.gdiCountCounter.GetAverage()).ToString();
+        }
     }
 }

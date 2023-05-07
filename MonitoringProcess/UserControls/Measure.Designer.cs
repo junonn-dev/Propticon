@@ -21,11 +21,6 @@
         }
 
         #region Windows Form 디자이너에서 생성한 코드
-
-        /// <summary>
-        /// 디자이너 지원에 필요한 메서드입니다. 
-        /// 이 메서드의 내용을 코드 편집기로 수정하지 마세요.
-        /// </summary>
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -59,12 +54,14 @@
             this.processMonitoredList = new System.Windows.Forms.ListBox();
             this.commonPanel3 = new MonitorigProcess.UserControls.resources.CommonPanel();
             this.processViewContainer = new Guna.UI2.WinForms.Guna2ContainerControl();
+            this.processDetailView = new MonitorigProcess.UserControls.uscRealTimeProcessView();
             this.freeDiskSpaceViewer1 = new MonitoringProcess.UserControls.FreeDiskSpaceViewer();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.commonPanel1.SuspendLayout();
             this.commonPanel2.SuspendLayout();
             this.commonPanel3.SuspendLayout();
+            this.processViewContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -261,7 +258,7 @@
             // 
             // lblEndDateInfo
             // 
-            this.lblEndDateInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblEndDateInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEndDateInfo.BackColor = System.Drawing.Color.White;
             this.lblEndDateInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -282,7 +279,7 @@
             // 
             // lblStartDateInfo
             // 
-            this.lblStartDateInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblStartDateInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStartDateInfo.BackColor = System.Drawing.Color.White;
             this.lblStartDateInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -312,7 +309,7 @@
             // 
             // dateTimePickerEndDate
             // 
-            this.dateTimePickerEndDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dateTimePickerEndDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dateTimePickerEndDate.CustomFormat = "yyyy-MM-dd HH시 mm분";
             this.dateTimePickerEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
@@ -406,6 +403,7 @@
             // 
             // processViewContainer
             // 
+            this.processViewContainer.Controls.Add(this.processDetailView);
             this.processViewContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.processViewContainer.Location = new System.Drawing.Point(0, 0);
             this.processViewContainer.Margin = new System.Windows.Forms.Padding(0);
@@ -413,6 +411,15 @@
             this.processViewContainer.Size = new System.Drawing.Size(911, 415);
             this.processViewContainer.TabIndex = 0;
             this.processViewContainer.Text = "guna2ContainerControl1";
+            // 
+            // processDetailView
+            // 
+            this.processDetailView.AutoSize = true;
+            this.processDetailView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.processDetailView.Location = new System.Drawing.Point(0, 0);
+            this.processDetailView.Name = "processDetailView";
+            this.processDetailView.Size = new System.Drawing.Size(911, 415);
+            this.processDetailView.TabIndex = 0;
             // 
             // freeDiskSpaceViewer1
             // 
@@ -437,14 +444,16 @@
             this.commonPanel2.ResumeLayout(false);
             this.commonPanel2.PerformLayout();
             this.commonPanel3.ResumeLayout(false);
+            this.processViewContainer.ResumeLayout(false);
+            this.processViewContainer.PerformLayout();
             this.ResumeLayout(false);
 
         }
-
         #endregion
-        private System.Windows.Forms.DateTimePicker dateTimePickerEndDate;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DateTimePicker dateTimePickerEndDate;
+        private UserControls.uscRealTimeProcessView processDetailView;
         private UserControls.resources.NormalButton BtnRefresh;
         private System.Windows.Forms.TextBox textBox1;
         private UserControls.resources.NormalButton BtnApply;
@@ -474,6 +483,7 @@
         private UserControls.resources.SubtitleLabel subtitleLabel3;
         private UserControls.resources.CommonPanel commonPanel3;
         private Guna.UI2.WinForms.Guna2ContainerControl processViewContainer;
+        private UserControls.uscRealTimeProcessView uscRealTimeProcessView1;
     }
 }
 
