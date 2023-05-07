@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -270,6 +270,7 @@ namespace MonitorigProcess
             int i = 0;
             allProc = Process.GetProcesses();
             listView1.BeginUpdate();
+            listView1.Items.Clear();
             foreach (Process p in allProc)
             {
                 i++;
