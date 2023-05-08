@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="Config\AppConfiguration.cs" />
     <Compile Include="CounterItem\BaseCounter.cs" />
+    <Compile Include="CounterItem\CpuCounter.cs" />
     <Compile Include="CounterItem\GdiCounter.cs" />
     <Compile Include="CounterItem\PCPerformance.cs" />
     <Compile Include="Data\PCMeasureEventArgs.cs" />

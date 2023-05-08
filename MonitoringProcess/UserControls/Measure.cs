@@ -99,6 +99,8 @@ namespace MonitorigProcess
                 processMonitoredList.DisplayMember = "Name";
             }
             processDetailView.InitView(this);
+            totalResourceView.InitView(this, true);
+            
             base.OnLoad(e);
         }
 
@@ -481,6 +483,7 @@ namespace MonitorigProcess
                 selectedProcesses.Add(new SelectedProcess(process.Pid, process.ProcessName, process.InstanceName));
             }
             processViewSelectedPid = selectedProcesses[0].Id;
+            processDetailView.SetPidText(processViewSelectedPid);
 
             OnMonitoringStart(new EventArgs());
             Thread.Sleep(1000);  // Thread 대기 Time
@@ -776,6 +779,9 @@ namespace MonitorigProcess
             processViewSelectedPid = selectedProcess.Id;
             processDetailView.ShowInformation(processViewSelectedPid, 
                PCM.GetProcessSet(processViewSelectedPid));
+
+            totalResourceView.Visible = false;
+            processDetailView.Visible = true;
         }       
 
         #endregion
@@ -817,8 +823,13 @@ namespace MonitorigProcess
             monitoringStartEvent?.Invoke(this, e);
         }
 
+
         #endregion
 
-        
+        private void totalViewButton_Click(object sender, EventArgs e)
+        {
+            totalResourceView.Visible = true;
+            processDetailView.Visible = false;
+        }
     }
 }

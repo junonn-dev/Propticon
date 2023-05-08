@@ -11,7 +11,7 @@ namespace MonitorigProcess
     {
         public static class Constants
         {
-            public const int maxconfig = 20;
+            public const int maxconfig = 30;
         }
         //#region 
         //private int iThreadTime = 2000;  // Thread 주기

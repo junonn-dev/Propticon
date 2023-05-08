@@ -50,10 +50,12 @@
             this.BtnMonitorStart = new MonitorigProcess.UserControls.resources.ColoredButton();
             this.BtnMonitorEnd = new MonitorigProcess.UserControls.resources.ColoredButton();
             this.commonPanel2 = new MonitorigProcess.UserControls.resources.CommonPanel();
+            this.totalViewButton = new MonitorigProcess.UserControls.resources.NormalButton();
             this.subtitleLabel3 = new MonitorigProcess.UserControls.resources.SubtitleLabel();
             this.processMonitoredList = new System.Windows.Forms.ListBox();
             this.commonPanel3 = new MonitorigProcess.UserControls.resources.CommonPanel();
-            this.processViewContainer = new Guna.UI2.WinForms.Guna2ContainerControl();
+            this.guna2ContainerControl1 = new Guna.UI2.WinForms.Guna2ContainerControl();
+            this.totalResourceView = new MonitorigProcess.UserControls.uscRealTimeProcessView();
             this.processDetailView = new MonitorigProcess.UserControls.uscRealTimeProcessView();
             this.freeDiskSpaceViewer1 = new MonitoringProcess.UserControls.FreeDiskSpaceViewer();
             this.flowLayoutPanel1.SuspendLayout();
@@ -61,7 +63,7 @@
             this.commonPanel1.SuspendLayout();
             this.commonPanel2.SuspendLayout();
             this.commonPanel3.SuspendLayout();
-            this.processViewContainer.SuspendLayout();
+            this.guna2ContainerControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -258,7 +260,7 @@
             // 
             // lblEndDateInfo
             // 
-            this.lblEndDateInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.lblEndDateInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEndDateInfo.BackColor = System.Drawing.Color.White;
             this.lblEndDateInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -279,7 +281,7 @@
             // 
             // lblStartDateInfo
             // 
-            this.lblStartDateInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.lblStartDateInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStartDateInfo.BackColor = System.Drawing.Color.White;
             this.lblStartDateInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -309,7 +311,7 @@
             // 
             // dateTimePickerEndDate
             // 
-            this.dateTimePickerEndDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.dateTimePickerEndDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dateTimePickerEndDate.CustomFormat = "yyyy-MM-dd HH시 mm분";
             this.dateTimePickerEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
@@ -364,6 +366,7 @@
             // 
             // commonPanel2
             // 
+            this.commonPanel2.Controls.Add(this.totalViewButton);
             this.commonPanel2.Controls.Add(this.subtitleLabel3);
             this.commonPanel2.Controls.Add(this.processMonitoredList);
             this.commonPanel2.Location = new System.Drawing.Point(1, 181);
@@ -372,10 +375,25 @@
             this.commonPanel2.Size = new System.Drawing.Size(181, 417);
             this.commonPanel2.TabIndex = 0;
             // 
+            // totalViewButton
+            // 
+            this.totalViewButton.FlatAppearance.BorderSize = 0;
+            this.totalViewButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.totalViewButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.totalViewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.totalViewButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
+            this.totalViewButton.Location = new System.Drawing.Point(124, 3);
+            this.totalViewButton.Name = "totalViewButton";
+            this.totalViewButton.Size = new System.Drawing.Size(53, 30);
+            this.totalViewButton.TabIndex = 19;
+            this.totalViewButton.Text = "Total";
+            this.totalViewButton.UseVisualStyleBackColor = true;
+            this.totalViewButton.Click += new System.EventHandler(this.totalViewButton_Click);
+            // 
             // subtitleLabel3
             // 
             this.subtitleLabel3.AutoSize = true;
-            this.subtitleLabel3.Location = new System.Drawing.Point(0, 2);
+            this.subtitleLabel3.Location = new System.Drawing.Point(2, 6);
             this.subtitleLabel3.Margin = new System.Windows.Forms.Padding(1);
             this.subtitleLabel3.Name = "subtitleLabel3";
             this.subtitleLabel3.Size = new System.Drawing.Size(61, 21);
@@ -387,6 +405,7 @@
             this.processMonitoredList.FormattingEnabled = true;
             this.processMonitoredList.ItemHeight = 12;
             this.processMonitoredList.Location = new System.Drawing.Point(4, 34);
+            this.processMonitoredList.Margin = new System.Windows.Forms.Padding(1);
             this.processMonitoredList.Name = "processMonitoredList";
             this.processMonitoredList.Size = new System.Drawing.Size(174, 376);
             this.processMonitoredList.TabIndex = 17;
@@ -394,31 +413,42 @@
             // 
             // commonPanel3
             // 
-            this.commonPanel3.Controls.Add(this.processViewContainer);
+            this.commonPanel3.Controls.Add(this.guna2ContainerControl1);
             this.commonPanel3.Location = new System.Drawing.Point(184, 181);
             this.commonPanel3.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel3.Name = "commonPanel3";
-            this.commonPanel3.Size = new System.Drawing.Size(911, 415);
+            this.commonPanel3.Size = new System.Drawing.Size(913, 417);
             this.commonPanel3.TabIndex = 17;
             // 
-            // processViewContainer
+            // guna2ContainerControl1
             // 
-            this.processViewContainer.Controls.Add(this.processDetailView);
-            this.processViewContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.processViewContainer.Location = new System.Drawing.Point(0, 0);
-            this.processViewContainer.Margin = new System.Windows.Forms.Padding(0);
-            this.processViewContainer.Name = "processViewContainer";
-            this.processViewContainer.Size = new System.Drawing.Size(911, 415);
-            this.processViewContainer.TabIndex = 0;
-            this.processViewContainer.Text = "guna2ContainerControl1";
+            this.guna2ContainerControl1.Controls.Add(this.totalResourceView);
+            this.guna2ContainerControl1.Controls.Add(this.processDetailView);
+            this.guna2ContainerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.guna2ContainerControl1.Location = new System.Drawing.Point(0, 0);
+            this.guna2ContainerControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.guna2ContainerControl1.Name = "guna2ContainerControl1";
+            this.guna2ContainerControl1.Size = new System.Drawing.Size(913, 417);
+            this.guna2ContainerControl1.TabIndex = 1;
+            this.guna2ContainerControl1.Text = "guna2ContainerControl1";
+            // 
+            // totalResourceView
+            // 
+            this.totalResourceView.AutoSize = true;
+            this.totalResourceView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.totalResourceView.Location = new System.Drawing.Point(0, 0);
+            this.totalResourceView.Name = "totalResourceView";
+            this.totalResourceView.Size = new System.Drawing.Size(913, 417);
+            this.totalResourceView.TabIndex = 1;
             // 
             // processDetailView
             // 
             this.processDetailView.AutoSize = true;
             this.processDetailView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.processDetailView.Location = new System.Drawing.Point(0, 0);
+            this.processDetailView.Margin = new System.Windows.Forms.Padding(1);
             this.processDetailView.Name = "processDetailView";
-            this.processDetailView.Size = new System.Drawing.Size(911, 415);
+            this.processDetailView.Size = new System.Drawing.Size(913, 417);
             this.processDetailView.TabIndex = 0;
             // 
             // freeDiskSpaceViewer1
@@ -444,8 +474,8 @@
             this.commonPanel2.ResumeLayout(false);
             this.commonPanel2.PerformLayout();
             this.commonPanel3.ResumeLayout(false);
-            this.processViewContainer.ResumeLayout(false);
-            this.processViewContainer.PerformLayout();
+            this.guna2ContainerControl1.ResumeLayout(false);
+            this.guna2ContainerControl1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -482,8 +512,10 @@
         private System.Windows.Forms.ListBox processMonitoredList;
         private UserControls.resources.SubtitleLabel subtitleLabel3;
         private UserControls.resources.CommonPanel commonPanel3;
-        private Guna.UI2.WinForms.Guna2ContainerControl processViewContainer;
         private UserControls.uscRealTimeProcessView uscRealTimeProcessView1;
+        private Guna.UI2.WinForms.Guna2ContainerControl guna2ContainerControl1;
+        private UserControls.uscRealTimeProcessView totalResourceView;
+        private UserControls.resources.NormalButton totalViewButton;
     }
 }
 
