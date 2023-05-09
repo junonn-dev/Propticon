@@ -91,9 +91,11 @@
   <ItemGroup>
     <Compile Include="Config\AppConfiguration.cs" />
     <Compile Include="CounterItem\BaseCounter.cs" />
+    <Compile Include="CounterItem\CpuCounter.cs" />
     <Compile Include="CounterItem\GdiCounter.cs" />
     <Compile Include="CounterItem\PCPerformance.cs" />
     <Compile Include="Data\PCMeasureEventArgs.cs" />
+    <Compile Include="Data\SelectedProcess.cs" />
     <Compile Include="Helper\EnumDescription.cs" />
     <Compile Include="Exception\ErrorCode.cs" />
     <Compile Include="Helper\TotalPhysicalMemory.cs" />

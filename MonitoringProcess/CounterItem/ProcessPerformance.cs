@@ -8,7 +8,7 @@ namespace MonitorigProcess.CounterItem
         public int pid { get; set; }    
         public string processName { get; set; }     //chrome
         public string instanceName { get; set; }    //chrome#n
-        public Counter processorTimeCounter { get; }
+        public ProcessCpuCounter processorTimeCounter { get; }
         public Counter workingSetCounter { get; }
         public Counter handleCountCounter { get; }
         public Counter threadCountCounter { get; }
@@ -19,7 +19,7 @@ namespace MonitorigProcess.CounterItem
             this.pid = pid;
             this.processName = processName;
             this.instanceName = instanceName;
-            processorTimeCounter = new Counter("Process", "% Processor Time", processName);
+            processorTimeCounter = new ProcessCpuCounter(pid, "Process", "% Processor Time", processName);
             workingSetCounter = new Counter("Process", "Working Set - Private", processName);
             threadCountCounter = new Counter("Process", "Thread Count", processName);
             handleCountCounter = new Counter("Process", "Handle Count", processName);

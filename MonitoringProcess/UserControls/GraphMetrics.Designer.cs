@@ -40,7 +40,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(739, 700);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(800, 700);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // guna2TabControl1
@@ -51,7 +51,7 @@
             this.guna2TabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.guna2TabControl1.Name = "guna2TabControl1";
             this.guna2TabControl1.SelectedIndex = 0;
-            this.guna2TabControl1.Size = new System.Drawing.Size(739, 695);
+            this.guna2TabControl1.Size = new System.Drawing.Size(800, 695);
             this.guna2TabControl1.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
             this.guna2TabControl1.TabButtonHoverState.FillColor = System.Drawing.Color.White;
             this.guna2TabControl1.TabButtonHoverState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -80,7 +80,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "GraphMetrics";
-            this.Size = new System.Drawing.Size(739, 700);
+            this.Size = new System.Drawing.Size(800, 700);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

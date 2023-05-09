@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -14,6 +14,7 @@ using System.IO;
 using MonitorigProcess.Repository;
 using MonitoringProcess.Data;
 using MonitoringProcess.CounterItem;
+using System.ComponentModel;
 
 namespace MonitorigProcess
 {
@@ -47,6 +48,8 @@ namespace MonitorigProcess
         private Process[] pProcess = new Process[Constants.maxconfig];  // 선택된 프로세스 정보
         #endregion
 
+        private BindingList<SelectedProcess> selectedProcesses = new BindingList<SelectedProcess>();
+
         string message;
         int iSelected;
         public int iProcessMaxCnt = 0;
@@ -60,11 +63,10 @@ namespace MonitorigProcess
         IniFile ini;
         Logger logger;
         StringBuilder sb = new StringBuilder();
-        StringBuilder sb2 = new StringBuilder();
-        StringBuilder filename = new StringBuilder();
-        PCManager[] pcManger = new PCManager[Constants.maxconfig];
         PCManager PCM = new PCManager();
         Thread selectcputhread;
+        private int processViewSelectedPid = 0;
+
 
         public Measure()
         {
@@ -92,8 +94,13 @@ namespace MonitorigProcess
                 InitListView();
                 UpdateListView();
                 InitSelectedListView();
-                InitTabControl();
+
+                processMonitoredList.DataSource = selectedProcesses;
+                processMonitoredList.DisplayMember = "Name";
             }
+            processDetailView.InitView(this);
+            totalResourceView.InitView(this, true);
+            
             base.OnLoad(e);
         }
 
@@ -265,6 +272,7 @@ namespace MonitorigProcess
             int i = 0;
             allProc = Process.GetProcesses();
             listView1.BeginUpdate();
+            listView1.Items.Clear();
             foreach (Process p in allProc)
             {
                 i++;
@@ -392,18 +400,12 @@ namespace MonitorigProcess
                 return;
             }
 
-            if (iProcessMaxCnt > 9)
+            if (iProcessMaxCnt >= Constants.maxconfig)
             {
-                MessageBox.Show("모니터링 최대개수는 10개입니다!!!");
+                MessageBox.Show($"모니터링 최대개수는 {Constants.maxconfig}개입니다!!!");
                 return;
             }
             InsertSelectedListView();
-
-            foreach (ListViewItem item in listView1.SelectedItems)
-            {
-                AddProcessTab(int.Parse(item.SubItems[1].Text), item.SubItems[2].Text);
-            }
-
         }
 
         // listview 선택된 process remove
@@ -419,11 +421,6 @@ namespace MonitorigProcess
             {
                 MessageBox.Show("선택된 프로세스가 없습니다!");
                 return;
-            }
-
-            foreach (ListViewItem item in listView2.SelectedItems)
-            {
-                DeleteProcessTab(int.Parse(item.SubItems[0].Text));
             }
 
             RemoveSelectedListView();
@@ -479,11 +476,18 @@ namespace MonitorigProcess
                 dtEndDate = DateTime.Now.AddHours(1);
             }
 
+            selectedProcesses.Clear();
+            for (int i = 0; i < iProcessMaxCnt; i++)
+            {
+                StProcess process = sProcess[i];
+                selectedProcesses.Add(new SelectedProcess(process.Pid, process.ProcessName, process.InstanceName));
+            }
+            processViewSelectedPid = selectedProcesses[0].Id;
+            processDetailView.SetPidText(processViewSelectedPid);
+
             OnMonitoringStart(new EventArgs());
             Thread.Sleep(1000);  // Thread 대기 Time
             SelectProcessThread();  // 선택 Process CPU 사용량 Check Thread
-
-            //bCheck = true;
         }
 
         // text 변경시 listview 해당 문자열 찾기
@@ -611,7 +615,6 @@ namespace MonitorigProcess
                 Thread.Sleep(iThreadTime);  // Thread 대기 Time
                 if (checkDateTime(dtEndDate))
                 {
-                    
                     break;
                 }
             }
@@ -660,11 +663,6 @@ namespace MonitorigProcess
 
         #endregion
 
-        private void dateTimePickerStartDate_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void dateTimePickerEndDate_ValueChanged(object sender, EventArgs e)
         {
             dtEndDate = dateTimePickerEndDate.Value;
@@ -681,6 +679,7 @@ namespace MonitorigProcess
                 }
             }
         }
+
         private void BtnListClear_Click(object sender, EventArgs e)
         {
             if (bMonitorStart)
@@ -689,7 +688,6 @@ namespace MonitorigProcess
                 return;
             }
             ClearListView(listView2);
-            DeleteAllProcessTabControl();
 
             for (int i = 0; i < Constants.maxconfig; i++)
             {
@@ -730,16 +728,6 @@ namespace MonitorigProcess
                 
                 memoryUsage /= 1024*1024;    //memory megabyte 변환
 
-                // 4줄로...
-                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu: {cpuUsage.ToString()} %");
-                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} mem: {memoryUsage.ToString()} %");
-                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} threadCnt: {threadCount.ToString()} cnt");
-                //Log(lboxProcessLog, enLogLevel.Info, $"{pProcess[i].ProcessName} HandleCnt: {handleCount.ToString()} cnt");
-
-                // 한줄로...
-                //Log(lboxProcessLog, enLogLevel.Info, $"{sProcess[i].InstanceName} cpu (%): {cpuUsage.ToString()} mem (KB): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
-                //Log(listBox1, enLogLevel.Info, $"{pProcess[i].ProcessName} cpu (%): {cpuUsage.ToString()} mem (%): {memoryUsage.ToString()} thread (cnt): {threadCount.ToString()} handle (cnt): {handleCount.ToString()}");
-
                 sb.Append(cpuUsage.ToString()).Append(",")
                     .Append(memoryUsage.ToString()).Append(",")
                     .Append(threadCount.ToString()).Append(",")
@@ -747,10 +735,14 @@ namespace MonitorigProcess
                     .Append(gdiCount.ToString()).Append(",");
 
                 string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} {sProcess[i].InstanceName} - cpu (%): {Math.Round(cpuUsage,3).ToString()}, mem (MB): {Math.Round(memoryUsage,3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
-                ProcessPerformance processSet = PCM.GetProcessSet(pProcess[i]);
-                
-                OnRaiseProcessMeasureEvent(pProcess[i].Id, new ProcessMeasureEventArgs(message, processSet));
+
+                if(pProcess[i].Id == processViewSelectedPid)
+                {
+                    ProcessPerformance processSet = PCM.GetProcessSet(processViewSelectedPid);
+                    OnRaiseProcessMeasureEvent(processViewSelectedPid, new ProcessMeasureEventArgs(message, processSet));
+                }
             }
+
             sb.Append(totalCpuUsage.ToString()).Append(",")
                 .Append(totalMemoryUsage.ToString()).Append(",");
 
@@ -770,75 +762,27 @@ namespace MonitorigProcess
         //https://stackoverflow.com/questions/2237927/is-there-any-way-to-create-indexed-events-in-c-sharp-or-some-workaround
 
         //public event EventHandler<DataEventArgs> measureEvent;
-        public Dictionary<int, EventHandler<ProcessMeasureEventArgs>> processMeasureEvents = new Dictionary<int, EventHandler<ProcessMeasureEventArgs>>();
-
+        public EventHandler<ProcessMeasureEventArgs> processMeasureEvents;
 
         private void OnRaiseProcessMeasureEvent(int PID, ProcessMeasureEventArgs e)
         {
-
-            processMeasureEvents[PID]?.BeginInvoke(this, e,null,null);
+            processMeasureEvents?.BeginInvoke(this, e,null,null);
         }
-
-        private void AddPcPerformanceTab()
+        
+        private void processMonitoredList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string key = "-1"; //Magic Number
-            if (tconProcessTab.TabPages.ContainsKey(key))
+            SelectedProcess selectedProcess = (SelectedProcess)processMonitoredList.SelectedItem;
+            if(selectedProcess is null)
             {
                 return;
             }
+            processViewSelectedPid = selectedProcess.Id;
+            processDetailView.ShowInformation(processViewSelectedPid, 
+               PCM.GetProcessSet(processViewSelectedPid));
 
-            tconProcessTab.TabPages.Add(key, "Total");
-            tconProcessTab.TabPages[key].Margin = new Padding(1);
-
-            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this);
-            tempUserControl.Dock = DockStyle.Fill;
-
-            tconProcessTab.TabPages[key].Controls.Add(tempUserControl);
-        }
-
-        private void AddProcessTab(int PID, string processName)
-        {
-            string strPID = PID.ToString();
-            if (tconProcessTab.TabPages.ContainsKey(strPID))
-            {
-                return;
-            }
-            tconProcessTab.TabPages.Add(strPID, processName);
-            tconProcessTab.TabPages[strPID].Margin = new Padding(1);
-
-            processMeasureEvents[PID] = null;
-            uscRealTimeProcessView tempUserControl = new uscRealTimeProcessView(this, PID, processName);
-            tempUserControl.Dock = DockStyle.Fill;
-
-            tconProcessTab.TabPages[strPID].Controls.Add(tempUserControl);
-        }
-
-        private void DeleteProcessTab(int PID)
-        {
-            if (!tconProcessTab.TabPages.ContainsKey(PID.ToString()))
-            {
-                return;
-            }
-            tconProcessTab.TabPages.RemoveByKey(PID.ToString());
-            processMeasureEvents.Remove(PID);
-        }
-
-        private void InitTabControl()
-        {
-            AddPcPerformanceTab();
-            for (int i = 0; i < iProcessMaxCnt; i++)
-            {
-                AddProcessTab(sProcess[i].Pid, sProcess[i].ProcessName);
-            }
-        }
-
-        private void DeleteAllProcessTabControl()
-        {
-            for (int i = 0; i < iProcessMaxCnt; i++)
-            {
-                DeleteProcessTab(sProcess[i].Pid);
-            }
-        }
+            totalResourceView.Visible = false;
+            processDetailView.Visible = true;
+        }       
 
         #endregion
 
@@ -879,6 +823,13 @@ namespace MonitorigProcess
             monitoringStartEvent?.Invoke(this, e);
         }
 
+
         #endregion
+
+        private void totalViewButton_Click(object sender, EventArgs e)
+        {
+            totalResourceView.Visible = true;
+            processDetailView.Visible = false;
+        }
     }
 }
