@@ -53,5 +53,7 @@ namespace MonitorigProcess.Config
         public static readonly List<string> pcCounterNames 
             = new List<string>(diskNames);
 
+        public static readonly string iniPath = System.Windows.Forms.Application.StartupPath + "\\MonitorProcess.ini";
+
     }
 }

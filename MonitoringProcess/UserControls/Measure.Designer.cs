@@ -58,6 +58,7 @@
             this.totalResourceView = new MonitorigProcess.UserControls.uscRealTimeProcessView();
             this.processDetailView = new MonitorigProcess.UserControls.uscRealTimeProcessView();
             this.freeDiskSpaceViewer1 = new MonitoringProcess.UserControls.FreeDiskSpaceViewer();
+            this.coloredButton1 = new MonitorigProcess.UserControls.resources.ColoredButton();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.commonPanel1.SuspendLayout();
@@ -81,6 +82,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.coloredButton1);
             this.panel1.Controls.Add(this.subtitleLabel1);
             this.panel1.Controls.Add(this.BtnListClear);
             this.panel1.Controls.Add(this.BtnRefresh);
@@ -459,6 +461,21 @@
             this.freeDiskSpaceViewer1.Size = new System.Drawing.Size(1096, 146);
             this.freeDiskSpaceViewer1.TabIndex = 16;
             // 
+            // coloredButton1
+            // 
+            this.coloredButton1.FlatAppearance.BorderSize = 0;
+            this.coloredButton1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.coloredButton1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.coloredButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.coloredButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.coloredButton1.Location = new System.Drawing.Point(503, 23);
+            this.coloredButton1.Name = "coloredButton1";
+            this.coloredButton1.Size = new System.Drawing.Size(76, 23);
+            this.coloredButton1.TabIndex = 10;
+            this.coloredButton1.Text = "Favorites";
+            this.coloredButton1.UseVisualStyleBackColor = true;
+            this.coloredButton1.Click += new System.EventHandler(this.coloredButton1_Click);
+            // 
             // Measure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -516,6 +533,7 @@
         private Guna.UI2.WinForms.Guna2ContainerControl guna2ContainerControl1;
         private UserControls.uscRealTimeProcessView totalResourceView;
         private UserControls.resources.NormalButton totalViewButton;
+        private UserControls.resources.ColoredButton coloredButton1;
     }
 }
 

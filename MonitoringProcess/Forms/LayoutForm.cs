@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using MonitorigProcess.UserControls.resources;
+using MonitoringProcess.Forms;
 
 namespace MonitorigProcess.Forms
 {
-    public partial class LayoutForm :Form
+    public partial class LayoutForm : FormBorderShadow
     {
         private bool mouseDown;
         private Point lastLocation;

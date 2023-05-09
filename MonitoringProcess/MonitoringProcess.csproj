@@ -96,6 +96,24 @@
     <Compile Include="CounterItem\PCPerformance.cs" />
     <Compile Include="Data\PCMeasureEventArgs.cs" />
     <Compile Include="Data\SelectedProcess.cs" />
+    <Compile Include="Forms\FavoriteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FavoriteForm.Designer.cs">
+      <DependentUpon>FavoriteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FavoriteManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FavoriteManagerForm.Designer.cs">
+      <DependentUpon>FavoriteManagerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormBorderShadow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormBorderShadow.Designer.cs">
+      <DependentUpon>FormBorderShadow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper\EnumDescription.cs" />
     <Compile Include="Exception\ErrorCode.cs" />
     <Compile Include="Helper\TotalPhysicalMemory.cs" />
@@ -253,6 +271,15 @@
     <Compile Include="UserControls\uscRealTimeProcessView.Designer.cs">
       <DependentUpon>uscRealTimeProcessView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\FavoriteForm.resx">
+      <DependentUpon>FavoriteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FavoriteManagerForm.resx">
+      <DependentUpon>FavoriteManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormBorderShadow.resx">
+      <DependentUpon>FormBorderShadow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\FreeDiskSpaceViewer.resx">
       <DependentUpon>FreeDiskSpaceViewer.cs</DependentUpon>
     </EmbeddedResource>

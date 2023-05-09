@@ -15,6 +15,8 @@ using MonitorigProcess.Repository;
 using MonitoringProcess.Data;
 using MonitoringProcess.CounterItem;
 using System.ComponentModel;
+using MonitoringProcess.Forms;
+using MonitorigProcess.Config;
 
 namespace MonitorigProcess
 {
@@ -33,8 +35,7 @@ namespace MonitorigProcess
         private bool bMonitorStart = false;
         private bool bStartTimeSet = false;
 
-        private string strPath = System.Windows.Forms.Application.StartupPath + "\\MonitorProcess.ini";
-        //Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\MonitorProcess.ini";
+        private readonly string strPath = AppConfiguration.iniPath;
 
         private PerformanceCounter cpu = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // Total Processor의 정보
         private PerformanceCounter ram = new PerformanceCounter("Memory", "Available MBytes"); // Total Memory 사용량 mb 정보
@@ -830,6 +831,12 @@ namespace MonitorigProcess
         {
             totalResourceView.Visible = true;
             processDetailView.Visible = false;
+        }
+
+        private void coloredButton1_Click(object sender, EventArgs e)
+        {
+            FavoriteForm form = new FavoriteForm();
+            form.ShowDialog();
         }
     }
 }
