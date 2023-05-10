@@ -283,6 +283,9 @@
     <EmbeddedResource Include="UserControls\FreeDiskSpaceViewer.resx">
       <DependentUpon>FreeDiskSpaceViewer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\GraphBase.resx">
+      <DependentUpon>GraphBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\GraphMetrics.resx">
       <DependentUpon>GraphMetrics.cs</DependentUpon>
     </EmbeddedResource>

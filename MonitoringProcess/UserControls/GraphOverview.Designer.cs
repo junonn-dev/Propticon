@@ -31,7 +31,6 @@ namespace MonitorigProcess.UserControls
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
-            this.flpProcessCheckBox = new System.Windows.Forms.FlowLayoutPanel();
             this.contentLabel1 = new MonitorigProcess.UserControls.resources.ContentLabel();
             this.contentLabel2 = new MonitorigProcess.UserControls.resources.ContentLabel();
             this.contentLabel3 = new MonitorigProcess.UserControls.resources.ContentLabel();
@@ -40,6 +39,7 @@ namespace MonitorigProcess.UserControls
             this.lblProcess = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.lblMostCpuUsed = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.lblMostMemoryUsed = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
+            this.flpProcessCheckBox = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,14 +72,6 @@ namespace MonitorigProcess.UserControls
             this.label1.Size = new System.Drawing.Size(709, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Performance Result";
-            // 
-            // flpProcessCheckBox
-            // 
-            this.flpProcessCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.flpProcessCheckBox.Location = new System.Drawing.Point(3, 96);
-            this.flpProcessCheckBox.Name = "flpProcessCheckBox";
-            this.flpProcessCheckBox.Size = new System.Drawing.Size(733, 60);
-            this.flpProcessCheckBox.TabIndex = 10;
             // 
             // contentLabel1
             // 
@@ -161,10 +153,17 @@ namespace MonitorigProcess.UserControls
             this.lblMostMemoryUsed.TabIndex = 8;
             this.lblMostMemoryUsed.Text = "lblMostMemoryUsed";
             // 
+            // flpProcessCheckBox
+            // 
+            this.flpProcessCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.flpProcessCheckBox.Location = new System.Drawing.Point(3, 96);
+            this.flpProcessCheckBox.Name = "flpProcessCheckBox";
+            this.flpProcessCheckBox.Size = new System.Drawing.Size(733, 60);
+            this.flpProcessCheckBox.TabIndex = 10;
+            // 
             // GraphOverview
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(0);

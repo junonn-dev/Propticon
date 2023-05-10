@@ -236,8 +236,7 @@ namespace MonitorigProcess.UserControls
             // 
             // GraphViewer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "GraphViewer";
             this.Size = new System.Drawing.Size(1100, 749);
