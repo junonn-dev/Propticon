@@ -49,7 +49,7 @@ namespace MonitorigProcess
         private Process[] pProcess = new Process[Constants.maxconfig];  // 선택된 프로세스 정보
         #endregion
 
-        private BindingList<SelectedProcess> selectedProcesses = new BindingList<SelectedProcess>();
+        
 
         string message;
         int iSelected;
@@ -96,7 +96,7 @@ namespace MonitorigProcess
                 UpdateListView();
                 InitSelectedListView();
 
-                processMonitoredList.DataSource = selectedProcesses;
+                processMonitoredList.DataSource = Bindings.selectedProcesses;
                 processMonitoredList.DisplayMember = "Name";
             }
             processDetailView.InitView(this);
@@ -134,7 +134,7 @@ namespace MonitorigProcess
             //    }
             //}
 
-            listView2.View = View.Details;
+            listViewSelectedProcess.View = View.Details;
             columnHeader4.Text = "PID";
             columnHeader5.Text = "ProcessName";
 
@@ -289,15 +289,15 @@ namespace MonitorigProcess
 
         private void InitSelectedListView()
         {
-            listView2.Items.Clear();
-            listView2.BeginUpdate();
+            listViewSelectedProcess.Items.Clear();
+            listViewSelectedProcess.BeginUpdate();
             for (int i = 0; i < iProcessMaxCnt; i++)
             {
                 ListViewItem lvi = new ListViewItem(Convert.ToString(sProcess[i].Pid));
                 lvi.SubItems.Add(sProcess[i].ProcessName);
-                listView2.Items.Add(lvi);
+                listViewSelectedProcess.Items.Add(lvi);
             }
-            listView2.EndUpdate();
+            listViewSelectedProcess.EndUpdate();
         }
 
         private void InsertSelectedListView()
@@ -311,9 +311,9 @@ namespace MonitorigProcess
                 return;
             }
             // 현재 List 같은 것은 예외처리.
-            if (listView2.Items.Count != 0)
+            if (listViewSelectedProcess.Items.Count != 0)
             {
-                for (int i = 0; i < listView2.Items.Count; i++)
+                for (int i = 0; i < listViewSelectedProcess.Items.Count; i++)
                 {
                     //if (sProcessTemp.ProcessName == listView2.Items[i].SubItems[1].Text)
                     //{
@@ -323,8 +323,8 @@ namespace MonitorigProcess
                     //pid는 같고 processName은 다른 경우 => readConfig에서 확인하므로 여기 도달하지 않음
                     //pid는 다르고 processName은 같은 경우 => listView2에 추가하는 것이 맞음
                     //pid도 같고 processName도 같은 경우 => 여기 예외처리의 목적
-                    if (sProcessTemp.Pid == int.Parse(listView2.Items[i].SubItems[0].Text)
-                        && sProcessTemp.ProcessName == listView2.Items[i].SubItems[1].Text)
+                    if (sProcessTemp.Pid == int.Parse(listViewSelectedProcess.Items[i].SubItems[0].Text)
+                        && sProcessTemp.ProcessName == listViewSelectedProcess.Items[i].SubItems[1].Text)
                     {
                         return;
                     }
@@ -337,12 +337,12 @@ namespace MonitorigProcess
             //Process processbyName = Process.GetProcessesByName(sProcessTemp.ProcessName);
             //pProcess[iProcessMaxCnt] = Process.GetProcessById(sProcessTemp.Pid);
 
-            listView2.BeginUpdate();
+            listViewSelectedProcess.BeginUpdate();
             ListViewItem lvi = new ListViewItem(Convert.ToString(sProcess[iProcessMaxCnt].Pid));
             //lvi.SubItems.Add(Convert.ToString(allProc[iPid].Id));
             lvi.SubItems.Add(sProcess[iProcessMaxCnt].ProcessName);
-            listView2.Items.Add(lvi);
-            listView2.EndUpdate();
+            listViewSelectedProcess.Items.Add(lvi);
+            listViewSelectedProcess.EndUpdate();
             //listView2.Refresh();
             iProcessMaxCnt++;   // 모니터개수 카운트
 
@@ -351,21 +351,21 @@ namespace MonitorigProcess
 
         private void RemoveSelectedListView()
         {
-            if (listView2.Items.Count > 0)
+            if (listViewSelectedProcess.Items.Count > 0)
             {
-                foreach (ListViewItem row in listView2.SelectedItems)
+                foreach (ListViewItem row in listViewSelectedProcess.SelectedItems)
                 {
-                    int SelectRow = listView2.SelectedItems[0].Index;
-                    string strtemp = listView2.Items[SelectRow].SubItems[1].Text;// == sProcess[])
-                    listView2.Items.Remove(row);
+                    int SelectRow = listViewSelectedProcess.SelectedItems[0].Index;
+                    string strtemp = listViewSelectedProcess.Items[SelectRow].SubItems[1].Text;// == sProcess[])
+                    listViewSelectedProcess.Items.Remove(row);
                 }
 
                 for (int i = 0; i < Constants.maxconfig; i++)
                 {
-                    if (i < listView2.Items.Count)
+                    if (i < listViewSelectedProcess.Items.Count)
                     {
-                        sProcess[i].Pid = Convert.ToInt32(listView2.Items[i].SubItems[0].Text);
-                        sProcess[i].ProcessName = listView2.Items[i].SubItems[1].Text;
+                        sProcess[i].Pid = Convert.ToInt32(listViewSelectedProcess.Items[i].SubItems[0].Text);
+                        sProcess[i].ProcessName = listViewSelectedProcess.Items[i].SubItems[1].Text;
                     }
                     else
                     {
@@ -373,7 +373,7 @@ namespace MonitorigProcess
                         sProcess[i].ProcessName = "";
                     }
                 }
-                iProcessMaxCnt = listView2.Items.Count;
+                iProcessMaxCnt = listViewSelectedProcess.Items.Count;
 
                 writeConfig();
             }
@@ -418,7 +418,7 @@ namespace MonitorigProcess
                 return;
             }
 
-            if (listView2.SelectedItems.Count == 0)
+            if (listViewSelectedProcess.SelectedItems.Count == 0)
             {
                 MessageBox.Show("선택된 프로세스가 없습니다!");
                 return;
@@ -477,13 +477,8 @@ namespace MonitorigProcess
                 dtEndDate = DateTime.Now.AddHours(1);
             }
 
-            selectedProcesses.Clear();
-            for (int i = 0; i < iProcessMaxCnt; i++)
-            {
-                StProcess process = sProcess[i];
-                selectedProcesses.Add(new SelectedProcess(process.Pid, process.ProcessName, process.InstanceName));
-            }
-            processViewSelectedPid = selectedProcesses[0].Id;
+            UpdateSelectedProcessBinding();
+            processViewSelectedPid = Bindings.selectedProcesses[0].Id;
             processDetailView.SetPidText(processViewSelectedPid);
 
             OnMonitoringStart(new EventArgs());
@@ -619,7 +614,6 @@ namespace MonitorigProcess
                     break;
                 }
             }
-            
         }
 
         #region Log Viewer 
@@ -688,7 +682,7 @@ namespace MonitorigProcess
                 MessageBox.Show("Monitor Start 상태에서 List Clear 불가!!!\nMonitor Stop 후 진행하세요");
                 return;
             }
-            ClearListView(listView2);
+            ClearListView(listViewSelectedProcess);
 
             for (int i = 0; i < Constants.maxconfig; i++)
             {
@@ -833,10 +827,38 @@ namespace MonitorigProcess
             processDetailView.Visible = false;
         }
 
-        private void coloredButton1_Click(object sender, EventArgs e)
+        private void buttonFavorite_Click(object sender, EventArgs e)
         {
+            if (IsMirrored)
+            {
+                MessageBox.Show("모니터링 중 즐겨찾기 접근 불가합니다.");
+            }
+            UpdateSelectedProcessBinding();    //Favorite창에서도 Selected Process 보여줘야 하므로 진입 전에 BindingList Update
             FavoriteForm form = new FavoriteForm();
+            form.selectedProcessSaveEvent += LoadSelectedProcessBinding;
             form.ShowDialog();
+        }
+
+        private void UpdateSelectedProcessBinding()
+        {
+            Bindings.selectedProcesses.Clear();
+            for (int i = 0; i < iProcessMaxCnt; i++)
+            {
+                StProcess process = sProcess[i];
+                Bindings.selectedProcesses.Add(new SelectedProcess(process.Pid, process.ProcessName, process.InstanceName));
+            }
+        }
+
+        public void LoadSelectedProcessBinding(object sender, EventArgs e)
+        {
+            listViewSelectedProcess.Invoke(new Action(delegate ()
+            {
+                listViewSelectedProcess.Items.Clear();
+                foreach (SelectedProcess item in Bindings.selectedProcesses)
+                {
+                    listViewSelectedProcess.Items.Add(new ListViewItem(new string[] { item.Id.ToString(), item.Name }));
+                }
+            }));
         }
     }
 }
