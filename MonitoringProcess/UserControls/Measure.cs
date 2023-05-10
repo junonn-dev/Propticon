@@ -101,7 +101,8 @@ namespace MonitorigProcess
             }
             processDetailView.InitView(this);
             totalResourceView.InitView(this, true);
-            
+
+            UpdateSelectedProcessBinding();
             base.OnLoad(e);
         }
 
@@ -772,11 +773,18 @@ namespace MonitorigProcess
                 return;
             }
             processViewSelectedPid = selectedProcess.Id;
-            processDetailView.ShowInformation(processViewSelectedPid, 
-               PCM.GetProcessSet(processViewSelectedPid));
 
             totalResourceView.Visible = false;
             processDetailView.Visible = true;
+            try
+            {
+                processDetailView.ShowInformation(processViewSelectedPid, PCM.GetProcessSet(processViewSelectedPid));
+            }
+            catch (Exception exception)
+            {
+                return;
+            }
+
         }       
 
         #endregion
@@ -827,6 +835,7 @@ namespace MonitorigProcess
             processDetailView.Visible = false;
         }
 
+        #region Favorite
         private void buttonFavorite_Click(object sender, EventArgs e)
         {
             if (IsMirrored)
@@ -860,5 +869,7 @@ namespace MonitorigProcess
                 }
             }));
         }
+        #endregion
+
     }
 }
