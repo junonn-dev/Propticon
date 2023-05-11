@@ -32,22 +32,22 @@ namespace MonitoringProcess.Forms
         private void InitializeComponent()
         {
             this.commonPanel1 = new MonitorigProcess.UserControls.resources.CommonPanel();
+            this.labelProcessCount = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.contentHeaderLabel3 = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.contentHeaderLabel2 = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
-            this.ButtonDeleteProcess = new MonitorigProcess.UserControls.resources.NormalButton();
+            this.buttonDeleteProcess = new MonitorigProcess.UserControls.resources.NormalButton();
             this.buttonFavoriteManager = new MonitorigProcess.UserControls.resources.NormalButton();
             this.listViewFavoriteProcess = new System.Windows.Forms.ListView();
             this.ColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnPid = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.normalButton1 = new MonitorigProcess.UserControls.resources.NormalButton();
+            this.buttonAdd = new MonitorigProcess.UserControls.resources.NormalButton();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.contentHeaderLabel1 = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.buttonRefresh = new MonitorigProcess.UserControls.resources.NormalButton();
-            this.coloredButton1 = new MonitorigProcess.UserControls.resources.ColoredButton();
-            this.ListViewAllProcess = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.buttonSave = new MonitorigProcess.UserControls.resources.ColoredButton();
+            this.listViewSelectedProcess = new System.Windows.Forms.ListView();
+            this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.PID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ButtonClose = new MonitorigProcess.UserControls.resources.NormalButton();
             this.subtitleLabel1 = new MonitorigProcess.UserControls.resources.SubtitleLabel();
             this.commonPanel1.SuspendLayout();
@@ -58,22 +58,32 @@ namespace MonitoringProcess.Forms
             this.commonPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.commonPanel1.Controls.Add(this.labelProcessCount);
             this.commonPanel1.Controls.Add(this.contentHeaderLabel3);
             this.commonPanel1.Controls.Add(this.contentHeaderLabel2);
-            this.commonPanel1.Controls.Add(this.ButtonDeleteProcess);
+            this.commonPanel1.Controls.Add(this.buttonDeleteProcess);
             this.commonPanel1.Controls.Add(this.buttonFavoriteManager);
             this.commonPanel1.Controls.Add(this.listViewFavoriteProcess);
-            this.commonPanel1.Controls.Add(this.normalButton1);
+            this.commonPanel1.Controls.Add(this.buttonAdd);
             this.commonPanel1.Controls.Add(this.textBoxSearch);
             this.commonPanel1.Controls.Add(this.contentHeaderLabel1);
             this.commonPanel1.Controls.Add(this.buttonRefresh);
-            this.commonPanel1.Controls.Add(this.coloredButton1);
-            this.commonPanel1.Controls.Add(this.ListViewAllProcess);
+            this.commonPanel1.Controls.Add(this.buttonSave);
+            this.commonPanel1.Controls.Add(this.listViewSelectedProcess);
             this.commonPanel1.Controls.Add(this.ButtonClose);
             this.commonPanel1.Location = new System.Drawing.Point(-1, 39);
             this.commonPanel1.Name = "commonPanel1";
             this.commonPanel1.Size = new System.Drawing.Size(600, 407);
             this.commonPanel1.TabIndex = 0;
+            // 
+            // labelProcessCount
+            // 
+            this.labelProcessCount.AutoSize = true;
+            this.labelProcessCount.Location = new System.Drawing.Point(436, 33);
+            this.labelProcessCount.Name = "labelProcessCount";
+            this.labelProcessCount.Size = new System.Drawing.Size(14, 15);
+            this.labelProcessCount.TabIndex = 13;
+            this.labelProcessCount.Text = "0";
             // 
             // contentHeaderLabel3
             // 
@@ -93,19 +103,20 @@ namespace MonitoringProcess.Forms
             this.contentHeaderLabel2.TabIndex = 11;
             this.contentHeaderLabel2.Text = "즐겨찾기";
             // 
-            // ButtonDeleteProcess
+            // buttonDeleteProcess
             // 
-            this.ButtonDeleteProcess.FlatAppearance.BorderSize = 0;
-            this.ButtonDeleteProcess.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
-            this.ButtonDeleteProcess.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.ButtonDeleteProcess.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonDeleteProcess.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
-            this.ButtonDeleteProcess.Location = new System.Drawing.Point(277, 221);
-            this.ButtonDeleteProcess.Name = "ButtonDeleteProcess";
-            this.ButtonDeleteProcess.Size = new System.Drawing.Size(50, 30);
-            this.ButtonDeleteProcess.TabIndex = 10;
-            this.ButtonDeleteProcess.Text = "◀";
-            this.ButtonDeleteProcess.UseVisualStyleBackColor = true;
+            this.buttonDeleteProcess.FlatAppearance.BorderSize = 0;
+            this.buttonDeleteProcess.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.buttonDeleteProcess.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.buttonDeleteProcess.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonDeleteProcess.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
+            this.buttonDeleteProcess.Location = new System.Drawing.Point(277, 221);
+            this.buttonDeleteProcess.Name = "buttonDeleteProcess";
+            this.buttonDeleteProcess.Size = new System.Drawing.Size(50, 30);
+            this.buttonDeleteProcess.TabIndex = 10;
+            this.buttonDeleteProcess.Text = "◀";
+            this.buttonDeleteProcess.UseVisualStyleBackColor = true;
+            this.buttonDeleteProcess.Click += new System.EventHandler(this.buttonDeleteProcess_Click);
             // 
             // buttonFavoriteManager
             // 
@@ -117,7 +128,7 @@ namespace MonitoringProcess.Forms
             this.buttonFavoriteManager.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
             this.buttonFavoriteManager.Location = new System.Drawing.Point(17, 366);
             this.buttonFavoriteManager.Name = "buttonFavoriteManager";
-            this.buttonFavoriteManager.Size = new System.Drawing.Size(111, 30);
+            this.buttonFavoriteManager.Size = new System.Drawing.Size(137, 30);
             this.buttonFavoriteManager.TabIndex = 9;
             this.buttonFavoriteManager.Text = "즐겨찾기 관리..";
             this.buttonFavoriteManager.UseVisualStyleBackColor = true;
@@ -139,26 +150,27 @@ namespace MonitoringProcess.Forms
             // ColumnName
             // 
             this.ColumnName.Text = "Name";
-            this.ColumnName.Width = 134;
+            this.ColumnName.Width = 170;
             // 
             // ColumnPid
             // 
             this.ColumnPid.Text = "PID";
             this.ColumnPid.Width = 77;
             // 
-            // normalButton1
+            // buttonAdd
             // 
-            this.normalButton1.FlatAppearance.BorderSize = 0;
-            this.normalButton1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
-            this.normalButton1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.normalButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.normalButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
-            this.normalButton1.Location = new System.Drawing.Point(277, 185);
-            this.normalButton1.Name = "normalButton1";
-            this.normalButton1.Size = new System.Drawing.Size(50, 30);
-            this.normalButton1.TabIndex = 7;
-            this.normalButton1.Text = "▶";
-            this.normalButton1.UseVisualStyleBackColor = true;
+            this.buttonAdd.FlatAppearance.BorderSize = 0;
+            this.buttonAdd.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.buttonAdd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.buttonAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAdd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
+            this.buttonAdd.Location = new System.Drawing.Point(277, 185);
+            this.buttonAdd.Name = "buttonAdd";
+            this.buttonAdd.Size = new System.Drawing.Size(50, 30);
+            this.buttonAdd.TabIndex = 7;
+            this.buttonAdd.Text = "▶";
+            this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
             // textBoxSearch
             // 
@@ -192,49 +204,44 @@ namespace MonitoringProcess.Forms
             this.buttonRefresh.UseVisualStyleBackColor = true;
             this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
-            // coloredButton1
+            // buttonSave
             // 
-            this.coloredButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.coloredButton1.FlatAppearance.BorderSize = 0;
-            this.coloredButton1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
-            this.coloredButton1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.coloredButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.coloredButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.coloredButton1.Location = new System.Drawing.Point(386, 366);
-            this.coloredButton1.Name = "coloredButton1";
-            this.coloredButton1.Size = new System.Drawing.Size(100, 30);
-            this.coloredButton1.TabIndex = 2;
-            this.coloredButton1.Text = "저장(&S)";
-            this.coloredButton1.UseVisualStyleBackColor = true;
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSave.FlatAppearance.BorderSize = 0;
+            this.buttonSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.buttonSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.buttonSave.Location = new System.Drawing.Point(386, 366);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(100, 30);
+            this.buttonSave.TabIndex = 2;
+            this.buttonSave.Text = "저장(&S)";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // ListViewAllProcess
+            // listViewSelectedProcess
             // 
-            this.ListViewAllProcess.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader3,
-            this.columnHeader2});
-            this.ListViewAllProcess.HideSelection = false;
-            this.ListViewAllProcess.Location = new System.Drawing.Point(335, 58);
-            this.ListViewAllProcess.Name = "ListViewAllProcess";
-            this.ListViewAllProcess.Size = new System.Drawing.Size(252, 299);
-            this.ListViewAllProcess.TabIndex = 1;
-            this.ListViewAllProcess.UseCompatibleStateImageBehavior = false;
-            this.ListViewAllProcess.View = System.Windows.Forms.View.Details;
+            this.listViewSelectedProcess.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colName,
+            this.PID});
+            this.listViewSelectedProcess.HideSelection = false;
+            this.listViewSelectedProcess.Location = new System.Drawing.Point(335, 58);
+            this.listViewSelectedProcess.Name = "listViewSelectedProcess";
+            this.listViewSelectedProcess.Size = new System.Drawing.Size(252, 299);
+            this.listViewSelectedProcess.TabIndex = 1;
+            this.listViewSelectedProcess.UseCompatibleStateImageBehavior = false;
+            this.listViewSelectedProcess.View = System.Windows.Forms.View.Details;
             // 
-            // columnHeader1
+            // colName
             // 
-            this.columnHeader1.Text = "No";
-            this.columnHeader1.Width = 35;
+            this.colName.Text = "Name";
+            this.colName.Width = 168;
             // 
-            // columnHeader3
+            // PID
             // 
-            this.columnHeader3.Text = "Name";
-            this.columnHeader3.Width = 133;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "PID";
-            this.columnHeader2.Width = 78;
+            this.PID.Text = "PID";
+            this.PID.Width = 78;
             // 
             // ButtonClose
             // 
@@ -286,22 +293,22 @@ namespace MonitoringProcess.Forms
 
         private MonitorigProcess.UserControls.resources.CommonPanel commonPanel1;
         private MonitorigProcess.UserControls.resources.NormalButton ButtonClose;
-        private System.Windows.Forms.ListView ListViewAllProcess;
+        private System.Windows.Forms.ListView listViewSelectedProcess;
         private System.Windows.Forms.ListView listViewFavoriteProcess;
-        private MonitorigProcess.UserControls.resources.NormalButton normalButton1;
+        private MonitorigProcess.UserControls.resources.NormalButton buttonAdd;
         private System.Windows.Forms.TextBox textBoxSearch;
         private MonitorigProcess.UserControls.resources.ContentHeaderLabel contentHeaderLabel1;
         private MonitorigProcess.UserControls.resources.NormalButton buttonRefresh;
-        private MonitorigProcess.UserControls.resources.ColoredButton coloredButton1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private MonitorigProcess.UserControls.resources.NormalButton ButtonDeleteProcess;
+        private MonitorigProcess.UserControls.resources.ColoredButton buttonSave;
+        private System.Windows.Forms.ColumnHeader PID;
+        private System.Windows.Forms.ColumnHeader colName;
+        private MonitorigProcess.UserControls.resources.NormalButton buttonDeleteProcess;
         private MonitorigProcess.UserControls.resources.NormalButton buttonFavoriteManager;
         private System.Windows.Forms.ColumnHeader ColumnName;
         private System.Windows.Forms.ColumnHeader ColumnPid;
         private SubtitleLabel subtitleLabel1;
         private ContentHeaderLabel contentHeaderLabel3;
         private ContentHeaderLabel contentHeaderLabel2;
+        private ContentHeaderLabel labelProcessCount;
     }
 }

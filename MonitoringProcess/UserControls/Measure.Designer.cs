@@ -38,11 +38,11 @@
             this.BtnMonitorStart = new MonitorigProcess.UserControls.resources.ColoredButton();
             this.BtnMonitorEnd = new MonitorigProcess.UserControls.resources.ColoredButton();
             this.panel1 = new MonitorigProcess.UserControls.resources.CommonPanel();
-            this.coloredButton1 = new MonitorigProcess.UserControls.resources.ColoredButton();
+            this.buttonFavorites = new MonitorigProcess.UserControls.resources.ColoredButton();
             this.subtitleLabel1 = new MonitorigProcess.UserControls.resources.SubtitleLabel();
             this.BtnListClear = new MonitorigProcess.UserControls.resources.NormalButton();
             this.BtnRefresh = new MonitorigProcess.UserControls.resources.NormalButton();
-            this.listView2 = new System.Windows.Forms.ListView();
+            this.listViewSelectedProcess = new System.Windows.Forms.ListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
@@ -237,11 +237,11 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.coloredButton1);
+            this.panel1.Controls.Add(this.buttonFavorites);
             this.panel1.Controls.Add(this.subtitleLabel1);
             this.panel1.Controls.Add(this.BtnListClear);
             this.panel1.Controls.Add(this.BtnRefresh);
-            this.panel1.Controls.Add(this.listView2);
+            this.panel1.Controls.Add(this.listViewSelectedProcess);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.listView1);
             this.panel1.Controls.Add(this.textBox1);
@@ -253,20 +253,20 @@
             this.panel1.Size = new System.Drawing.Size(598, 178);
             this.panel1.TabIndex = 14;
             // 
-            // coloredButton1
+            // buttonFavorites
             // 
-            this.coloredButton1.FlatAppearance.BorderSize = 0;
-            this.coloredButton1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
-            this.coloredButton1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.coloredButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.coloredButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.coloredButton1.Location = new System.Drawing.Point(503, 23);
-            this.coloredButton1.Name = "coloredButton1";
-            this.coloredButton1.Size = new System.Drawing.Size(76, 23);
-            this.coloredButton1.TabIndex = 10;
-            this.coloredButton1.Text = "Favorites";
-            this.coloredButton1.UseVisualStyleBackColor = true;
-            this.coloredButton1.Click += new System.EventHandler(this.coloredButton1_Click);
+            this.buttonFavorites.FlatAppearance.BorderSize = 0;
+            this.buttonFavorites.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Black;
+            this.buttonFavorites.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.buttonFavorites.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonFavorites.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.buttonFavorites.Location = new System.Drawing.Point(503, 23);
+            this.buttonFavorites.Name = "buttonFavorites";
+            this.buttonFavorites.Size = new System.Drawing.Size(76, 23);
+            this.buttonFavorites.TabIndex = 10;
+            this.buttonFavorites.Text = "Favorite";
+            this.buttonFavorites.UseVisualStyleBackColor = true;
+            this.buttonFavorites.Click += new System.EventHandler(this.buttonFavorite_Click);
             // 
             // subtitleLabel1
             // 
@@ -307,20 +307,20 @@
             this.BtnRefresh.UseVisualStyleBackColor = true;
             this.BtnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
             // 
-            // listView2
+            // listViewSelectedProcess
             // 
-            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listViewSelectedProcess.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader4,
             this.columnHeader5});
-            this.listView2.FullRowSelect = true;
-            this.listView2.GridLines = true;
-            this.listView2.HideSelection = false;
-            this.listView2.Location = new System.Drawing.Point(364, 53);
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(215, 110);
-            this.listView2.TabIndex = 7;
-            this.listView2.UseCompatibleStateImageBehavior = false;
-            this.listView2.View = System.Windows.Forms.View.Details;
+            this.listViewSelectedProcess.FullRowSelect = true;
+            this.listViewSelectedProcess.GridLines = true;
+            this.listViewSelectedProcess.HideSelection = false;
+            this.listViewSelectedProcess.Location = new System.Drawing.Point(364, 53);
+            this.listViewSelectedProcess.Name = "listViewSelectedProcess";
+            this.listViewSelectedProcess.Size = new System.Drawing.Size(215, 110);
+            this.listViewSelectedProcess.TabIndex = 7;
+            this.listViewSelectedProcess.UseCompatibleStateImageBehavior = false;
+            this.listViewSelectedProcess.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader4
             // 
@@ -495,7 +495,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.ListView listViewSelectedProcess;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private UserControls.resources.NormalButton BtnListClear;
@@ -517,7 +517,7 @@
         private Guna.UI2.WinForms.Guna2ContainerControl guna2ContainerControl1;
         private UserControls.uscRealTimeProcessView totalResourceView;
         private UserControls.resources.NormalButton totalViewButton;
-        private UserControls.resources.ColoredButton coloredButton1;
+        private UserControls.resources.ColoredButton buttonFavorites;
     }
 }
 

@@ -13,3 +13,9 @@
 /.vs
 /MonitoringProcess/MonitorProcess.ini
 /MonitoringProcess/txtHistory.txt
+/packages/Castle.Core.5.1.1
+/packages/System.Diagnostics.EventLog.4.7.0
+/packages/System.Reflection.Emit.4.7.0
+/packages/System.Runtime.CompilerServices.Unsafe.4.5.3
+/packages/System.Security.Principal.Windows.4.7.0
+/packages/System.Threading.Tasks.Extensions.4.5.4

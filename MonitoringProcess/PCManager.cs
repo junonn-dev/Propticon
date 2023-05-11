@@ -115,12 +115,26 @@ namespace MonitorigProcess
 
         public ProcessPerformance GetProcessSet(Process process)
         {
-            return mapProcessPerformance[process.Id];
+            try
+            {
+                return mapProcessPerformance[process.Id];
+            }
+            catch (Exception)
+            {
+                throw new Exception("측정정보가 없습니다.");
+            }
         }
 
         public ProcessPerformance GetProcessSet(int pid)
         {
-            return mapProcessPerformance[pid];
+            try
+            {
+                return mapProcessPerformance[pid];
+            }
+            catch (Exception)
+            {
+                throw new Exception("측정정보가 없습니다.");
+            }
         }
 
         //map에 현재 측정중인 프로세스 정보만 담겨있으면 processes 주입 필요 없는데,

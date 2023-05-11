@@ -95,13 +95,15 @@ namespace MonitoringProcess.Forms
         private void buttonSave_Click(object sender, EventArgs e)
         {
             ini.Load(AppConfiguration.iniPath);
-            ini[iniFavoriteSection].Clear();/* .Values.Select(ival=>ival.ToString());*/
+            ini[iniFavoriteSection].Clear();
             
             for(int i=0;i< listViewMyFavorite.Items.Count; i++)
             {
                 ini[iniFavoriteSection][i.ToString()] = listViewMyFavorite.Items[i].Text;
             }
             ini.Save(AppConfiguration.iniPath);
+
+            MessageBox.Show("저장되었습니다.");
         }
     }
 }
