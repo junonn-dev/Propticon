@@ -57,7 +57,7 @@
             this.guna2ContainerControl1 = new Guna.UI2.WinForms.Guna2ContainerControl();
             this.totalResourceView = new MonitorigProcess.UserControls.uscRealTimeProcessView();
             this.processDetailView = new MonitorigProcess.UserControls.uscRealTimeProcessView();
-            this.freeDiskSpaceViewer1 = new MonitoringProcess.UserControls.FreeDiskSpaceViewer(this);
+            this.freeDiskSpaceViewer1 = new MonitoringProcess.UserControls.FreeDiskSpaceViewer();
             this.commonPanel2.SuspendLayout();
             this.commonPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -123,7 +123,7 @@
             this.commonPanel1.Controls.Add(this.label2);
             this.commonPanel1.Controls.Add(this.BtnMonitorStart);
             this.commonPanel1.Controls.Add(this.BtnMonitorEnd);
-            this.commonPanel1.Location = new System.Drawing.Point(601, 1);
+            this.commonPanel1.Location = new System.Drawing.Point(601, 0);
             this.commonPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel1.Name = "commonPanel1";
             this.commonPanel1.Size = new System.Drawing.Size(498, 178);
@@ -414,7 +414,7 @@
             // commonPanel3
             // 
             this.commonPanel3.Controls.Add(this.guna2ContainerControl1);
-            this.commonPanel3.Location = new System.Drawing.Point(186, 181);
+            this.commonPanel3.Location = new System.Drawing.Point(186, 180);
             this.commonPanel3.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel3.Name = "commonPanel3";
             this.commonPanel3.Size = new System.Drawing.Size(913, 417);
@@ -435,10 +435,11 @@
             // totalResourceView
             // 
             this.totalResourceView.AutoSize = true;
-            this.totalResourceView.Location = new System.Drawing.Point(-3, -1);
+            this.totalResourceView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.totalResourceView.Location = new System.Drawing.Point(0, 0);
             this.totalResourceView.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.totalResourceView.Name = "totalResourceView";
-            this.totalResourceView.Size = new System.Drawing.Size(917, 422);
+            this.totalResourceView.Size = new System.Drawing.Size(913, 417);
             this.totalResourceView.TabIndex = 1;
             // 
             // processDetailView
@@ -453,20 +454,23 @@
             // 
             // freeDiskSpaceViewer1
             // 
+            this.freeDiskSpaceViewer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.freeDiskSpaceViewer1.Location = new System.Drawing.Point(0, 600);
-            this.freeDiskSpaceViewer1.Margin = new System.Windows.Forms.Padding(1, 1, 0, 0);
+            this.freeDiskSpaceViewer1.Margin = new System.Windows.Forms.Padding(1);
             this.freeDiskSpaceViewer1.Name = "freeDiskSpaceViewer1";
-            this.freeDiskSpaceViewer1.Size = new System.Drawing.Size(1100, 150);
-            this.freeDiskSpaceViewer1.TabIndex = 16;
+            this.freeDiskSpaceViewer1.Size = new System.Drawing.Size(1100, 149);
+            this.freeDiskSpaceViewer1.TabIndex = 18;
             // 
             // Measure
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.freeDiskSpaceViewer1);
             this.Controls.Add(this.commonPanel2);
             this.Controls.Add(this.commonPanel1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.commonPanel3);
-            this.Controls.Add(this.freeDiskSpaceViewer1);
             this.Name = "Measure";
             this.Size = new System.Drawing.Size(1100, 750);
             this.commonPanel2.ResumeLayout(false);
@@ -508,16 +512,15 @@
         private UserControls.resources.SubtitleLabel subtitleLabel1;
         private UserControls.resources.CommonPanel commonPanel1;
         private UserControls.resources.SubtitleLabel subtitleLabel2;
-        private MonitoringProcess.UserControls.FreeDiskSpaceViewer freeDiskSpaceViewer1;
         private UserControls.resources.CommonPanel commonPanel2;
         private System.Windows.Forms.ListBox processMonitoredList;
         private UserControls.resources.SubtitleLabel subtitleLabel3;
         private UserControls.resources.CommonPanel commonPanel3;
-        private UserControls.uscRealTimeProcessView uscRealTimeProcessView1;
         private Guna.UI2.WinForms.Guna2ContainerControl guna2ContainerControl1;
         private UserControls.uscRealTimeProcessView totalResourceView;
         private UserControls.resources.NormalButton totalViewButton;
         private UserControls.resources.ColoredButton buttonFavorites;
+        private MonitoringProcess.UserControls.FreeDiskSpaceViewer freeDiskSpaceViewer1;
     }
 }
 

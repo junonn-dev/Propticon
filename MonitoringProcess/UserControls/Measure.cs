@@ -23,10 +23,6 @@ namespace MonitorigProcess
 
     public partial class Measure : UserControl
     {
-        //static class Constants
-        //{
-        //    public const int maxconfig = 10;
-        //}
         #region 
         private int iThreadTime = 2000;  // Thread 주기
         public bool bLoopState { get; set; }  // while문 Loop 여부
@@ -48,8 +44,6 @@ namespace MonitorigProcess
 
         private Process[] pProcess = new Process[Constants.maxconfig];  // 선택된 프로세스 정보
         #endregion
-
-        
 
         string message;
         int iSelected;
@@ -101,6 +95,7 @@ namespace MonitorigProcess
             }
             processDetailView.InitView(this);
             totalResourceView.InitView(this, true);
+            freeDiskSpaceViewer1.SubscribeEvent(this);
 
             UpdateSelectedProcessBinding();
             base.OnLoad(e);
@@ -810,7 +805,7 @@ namespace MonitorigProcess
         }
 
         #region disk spaces event
-        public EventHandler<PCMeasureEventArgs> pcMeasureEvent;
+        public event EventHandler<PCMeasureEventArgs> pcMeasureEvent;
 
         private void OnRaisePCMeasureEvent(PCMeasureEventArgs e)
         {
@@ -819,7 +814,7 @@ namespace MonitorigProcess
         #endregion
 
         #region Monitoring Start Event
-        public EventHandler<EventArgs> monitoringStartEvent;
+        public event EventHandler<EventArgs> monitoringStartEvent;
 
         private void OnMonitoringStart(EventArgs e)
         {

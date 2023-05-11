@@ -28,9 +28,10 @@ namespace MonitoringProcess.UserControls
         {
             InitializeComponent();
         }
-        public FreeDiskSpaceViewer(Measure form) : this()
+
+        public void SubscribeEvent(Measure control)
         {
-            form.pcMeasureEvent += HandleLogEvent;
+            control.pcMeasureEvent += HandleLogEvent;
         }
 
         protected override void OnLoad(EventArgs e)
