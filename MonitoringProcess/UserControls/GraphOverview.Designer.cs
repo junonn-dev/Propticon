@@ -31,6 +31,7 @@ namespace MonitorigProcess.UserControls
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
+            this.listViewProcessList = new System.Windows.Forms.ListView();
             this.contentLabel1 = new MonitorigProcess.UserControls.resources.ContentLabel();
             this.contentLabel2 = new MonitorigProcess.UserControls.resources.ContentLabel();
             this.contentLabel3 = new MonitorigProcess.UserControls.resources.ContentLabel();
@@ -39,7 +40,6 @@ namespace MonitorigProcess.UserControls
             this.lblProcess = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.lblMostCpuUsed = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.lblMostMemoryUsed = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
-            this.flpProcessCheckBox = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,7 +55,7 @@ namespace MonitorigProcess.UserControls
             this.flowLayoutPanel1.Controls.Add(this.lblProcess);
             this.flowLayoutPanel1.Controls.Add(this.lblMostCpuUsed);
             this.flowLayoutPanel1.Controls.Add(this.lblMostMemoryUsed);
-            this.flowLayoutPanel1.Controls.Add(this.flpProcessCheckBox);
+            this.flowLayoutPanel1.Controls.Add(this.listViewProcessList);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -65,13 +65,26 @@ namespace MonitorigProcess.UserControls
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label1.Font = new System.Drawing.Font("Malgun Gothic", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.Location = new System.Drawing.Point(10, 10);
             this.label1.Margin = new System.Windows.Forms.Padding(10, 10, 0, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(709, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Performance Result";
+            // 
+            // listViewProcessList
+            // 
+            this.listViewProcessList.CheckBoxes = true;
+            this.listViewProcessList.HideSelection = false;
+            this.listViewProcessList.Location = new System.Drawing.Point(3, 96);
+            this.listViewProcessList.Name = "listViewProcessList";
+            this.listViewProcessList.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.listViewProcessList.RightToLeftLayout = true;
+            this.listViewProcessList.Size = new System.Drawing.Size(733, 97);
+            this.listViewProcessList.TabIndex = 12;
+            this.listViewProcessList.UseCompatibleStateImageBehavior = false;
+            this.listViewProcessList.View = System.Windows.Forms.View.SmallIcon;
             // 
             // contentLabel1
             // 
@@ -153,14 +166,6 @@ namespace MonitorigProcess.UserControls
             this.lblMostMemoryUsed.TabIndex = 8;
             this.lblMostMemoryUsed.Text = "lblMostMemoryUsed";
             // 
-            // flpProcessCheckBox
-            // 
-            this.flpProcessCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.flpProcessCheckBox.Location = new System.Drawing.Point(3, 96);
-            this.flpProcessCheckBox.Name = "flpProcessCheckBox";
-            this.flpProcessCheckBox.Size = new System.Drawing.Size(733, 60);
-            this.flpProcessCheckBox.TabIndex = 10;
-            // 
             // GraphOverview
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -186,6 +191,6 @@ namespace MonitorigProcess.UserControls
         private resources.ContentHeaderLabel lblMostCpuUsed;
         private resources.ContentHeaderLabel lblMostMemoryUsed;
         private resources.ContentHeaderLabel lblProcess;
-        private System.Windows.Forms.FlowLayoutPanel flpProcessCheckBox;
+        private System.Windows.Forms.ListView listViewProcessList;
     }
 }

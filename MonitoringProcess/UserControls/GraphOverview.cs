@@ -126,17 +126,19 @@ namespace MonitorigProcess.UserControls
         {
             foreach (var item in processPlotMap)
             {
-                CheckBox checkBox = new CheckBox();
-                checkBox.Checked = true;
-                checkBox.Text = item.Key;
-                checkBox.AutoSize = true;
-
-                SignalPlotXY plot = item.Value.FirstOrDefault() as SignalPlotXY;
-                checkBox.ForeColor = plot.LineColor;
-                checkBox.CheckStateChanged += CheckBox_CheckStateChanged;
-
-                this.flpProcessCheckBox.Controls.Add(checkBox);
+                SignalPlotXY plot = item.Value.FirstOrDefault() as SignalPlotXY;               
+                this.listViewProcessList.Items.Add(item.Key, item.Key, "");
+                var listViewItem = this.listViewProcessList.Items[item.Key];
+                listViewItem.Checked = true;
+                listViewItem.ForeColor = plot.LineColor;
+                listViewProcessList.ItemChecked += ListViewProcessList_ItemChecked;
             }
+        }
+
+        private void ListViewProcessList_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            processPlotMap[e.Item.Text].ForEach(plot => plot.IsVisible = e.Item.Checked);
+            formsPlots.ForEach(plot => plot.Refresh());
         }
 
         private void CheckBox_CheckStateChanged(object sender, EventArgs e)

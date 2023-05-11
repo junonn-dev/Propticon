@@ -311,11 +311,6 @@ namespace MonitorigProcess
             {
                 for (int i = 0; i < listViewSelectedProcess.Items.Count; i++)
                 {
-                    //if (sProcessTemp.ProcessName == listView2.Items[i].SubItems[1].Text)
-                    //{
-                    //    return;
-                    //}
-
                     //pid는 같고 processName은 다른 경우 => readConfig에서 확인하므로 여기 도달하지 않음
                     //pid는 다르고 processName은 같은 경우 => listView2에 추가하는 것이 맞음
                     //pid도 같고 processName도 같은 경우 => 여기 예외처리의 목적
@@ -324,14 +319,10 @@ namespace MonitorigProcess
                     {
                         return;
                     }
-
                 }
             }
 
             sProcess[iProcessMaxCnt] = sProcessTemp;
-            //pProcess[iProcessMaxCnt] = Process.GetProcessesByName(sProcessTemp.ProcessName);
-            //Process processbyName = Process.GetProcessesByName(sProcessTemp.ProcessName);
-            //pProcess[iProcessMaxCnt] = Process.GetProcessById(sProcessTemp.Pid);
 
             listViewSelectedProcess.BeginUpdate();
             ListViewItem lvi = new ListViewItem(Convert.ToString(sProcess[iProcessMaxCnt].Pid));
@@ -833,9 +824,10 @@ namespace MonitorigProcess
         #region Favorite
         private void buttonFavorite_Click(object sender, EventArgs e)
         {
-            if (IsMirrored)
+            if (bMonitorStart)
             {
-                MessageBox.Show("모니터링 중 즐겨찾기 접근 불가합니다.");
+                MessageBox.Show("모니터링 종료 후 즐겨찾기 접근 가능합니다.");
+                return;
             }
             UpdateSelectedProcessBinding();    //Favorite창에서도 Selected Process 보여줘야 하므로 진입 전에 BindingList Update
             FavoriteForm form = new FavoriteForm();
@@ -862,6 +854,7 @@ namespace MonitorigProcess
                 {
                     listViewSelectedProcess.Items.Add(new ListViewItem(new string[] { item.Id.ToString(), item.Name }));
                 }
+                iProcessMaxCnt = listViewSelectedProcess.Items.Count;
             }));
         }
         #endregion

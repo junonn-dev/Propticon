@@ -23,7 +23,7 @@ namespace MonitoringProcess.Forms
         private readonly string iniConfigPidSection = "Config-pid";
         private List<ListViewItem> allFavoriteProcess = new List<ListViewItem>();
 
-        public EventHandler<EventArgs> selectedProcessSaveEvent;
+        public event EventHandler<EventArgs> selectedProcessSaveEvent;
 
         private void OnRaiseSelectedProcessSaveEvent(EventArgs e)
         {
