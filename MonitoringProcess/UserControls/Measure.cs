@@ -814,7 +814,7 @@ namespace MonitorigProcess
 
         private void OnRaisePCMeasureEvent(PCMeasureEventArgs e)
         {
-            pcMeasureEvent?.BeginInvoke(this, e,null,null);
+            pcMeasureEvent?.Invoke(this, e);
         }
         #endregion
 

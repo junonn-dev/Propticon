@@ -57,7 +57,7 @@
             this.guna2ContainerControl1 = new Guna.UI2.WinForms.Guna2ContainerControl();
             this.totalResourceView = new MonitorigProcess.UserControls.uscRealTimeProcessView();
             this.processDetailView = new MonitorigProcess.UserControls.uscRealTimeProcessView();
-            this.freeDiskSpaceViewer1 = new MonitoringProcess.UserControls.FreeDiskSpaceViewer();
+            this.freeDiskSpaceViewer1 = new MonitoringProcess.UserControls.FreeDiskSpaceViewer(this);
             this.commonPanel2.SuspendLayout();
             this.commonPanel1.SuspendLayout();
             this.panel1.SuspendLayout();

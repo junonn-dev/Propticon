@@ -27,7 +27,7 @@ namespace MonitorigProcess.UserControls
                 form.monitoringStartEvent += InitWorstListView;
                 label2.Visible = true;
                 
-                form.pcMeasureEvent = HandlePcPerformanceLogEvent; //pc Performance를 위한 키값은 -1
+                form.pcMeasureEvent += HandlePcPerformanceLogEvent; //pc Performance를 위한 키값은 -1
                 label2.Text = "Total Processor : ";
                 lblPid.Text = Environment.ProcessorCount.ToString();
 
