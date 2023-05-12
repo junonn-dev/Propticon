@@ -221,7 +221,7 @@ namespace MonitorigProcess.Repository
 
                 TimeSpan total = stop - start;
                 StringBuilder sb = new StringBuilder();
-                sb.Append(total.Days > 0 ? total.ToString() + "d " : "")
+                sb.Append(total.Days > 0 ? total.Days.ToString() + "d " : "")
                         .Append(total.Hours.ToString()).Append("h ")
                         .Append(total.Minutes.ToString()).Append("m ")
                         .Append(total.Seconds.ToString()).Append("s");
