@@ -9,6 +9,8 @@ namespace MonitorigProcess
         public static class Constants
         {
             public const int maxconfig = 30;
+            public const string iniConfigSection = "Config";
+            public const string iniConfigPidSection = "Config-pid";
         }
         //#region 
         //private int iThreadTime = 2000;  // Thread 주기
