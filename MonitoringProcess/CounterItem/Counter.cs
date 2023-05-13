@@ -10,18 +10,40 @@ namespace MonitorigProcess.CounterItem
         private float maxValue;
         private double average;
         private long recordCount;
-        public WorstList worstList { get; set; }
-        private string category;
+        public WorstList worstList { get; private set; }
+        public string CounterName { get; private set; }
         private bool isFirstCheck;
 
-        private PerformanceCounter performanceCounter;
+        protected PerformanceCounter performanceCounter;
 
+        /// <summary>
+        /// GetNextValue 직접 Override하여 측정할 경우 생성 
+        /// </summary>
+        /// <param name="pid">상속받은 객체 내에서 프로세스 정보를 알 기 위해 입력</param>
+        /// <param name="counterName"></param>
+        /// <param name="recordWorstAscd"></param>
+        protected Counter(int pid, string counterName, bool recordWorstAscd = false)
+        {
+            worstList = new WorstList(recordWorstAscd);
+            minValue = float.MaxValue;
+            maxValue = 0;
+            CounterName = counterName;
+            isFirstCheck = true;
+        } 
+
+        /// <summary>
+        /// Windows Performance Counter 전용 카운터
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="counter"></param>
+        /// <param name="instance"></param>
+        /// <param name="recordWorstAscd"></param>
         public Counter(string category, string counter, string instance = "", bool recordWorstAscd = false)
         {
             worstList = new WorstList(recordWorstAscd);
             minValue = float.MaxValue;
             maxValue = 0;
-            this.category = category;
+            CounterName = counter;
             isFirstCheck = true;
             try
             {
@@ -44,7 +66,7 @@ namespace MonitorigProcess.CounterItem
         /// Counter 측정 값을 얻어서 통계값을 계산한 후 측정값을 반환
         /// </summary>
         /// <returns></returns>
-        public float GetNextValue()
+        public virtual float GetNextValue()
         {
             float value = -2f;
             try
