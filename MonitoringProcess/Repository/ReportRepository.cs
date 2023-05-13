@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Xml.Linq;
 using MonitorigProcess.Config;
 using MonitorigProcess.Data;
 using MonitoringProcess;
+using MonitoringProcess.Data;
 using MonitoringProcess.Exception;
 
 namespace MonitorigProcess.Repository
@@ -79,7 +81,7 @@ namespace MonitorigProcess.Repository
         /// <param name="processes">측정한 프로세스 목록</param>
         /// <param name="processCount">측정한 프로세스 개수</param>
         /// <param name="resultSnapshot">한 시점에 측정 결과의 snapshot을 찍은 것</param>
-        public static void CreateReport(DateTime startTime, DateTime endTime, DateTime stopTime, StProcess[] processes, int processCount, ResultSnapshot resultSnapshot)
+        public static void CreateReport(DateTime startTime, DateTime endTime, DateTime stopTime, List<SelectedProcess> processes, ResultSnapshot resultSnapshot)
         {
             XDocument xdoc = new XDocument(new XDeclaration("1.0", "UTF-8", null));
 
@@ -109,25 +111,24 @@ namespace MonitorigProcess.Repository
                         new XElement(xpAverage, resultValues.average));
             root.Add(totalMemory);
 
-            XElement procCount = new XElement(xpProcessCount, processCount.ToString());
+            XElement procCount = new XElement(xpProcessCount, processes.Count.ToString());
             root.Add(procCount);
 
             XElement xmlProcsesses = new XElement(xpProcesses);
 
-            for(int i = 0; i < processCount; i++)
+            foreach (SelectedProcess process in processes)
             {
-                StProcess checkingProcess = processes[i];
                 XElement xmlProcess = new XElement(xpProcess);
 
-                XElement xmlName = new XElement(xpProcessName, checkingProcess.InstanceName);
+                XElement xmlName = new XElement(xpProcessName, process.InstanceName);
                 xmlProcess.Add(xmlName);
 
-                XElement xmlPid = new XElement(xpPID, checkingProcess.Pid.ToString());
+                XElement xmlPid = new XElement(xpPID, process.Id.ToString());
                 xmlProcess.Add(xmlPid);
 
                 {
                     ResultSnapshot.ResultValues checkingResult = 
-                        resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processCPU];
+                        resultSnapshot.mapResult[process.Id][AppConfiguration.processCPU];
                     XElement xmlCpu = new XElement(xpCPU,
                         new XElement(xpMin, checkingResult.minValue == float.MaxValue ? 0 : checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
@@ -138,7 +139,7 @@ namespace MonitorigProcess.Repository
 
                 {
                     ResultSnapshot.ResultValues checkingResult =
-                         resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processMemory];
+                         resultSnapshot.mapResult[process.Id][AppConfiguration.processMemory];
                     XElement xmlMemory = new XElement(xpMemory,
                         new XElement(xpMin, checkingResult.minValue == float.MaxValue ? 0 : checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
@@ -149,7 +150,7 @@ namespace MonitorigProcess.Repository
 
                 {
                     ResultSnapshot.ResultValues checkingResult =
-                         resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processThread];
+                         resultSnapshot.mapResult[process.Id][AppConfiguration.processThread];
                     XElement xmlThread = new XElement(xpThread,
                         new XElement(xpMin, checkingResult.minValue == float.MaxValue ? 0 : checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
@@ -160,7 +161,7 @@ namespace MonitorigProcess.Repository
 
                 {
                     ResultSnapshot.ResultValues checkingResult =
-                         resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processHandle];
+                         resultSnapshot.mapResult[process.Id][AppConfiguration.processHandle];
                     XElement xmlHandle = new XElement(xpHandle,
                         new XElement(xpMin, checkingResult.minValue == float.MaxValue ? 0 : checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
@@ -171,7 +172,7 @@ namespace MonitorigProcess.Repository
 
                 {
                     ResultSnapshot.ResultValues checkingResult =
-                         resultSnapshot.mapResult[checkingProcess.Pid][AppConfiguration.processGDI];
+                         resultSnapshot.mapResult[process.Id][AppConfiguration.processGDI];
                     XElement xmlGDI = new XElement(xpGDI,
                         new XElement(xpMin, checkingResult.minValue==float.MaxValue?0:checkingResult.minValue),
                         new XElement(xpMax, checkingResult.maxValue),
@@ -179,7 +180,6 @@ namespace MonitorigProcess.Repository
 
                     xmlProcess.Add(xmlGDI);
                 }
-
                 xmlProcsesses.Add(xmlProcess);
             }
 
