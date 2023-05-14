@@ -622,9 +622,6 @@ namespace MonitorigProcess
             }
             sb.Append($"[{dTime:yyyy/MM/dd HH:mm:ss.FFF}],");
 
-            var totalCpuUsage = PCM.GetTotalCPUUsage(dTime);
-            var totalMemoryUsage = PCM.GetTotalMemoryUsage(dTime);
-
             for (int i = 0; i < Bindings.selectedProcesses.Count; i++)
             {
                 var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i], dTime);
@@ -647,6 +644,8 @@ namespace MonitorigProcess
                 }
             }
 
+            var totalCpuUsage = PCM.GetTotalCPUUsage(dTime);
+            var totalMemoryUsage = PCM.GetTotalMemoryUsage(dTime);
             sb.Append(totalCpuUsage.ToString()).Append(",")
                 .Append(totalMemoryUsage.ToString()).Append(",");
 

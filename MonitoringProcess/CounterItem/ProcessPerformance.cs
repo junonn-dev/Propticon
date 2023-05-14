@@ -29,6 +29,7 @@ namespace MonitorigProcess.CounterItem
             
         }
 
+        //성능 카운터 추가시 여기도 추가 필수
         public IEnumerator<Counter> GetEnumerator()
         {
             yield return processorTimeCounter;

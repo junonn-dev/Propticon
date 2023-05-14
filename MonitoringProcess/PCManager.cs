@@ -9,6 +9,7 @@ using MonitorigProcess.CounterItem;
 using MonitorigProcess.Data;
 using MonitorigProcess.Helper;
 using MonitoringProcess.CounterItem;
+using MonitoringProcess.Data;
 
 namespace MonitorigProcess
 {
@@ -186,9 +187,9 @@ namespace MonitorigProcess
                 pcPerformance.TotalCpuUsage.GetAverage());
 
             resultSnapshot.totalMemoryResult = new ResultSnapshot.ResultValues(
-                totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetMaxValue(),
-                totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetMinValue(),
-                totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetAverage());
+                totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetMaxValue(),
+                totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetMinValue(),
+                totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetAverage());
 
             return resultSnapshot;
         }
@@ -219,7 +220,36 @@ namespace MonitorigProcess
 
         public float GetTotalMemoryUsage(DateTime timeStamp)
         {
-            return totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetNextValue(timeStamp);
+            return totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetNextValue(timeStamp);
+        }
+
+        public MeasureDataDto GetMeasureData()
+        {
+            DateTime timeStamp = DateTime.Now;
+            MeasureDataDto dto = new MeasureDataDto(timeStamp);
+
+            //PID로 측정하고 값 담기
+            foreach (KeyValuePair<int, ProcessPerformance> processCounters in mapProcessPerformance)
+            {
+                Dictionary<string, float> values = new Dictionary<string, float>();
+                foreach (Counter counter in processCounters.Value)
+                {
+                    values[counter.CounterName] = counter.GetNextValue();
+                }
+                dto.ProcessMeasureInfo[processCounters.Key] = values;
+            }
+
+            //PcPerformance IEnumerable 사용할 방법은 고려해보자
+            foreach (Counter counter in pcPerformance.FreeDiskSpaceCounters)
+            {
+                dto.DiskFreeSpacePercent[counter.CounterName] = counter.GetNextValue();
+            }
+
+            dto.PcPerformanceInfo[pcPerformance.TotalCpuUsage.CounterName] = pcPerformance.TotalCpuUsage.GetNextValue(timeStamp);
+
+            dto.PcPerformanceInfo[pcPerformance.MemoryUsageMB.CounterName] = totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetNextValue(timeStamp)
+
+
         }
 
     }
