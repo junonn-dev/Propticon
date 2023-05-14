@@ -94,6 +94,7 @@
     <Compile Include="CounterItem\CpuCounter.cs" />
     <Compile Include="CounterItem\GdiCounter.cs" />
     <Compile Include="CounterItem\PCPerformance.cs" />
+    <Compile Include="CounterItem\TotalMemoryUsageCounter.cs" />
     <Compile Include="Data\Bindings.cs" />
     <Compile Include="Data\MeasureDataDto.cs" />
     <Compile Include="Data\PCMeasureEventArgs.cs" />

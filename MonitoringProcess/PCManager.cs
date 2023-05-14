@@ -223,23 +223,32 @@ namespace MonitorigProcess
             return totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetNextValue(timeStamp);
         }
 
-        public MeasureDataDto GetMeasureData()
+        /// <summary>
+        /// 1. 호출 시점에 측정하는 전체 카운터로 측정
+        /// 2. Log
+        /// 3. 임계값 조사 및 WarnData Buffer에 저장
+        /// 측정 값을 담은 MeasureDataDto를
+        /// </summary>
+        /// <returns></returns>
+        public MeasureDataDto MeasureData()
         {
             DateTime timeStamp = DateTime.Now;
             MeasureDataDto dto = new MeasureDataDto(timeStamp);
 
-            //PID로 측정하고 값 담기
+            //PID로 프로세스 마다 측정하고 값 담기
             foreach (KeyValuePair<int, ProcessPerformance> processCounters in mapProcessPerformance)
             {
                 Dictionary<string, float> values = new Dictionary<string, float>();
                 foreach (Counter counter in processCounters.Value)
                 {
-                    values[counter.CounterName] = counter.GetNextValue();
+                    //GetNextValue에 timeStamp가 입력되면 Worst를 기록한다.
+                    //모든 프로세스의 카운터가 Worst를 기록하게 되며,
+                    //Worst 저장 할 필요가 없는 카운터도 Worst 확인 연산을 하게되어 성능 하락 요인이 된다.
+                    values[counter.CounterName] = counter.GetNextValue(timeStamp);
                 }
                 dto.ProcessMeasureInfo[processCounters.Key] = values;
             }
 
-            //PcPerformance IEnumerable 사용할 방법은 고려해보자
             foreach (Counter counter in pcPerformance.FreeDiskSpaceCounters)
             {
                 dto.DiskFreeSpacePercent[counter.CounterName] = counter.GetNextValue();
@@ -247,9 +256,9 @@ namespace MonitorigProcess
 
             dto.PcPerformanceInfo[pcPerformance.TotalCpuUsage.CounterName] = pcPerformance.TotalCpuUsage.GetNextValue(timeStamp);
 
-            dto.PcPerformanceInfo[pcPerformance.MemoryUsageMB.CounterName] = totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetNextValue(timeStamp)
+            dto.PcPerformanceInfo[pcPerformance.MemoryUsageMB.CounterName] = pcPerformance.MemoryUsageMB.GetNextValue(timeStamp);
 
-
+            return dto;
         }
 
     }

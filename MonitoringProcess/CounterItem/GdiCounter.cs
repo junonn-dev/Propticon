@@ -16,11 +16,11 @@ namespace MonitoringProcess.CounterItem
         [DllImport("User32")]
         private extern static int GetGuiResources(IntPtr hProcess, int uiFlags);
 
-        private IntPtr processHandle; 
+        private Process process; 
 
         public GdiCounter(int pid, string counterName, bool recordWorstAscd = false) : base(pid, counterName, recordWorstAscd)
         {
-            processHandle = Process.GetProcessById(pid).Handle;
+            process = Process.GetProcessById(pid);
         }
 
         public override float GetNextValue()
@@ -28,7 +28,7 @@ namespace MonitoringProcess.CounterItem
             float value = 0;
             try
             {
-                value = GetGuiResources(processHandle, 0);
+                value = GetGuiResources(process.Handle, 0);
             }
             catch
             {
