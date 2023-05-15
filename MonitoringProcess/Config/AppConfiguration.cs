@@ -22,6 +22,18 @@ namespace MonitorigProcess.Config
         public static readonly string xmlDateTimeFormat = 
             ConfigurationManager.AppSettings["xmlDateTimeFormat"];
 
+        public static readonly string warnDataFileFormat =
+            ConfigurationManager.AppSettings["warnDataFileFormat"];
+
+        public static readonly string totalCPU =
+            ConfigurationManager.AppSettings["totalCPU"];
+
+        public static readonly string totalMemory =
+            ConfigurationManager.AppSettings["totalMemory"];
+
+        public static readonly string diskSpace =
+           ConfigurationManager.AppSettings["diskSpace"];
+
         public static readonly string processCPU = 
             ConfigurationManager.AppSettings["processCPU"];
 
