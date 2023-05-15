@@ -494,8 +494,6 @@ namespace MonitorigProcess
         // 선택 Process Thread (Program 시작 시 실행)
         private async void SelectProcessThread()
         {
-            warnDataRepository = new WarnDataRepository(dtStartDate);
-            warnDataRepository.startThread();
             Task selectcputhread = Task.Run((Action)fSelectProcess);
             await selectcputhread;
             initialMonitorProcess();
@@ -629,10 +627,16 @@ namespace MonitorigProcess
         {            
             DateTime dTime = DateTime.Now;
             MeasureDataDto dto = new MeasureDataDto(dTime);
+
+            //첫 모니터링 시작 시점
+            //StartDate 설정
+            //WarnDataRepository 초기화
             if (!bStartTimeSet)
             {
                 dtStartDate = dTime;
                 bStartTimeSet = true;
+                warnDataRepository = new WarnDataRepository(dtStartDate);
+                warnDataRepository.startThread();
             }
             sb.Append($"[{dTime:yyyy/MM/dd HH:mm:ss.FFF}],");
 
