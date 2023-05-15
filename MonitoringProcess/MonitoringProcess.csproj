@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\AppConfiguration.cs" />
+    <Compile Include="Config\WarnLimitConfig.cs" />
     <Compile Include="CounterItem\BaseCounter.cs" />
     <Compile Include="CounterItem\CpuCounter.cs" />
     <Compile Include="CounterItem\GdiCounter.cs" />
@@ -133,6 +134,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Repository\WarnDataRepository.cs" />
     <Compile Include="UserControls\FreeDiskSpaceViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>

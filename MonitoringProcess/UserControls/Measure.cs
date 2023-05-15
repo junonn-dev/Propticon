@@ -16,6 +16,7 @@ using MonitoringProcess.Forms;
 using MonitorigProcess.Config;
 using System.Linq;
 using System.ComponentModel;
+using MonitoringProcess.Config;
 
 namespace MonitorigProcess
 {
@@ -141,6 +142,11 @@ namespace MonitorigProcess
                 {
                     //pid로 Process 얻어오지 못할 경우 = pid가 실행중이 아닌 경우
                     //예외 발생하고, 아래 진행 없이 loop 진행
+                    continue;
+                }
+                //PID가 실행중이지만 프로세스 이름이 같은 경우
+                if(process.ProcessName != processName)
+                {
                     continue;
                 }
                 StProcess tempProcess = new StProcess();
@@ -622,6 +628,7 @@ namespace MonitorigProcess
             }
             sb.Append($"[{dTime:yyyy/MM/dd HH:mm:ss.FFF}],");
 
+            bool warnFlag = false;
             for (int i = 0; i < Bindings.selectedProcesses.Count; i++)
             {
                 var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i], dTime);
@@ -629,6 +636,15 @@ namespace MonitorigProcess
                 var threadCount = PCM.GetProcessThreadCount(pProcess[i]);
                 var handleCount = PCM.GetProcessHandleCount(pProcess[i]);
                 var gdiCount = PCM.GetProcessGdiCount(pProcess[i]);
+
+                if(warnFlag == false && ((cpuUsage >= WarnLimitConfig.ProcessCpuLimit) 
+                    || (memoryUsage >= WarnLimitConfig.ProcessMemoryLimit)
+                    || (threadCount >= WarnLimitConfig.ProcessThreadLimit)
+                    || (handleCount >= WarnLimitConfig.ProcessHandleLimit)
+                    || (gdiCount >= WarnLimitConfig.ProcessGDILimit)))
+                {
+                    warnFlag = true;
+                }
 
                 sb.Append(cpuUsage.ToString()).Append(",")
                     .Append(memoryUsage.ToString()).Append(",")
@@ -646,19 +662,37 @@ namespace MonitorigProcess
 
             var totalCpuUsage = PCM.GetTotalCPUUsage(dTime);
             var totalMemoryUsage = PCM.GetTotalMemoryUsage(dTime);
+
             sb.Append(totalCpuUsage.ToString()).Append(",")
                 .Append(totalMemoryUsage.ToString()).Append(",");
 
             var freeSpaces = PCM.GetFreeDiskSpace();
             foreach (var item in freeSpaces)
             {
+                if(warnFlag == false && (item >= WarnLimitConfig.DiskSpaceLimit))
+                {
+                    warnFlag = true;
+                }
                 sb.Append(item.ToString()).Append(",");
             }
+
+
+            if (warnFlag == false && (totalCpuUsage >= WarnLimitConfig.TotalCpuUsageLimit)
+                || (totalMemoryUsage >= WarnLimitConfig.TotalMemoryUsageLimit))
+            {
+                warnFlag = true;
+            }
+
             string pcPerfMessage = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} - total_cpu (%): {Math.Round(totalCpuUsage, 3)}, total_mem (MB): {Math.Round(totalMemoryUsage, 3)}";
             OnRaisePCMeasureEvent(new PCMeasureEventArgs(pcPerfMessage, freeSpaces,PCM.pcPerformance));
 
             logger.Log(sb.ToString(), dTime);
             sb.Clear();
+
+            if(warnFlag == true)
+            {
+
+            }
         }
 
         #region For TabControl Handling
