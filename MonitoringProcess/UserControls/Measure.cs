@@ -58,7 +58,7 @@ namespace MonitorigProcess
         Thread selectcputhread;
         private int processViewSelectedPid = 0;
 
-        private WarnDataRepository warnDataRepository;
+        private WarnDataRepository warnDataRepository = new WarnDataRepository(DateTime.Now);
 
         public Measure()
         {
@@ -514,7 +514,15 @@ namespace MonitorigProcess
 
             ReportRepository.CreateReport(dtStartDate, dtEndDate, DateTime.Now, selectedProcessList, PCM.GetResultSnapshot(pProcess, Bindings.selectedProcesses.Count));
 
-            warnDataRepository.StopWriting();
+            try
+            {
+                //DetectionMode 미사용 시 NullReference 예외 발생 가능
+                warnDataRepository.StopWriting();
+            }
+            catch
+            {
+                return;
+            }
         }
 
         private bool checkDateTime(DateTime dtTime)
@@ -534,7 +542,14 @@ namespace MonitorigProcess
             // 시작 하면 Program이 죽을 때 까지 계속 체크
             while (bLoopState)
             {
-                fMonitorAllProcess();
+                if(WarnLimitConfig.WarnDetectionMode == true)
+                {
+                    fMonitorAllProcessDetectionMode();
+                }
+                else
+                {
+                    fMonitorAllProcess();
+                }
                 //Task.Run((Action)fMonitorAllProcess);
                 Thread.Sleep(iThreadTime);  // Thread 대기 Time
                 if (checkDateTime(dtEndDate))
@@ -624,6 +639,65 @@ namespace MonitorigProcess
         }
 
         private void fMonitorAllProcess()
+        {
+            DateTime dTime = DateTime.Now;
+
+            //첫 모니터링 시작 시점
+            //StartDate 설정
+            //WarnDataRepository 초기화
+            if (!bStartTimeSet)
+            {
+                dtStartDate = dTime;
+                bStartTimeSet = true;
+            }
+            sb.Append($"[{dTime:yyyy/MM/dd HH:mm:ss.FFF}],");
+
+            for (int i = 0; i < Bindings.selectedProcesses.Count; i++)
+            {
+                SelectedProcess processBeingChecked = Bindings.selectedProcesses[i];
+                int pidBeingChecked = processBeingChecked.Id;
+
+                var cpuUsage = PCM.GetProcessCPUUsage(pidBeingChecked, dTime);
+                var memoryUsage = PCM.GetProcessMemoryUsage(pidBeingChecked, dTime) / (1024 * 1024);  //memory megabyte 변환
+                var threadCount = PCM.GetProcessThreadCount(pidBeingChecked);
+                var handleCount = PCM.GetProcessHandleCount(pidBeingChecked);
+                var gdiCount = PCM.GetProcessGdiCount(pidBeingChecked);
+
+                sb.Append(cpuUsage.ToString()).Append(",")
+                    .Append(memoryUsage.ToString()).Append(",")
+                    .Append(threadCount.ToString()).Append(",")
+                    .Append(handleCount.ToString()).Append(",")
+                    .Append(gdiCount.ToString()).Append(",");
+
+                if (pidBeingChecked == processViewSelectedPid)
+                {
+                    string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} {processBeingChecked.InstanceName} - cpu (%): {Math.Round(cpuUsage, 3).ToString()}, mem (MB): {Math.Round(memoryUsage, 3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
+                    ProcessPerformance processSet = PCM.GetProcessSet(processViewSelectedPid);
+                    OnRaiseProcessMeasureEvent(processViewSelectedPid, new ProcessMeasureEventArgs(message, processSet));
+                }
+            }
+
+            var totalCpuUsage = PCM.GetTotalCPUUsage(dTime);
+            var totalMemoryUsage = PCM.GetTotalMemoryUsage(dTime);
+
+            sb.Append(totalCpuUsage.ToString()).Append(",")
+                .Append(totalMemoryUsage.ToString()).Append(",");
+
+            var freeSpaces = PCM.GetFreeDiskSpace();
+            for (int i = 0; i < freeSpaces.Count; i++)
+            {
+                sb.Append(freeSpaces[i].ToString()).Append(",");
+            }
+
+            string pcPerfMessage = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} - total_cpu (%): {Math.Round(totalCpuUsage, 3)}, total_mem (MB): {Math.Round(totalMemoryUsage, 3)}";
+            OnRaisePCMeasureEvent(new PCMeasureEventArgs(pcPerfMessage, freeSpaces, PCM.pcPerformance));
+
+            logger.Log(sb.ToString(), dTime);
+            sb.Clear();
+        }
+
+
+        private void fMonitorAllProcessDetectionMode()
         {            
             DateTime dTime = DateTime.Now;
             MeasureDataDto dto = new MeasureDataDto(dTime);
@@ -721,7 +795,15 @@ namespace MonitorigProcess
                 pcPerfValues[AppConfiguration.totalCPU] = totalCpuUsage;
                 pcPerfValues[AppConfiguration.totalMemory] = totalMemoryUsage;
                 dto.PcPerformanceInfo = pcPerfValues;
-                warnDataRepository.AddWarnData(dto);
+                try
+                {
+                    warnDataRepository.AddWarnData(dto);
+                }
+                catch
+                {
+                    //warnDataRepository가 null 인 경우에 대한 예외처리 (모니터링 중간에 DetectionMode 변경하면 발생)
+                    return;
+                }
             }
         }
 

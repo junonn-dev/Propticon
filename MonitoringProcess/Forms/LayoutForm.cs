@@ -21,6 +21,7 @@ namespace MonitorigProcess.Forms
             //상단 버튼 이름으로 키 생성
             screenControls.Add(label2.Name, measure1);
             screenControls.Add(label3.Name, dataViewer1);
+            screenControls.Add(titleLableConfig.Name, configuration1);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -29,6 +30,9 @@ namespace MonitorigProcess.Forms
             DisableAllControls();
             EnableOneControl(label2.Name);
 
+            //configuration에서 measure의 모니터링 상태를 알려주기 위해 만든 인터페이스 같은 것
+            //종속성이 생기기 때문에 바람직하지 않다.
+            configuration1.setMonitorCheckReference(measure1);
         }
 
         private void DisableAllControls()
@@ -44,24 +48,6 @@ namespace MonitorigProcess.Forms
             DisableAllControls();
             screenControls[controlName].Enabled = true;
             screenControls[controlName].Visible = true;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-            this.Close();
-            this.Dispose();
-            Environment.Exit(Environment.ExitCode);
-        }
-
-        private void measure1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
@@ -96,6 +82,11 @@ namespace MonitorigProcess.Forms
             EnableOneControl(label3.Name);
         }
 
+        private void titleLableConfig_Click(object sender, EventArgs e)
+        {
+            EnableOneControl(titleLableConfig.Name);
+        }
+
         private void guna2ImageButton1_Click(object sender, EventArgs e)
         {
             if (measure1.bLoopState == true)
@@ -116,5 +107,7 @@ namespace MonitorigProcess.Forms
         {
             guna2ImageButton1.BackColor = Color.Red;
         }
+
+
     }
 }

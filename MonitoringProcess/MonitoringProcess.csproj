@@ -135,6 +135,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Repository\WarnDataRepository.cs" />
+    <Compile Include="UserControls\Configuration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Configuration.Designer.cs">
+      <DependentUpon>Configuration.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\FreeDiskSpaceViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -283,6 +289,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormBorderShadow.resx">
       <DependentUpon>FormBorderShadow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Configuration.resx">
+      <DependentUpon>Configuration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\FreeDiskSpaceViewer.resx">
       <DependentUpon>FreeDiskSpaceViewer.cs</DependentUpon>

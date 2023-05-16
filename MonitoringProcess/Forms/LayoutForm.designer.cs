@@ -38,6 +38,8 @@ namespace MonitorigProcess.Forms
             this.label2 = new MonitorigProcess.UserControls.resources.TitleLabel();
             this.measure1 = new MonitorigProcess.Measure();
             this.dataViewer1 = new MonitorigProcess.UserControls.GraphViewer();
+            this.configuration1 = new MonitoringProcess.UserControls.Configuration();
+            this.titleLableConfig = new MonitorigProcess.UserControls.resources.TitleLabel();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -45,6 +47,7 @@ namespace MonitorigProcess.Forms
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.titleLableConfig);
             this.panel1.Controls.Add(this.flowLayoutPanel2);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
@@ -130,12 +133,32 @@ namespace MonitorigProcess.Forms
             this.dataViewer1.Size = new System.Drawing.Size(1100, 746);
             this.dataViewer1.TabIndex = 3;
             // 
+            // configuration1
+            // 
+            this.configuration1.Location = new System.Drawing.Point(0, 50);
+            this.configuration1.Margin = new System.Windows.Forms.Padding(1);
+            this.configuration1.Name = "configuration1";
+            this.configuration1.Size = new System.Drawing.Size(1100, 750);
+            this.configuration1.TabIndex = 4;
+            // 
+            // titleLableConfig
+            // 
+            this.titleLableConfig.AutoSize = true;
+            this.titleLableConfig.Location = new System.Drawing.Point(175, 9);
+            this.titleLableConfig.Name = "titleLableConfig";
+            this.titleLableConfig.Padding = new System.Windows.Forms.Padding(5);
+            this.titleLableConfig.Size = new System.Drawing.Size(70, 31);
+            this.titleLableConfig.TabIndex = 8;
+            this.titleLableConfig.Text = "Config";
+            this.titleLableConfig.Click += new System.EventHandler(this.titleLableConfig_Click);
+            // 
             // LayoutForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(1100, 800);
+            this.Controls.Add(this.configuration1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.measure1);
             this.Controls.Add(this.dataViewer1);
@@ -160,6 +183,8 @@ namespace MonitorigProcess.Forms
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private Guna.UI2.WinForms.Guna2ImageButton guna2ImageButton1;
         private UserControls.GraphViewer dataViewer1;
+        private UserControls.resources.TitleLabel titleLableConfig;
+        private MonitoringProcess.UserControls.Configuration configuration1;
     }
 }
 

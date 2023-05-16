@@ -429,7 +429,7 @@
             this.commonPanel3.Location = new System.Drawing.Point(186, 180);
             this.commonPanel3.Margin = new System.Windows.Forms.Padding(1);
             this.commonPanel3.Name = "commonPanel3";
-            this.commonPanel3.Size = new System.Drawing.Size(913, 417);
+            this.commonPanel3.Size = new System.Drawing.Size(913, 418);
             this.commonPanel3.TabIndex = 17;
             // 
             // guna2ContainerControl1
@@ -440,7 +440,7 @@
             this.guna2ContainerControl1.Location = new System.Drawing.Point(0, 0);
             this.guna2ContainerControl1.Margin = new System.Windows.Forms.Padding(0);
             this.guna2ContainerControl1.Name = "guna2ContainerControl1";
-            this.guna2ContainerControl1.Size = new System.Drawing.Size(913, 417);
+            this.guna2ContainerControl1.Size = new System.Drawing.Size(913, 418);
             this.guna2ContainerControl1.TabIndex = 1;
             this.guna2ContainerControl1.Text = "guna2ContainerControl1";
             // 
@@ -451,7 +451,7 @@
             this.totalResourceView.Location = new System.Drawing.Point(0, 0);
             this.totalResourceView.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.totalResourceView.Name = "totalResourceView";
-            this.totalResourceView.Size = new System.Drawing.Size(913, 417);
+            this.totalResourceView.Size = new System.Drawing.Size(913, 418);
             this.totalResourceView.TabIndex = 1;
             // 
             // processDetailView
@@ -461,7 +461,7 @@
             this.processDetailView.Location = new System.Drawing.Point(0, 0);
             this.processDetailView.Margin = new System.Windows.Forms.Padding(1);
             this.processDetailView.Name = "processDetailView";
-            this.processDetailView.Size = new System.Drawing.Size(913, 417);
+            this.processDetailView.Size = new System.Drawing.Size(913, 418);
             this.processDetailView.TabIndex = 0;
             // 
             // Measure
