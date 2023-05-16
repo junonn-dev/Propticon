@@ -43,6 +43,10 @@ namespace MonitoringProcess.Repository
         public void startThread()
         {
             isThreadRunning = true;
+            if (File.Exists(warnDataCopyFilePath))
+            {
+                File.Delete(warnDataCopyFilePath);
+            }
             fileWriteThread.Start();
         }
 
