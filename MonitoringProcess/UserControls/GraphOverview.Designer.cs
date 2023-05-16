@@ -31,7 +31,6 @@ namespace MonitorigProcess.UserControls
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
-            this.listViewProcessList = new System.Windows.Forms.ListView();
             this.contentLabel1 = new MonitorigProcess.UserControls.resources.ContentLabel();
             this.contentLabel2 = new MonitorigProcess.UserControls.resources.ContentLabel();
             this.contentLabel3 = new MonitorigProcess.UserControls.resources.ContentLabel();
@@ -40,6 +39,7 @@ namespace MonitorigProcess.UserControls
             this.lblProcess = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.lblMostCpuUsed = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
             this.lblMostMemoryUsed = new MonitorigProcess.UserControls.resources.ContentHeaderLabel();
+            this.listViewProcessList = new System.Windows.Forms.ListView();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,19 +72,6 @@ namespace MonitorigProcess.UserControls
             this.label1.Size = new System.Drawing.Size(709, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Performance Result";
-            // 
-            // listViewProcessList
-            // 
-            this.listViewProcessList.CheckBoxes = true;
-            this.listViewProcessList.HideSelection = false;
-            this.listViewProcessList.Location = new System.Drawing.Point(3, 96);
-            this.listViewProcessList.Name = "listViewProcessList";
-            this.listViewProcessList.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.listViewProcessList.RightToLeftLayout = true;
-            this.listViewProcessList.Size = new System.Drawing.Size(733, 97);
-            this.listViewProcessList.TabIndex = 12;
-            this.listViewProcessList.UseCompatibleStateImageBehavior = false;
-            this.listViewProcessList.View = System.Windows.Forms.View.SmallIcon;
             // 
             // contentLabel1
             // 
@@ -165,6 +152,19 @@ namespace MonitorigProcess.UserControls
             this.lblMostMemoryUsed.Size = new System.Drawing.Size(170, 30);
             this.lblMostMemoryUsed.TabIndex = 8;
             this.lblMostMemoryUsed.Text = "lblMostMemoryUsed";
+            // 
+            // listViewProcessList
+            // 
+            this.listViewProcessList.CheckBoxes = true;
+            this.listViewProcessList.HideSelection = false;
+            this.listViewProcessList.Location = new System.Drawing.Point(3, 96);
+            this.listViewProcessList.Name = "listViewProcessList";
+            this.listViewProcessList.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.listViewProcessList.RightToLeftLayout = true;
+            this.listViewProcessList.Size = new System.Drawing.Size(733, 97);
+            this.listViewProcessList.TabIndex = 12;
+            this.listViewProcessList.UseCompatibleStateImageBehavior = false;
+            this.listViewProcessList.View = System.Windows.Forms.View.List;
             // 
             // GraphOverview
             // 
