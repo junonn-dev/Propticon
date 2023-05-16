@@ -1,4 +1,5 @@
 ﻿using MonitorigProcess.Config;
+using MonitorigProcess.Helper;
 using MonitoringProcess.Data;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ namespace MonitoringProcess.Forms
 
         private void RefreshFavoriteProcess()
         {
+            ini = new IniFile();
             ini.Load(AppConfiguration.iniPath);
 
             IEnumerable<string> favoriteProcessNames = ini[iniFavoriteSection]
@@ -88,6 +90,7 @@ namespace MonitoringProcess.Forms
         {
             FavoriteManagerForm form = new FavoriteManagerForm();
             form.ShowDialog();
+            RefreshFavoriteProcess();
         }
 
         private void FavoriteForm_Load(object sender, EventArgs e)
@@ -206,7 +209,9 @@ namespace MonitoringProcess.Forms
             Bindings.selectedProcesses.Clear();
             foreach (ListViewItem item in listViewSelectedProcess.Items)
             {
-                Bindings.selectedProcesses.Add(new SelectedProcess(Int32.Parse(item.SubItems[1].Text), item.SubItems[0].Text, ""));
+                int pid = Int32.Parse(item.SubItems[1].Text);
+                string processName = item.SubItems[0].Text;
+                Bindings.selectedProcesses.Add(new SelectedProcess(pid, processName, InstanceNameConvertor.GetProcessInstanceName(pid, processName)));
             }
 
             OnRaiseSelectedProcessSaveEvent(new EventArgs());

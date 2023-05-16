@@ -125,7 +125,7 @@ namespace MonitorigProcess.UserControls
             //전체 물리메모리 - available MBytes로 계산함.
             long memMB = TotalPhysicalMemory.GetMBValue();
             var newMemoryWorst = new SortedDictionary<float, List<DateTime>>(Comparer<float>.Create((x, y) => y.CompareTo(x)));
-            var availableMBWorst = e.PcPerformanceSet.AvailableMemoryMBytes.worstList.list;
+            var availableMBWorst = e.PcPerformanceSet.MemoryUsageMB.worstList.list;
             foreach (KeyValuePair<float, List<DateTime>> item in availableMBWorst)
             {
                 float prevKey = item.Key;
@@ -142,7 +142,7 @@ namespace MonitorigProcess.UserControls
 
 
             var cpuCounter = e.PcPerformanceSet.TotalCpuUsage;
-            var availableMemoryCounter = e.PcPerformanceSet.AvailableMemoryMBytes;
+            var availableMemoryCounter = e.PcPerformanceSet.MemoryUsageMB;
 
             var cpuMin = cpuCounter.GetMinValue();
             if (cpuMin != float.MaxValue)

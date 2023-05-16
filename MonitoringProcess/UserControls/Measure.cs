@@ -16,6 +16,8 @@ using MonitoringProcess.Forms;
 using MonitorigProcess.Config;
 using System.Linq;
 using System.ComponentModel;
+using MonitoringProcess.Config;
+using MonitoringProcess.Repository;
 
 namespace MonitorigProcess
 {
@@ -44,7 +46,7 @@ namespace MonitorigProcess
         int iSelected;
         Process[] allProc = Process.GetProcesses();    //시스템의 모든 프로세스 정보 출력
 
-        DateTime dtStartDate;
+        public DateTime dtStartDate { get; private set; }
         DateTime dtEndDate;
         
         //public StProcess[] sProcess = new StProcess[Constants.maxconfig];
@@ -55,6 +57,8 @@ namespace MonitorigProcess
         PCManager PCM = new PCManager();
         Thread selectcputhread;
         private int processViewSelectedPid = 0;
+
+        private WarnDataRepository warnDataRepository;
 
         public Measure()
         {
@@ -105,8 +109,8 @@ namespace MonitorigProcess
         {
             listView1.View = View.Details;
             columnHeader1.Text = "No";
-            columnHeader2.Text = "PID";
-            columnHeader3.Text = "ProcessName";
+            columnPid.Text = "PID";
+            columnProcessName.Text = "ProcessName";
 
             listViewSelectedProcess.View = View.Details;
             columnHeader4.Text = "PID";
@@ -141,6 +145,11 @@ namespace MonitorigProcess
                 {
                     //pid로 Process 얻어오지 못할 경우 = pid가 실행중이 아닌 경우
                     //예외 발생하고, 아래 진행 없이 loop 진행
+                    continue;
+                }
+                //PID가 실행중이지만 프로세스 이름이 같은 경우
+                if(process.ProcessName != processName)
+                {
                     continue;
                 }
                 StProcess tempProcess = new StProcess();
@@ -504,6 +513,8 @@ namespace MonitorigProcess
             }
 
             ReportRepository.CreateReport(dtStartDate, dtEndDate, DateTime.Now, selectedProcessList, PCM.GetResultSnapshot(pProcess, Bindings.selectedProcesses.Count));
+
+            warnDataRepository.StopWriting();
         }
 
         private bool checkDateTime(DateTime dtTime)
@@ -613,25 +624,52 @@ namespace MonitorigProcess
         }
 
         private void fMonitorAllProcess()
-        {
+        {            
             DateTime dTime = DateTime.Now;
+            MeasureDataDto dto = new MeasureDataDto(dTime);
+
+            //첫 모니터링 시작 시점
+            //StartDate 설정
+            //WarnDataRepository 초기화
             if (!bStartTimeSet)
             {
                 dtStartDate = dTime;
                 bStartTimeSet = true;
+                warnDataRepository = new WarnDataRepository(dtStartDate);
+                warnDataRepository.startThread();
             }
             sb.Append($"[{dTime:yyyy/MM/dd HH:mm:ss.FFF}],");
 
-            var totalCpuUsage = PCM.GetTotalCPUUsage(dTime);
-            var totalMemoryUsage = PCM.GetTotalMemoryUsage(dTime);
-
+            bool warnFlag = false;
             for (int i = 0; i < Bindings.selectedProcesses.Count; i++)
             {
-                var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i], dTime);
-                var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i], dTime) /( 1024 * 1024 );  //memory megabyte 변환
-                var threadCount = PCM.GetProcessThreadCount(pProcess[i]);
-                var handleCount = PCM.GetProcessHandleCount(pProcess[i]);
-                var gdiCount = PCM.GetProcessGdiCount(pProcess[i]);
+                SelectedProcess processBeingChecked = Bindings.selectedProcesses[i];
+                int pidBeingChecked = processBeingChecked.Id;
+
+                var cpuUsage = PCM.GetProcessCPUUsage(pidBeingChecked, dTime);
+                var memoryUsage = PCM.GetProcessMemoryUsage(pidBeingChecked, dTime) /( 1024 * 1024 );  //memory megabyte 변환
+                var threadCount = PCM.GetProcessThreadCount(pidBeingChecked);
+                var handleCount = PCM.GetProcessHandleCount(pidBeingChecked);
+                var gdiCount = PCM.GetProcessGdiCount(pidBeingChecked);
+
+                if(warnFlag == false && ((cpuUsage >= WarnLimitConfig.ProcessCpuLimit) 
+                    || (memoryUsage >= WarnLimitConfig.ProcessMemoryLimit)
+                    || (threadCount >= WarnLimitConfig.ProcessThreadLimit)
+                    || (handleCount >= WarnLimitConfig.ProcessHandleLimit)
+                    || (gdiCount >= WarnLimitConfig.ProcessGdiLimit)))
+                {
+                    warnFlag = true;
+                }
+
+                var processValues = new Dictionary<string, float>();
+                processValues[AppConfiguration.processCPU] = cpuUsage;
+                processValues[AppConfiguration.processMemory] = memoryUsage;
+                processValues[AppConfiguration.processThread] = threadCount;
+                processValues[AppConfiguration.processHandle] = handleCount;
+                processValues[AppConfiguration.processGDI] = gdiCount;
+                //dto는 측정 중에만 발생되어야 한다. -> Binding은 측정 중에 변경되지 않는다.
+                //이 전제가 맞아야 SelectedProcess 참조 변수를 키로 담을 수 있다.
+                dto.ProcessMeasureInfo[processBeingChecked] = processValues;
 
                 sb.Append(cpuUsage.ToString()).Append(",")
                     .Append(memoryUsage.ToString()).Append(",")
@@ -639,27 +677,52 @@ namespace MonitorigProcess
                     .Append(handleCount.ToString()).Append(",")
                     .Append(gdiCount.ToString()).Append(",");
 
-                if(pProcess[i].Id == processViewSelectedPid)
+                if(pidBeingChecked == processViewSelectedPid)
                 {
-                    string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} {Bindings.selectedProcesses[i].InstanceName} - cpu (%): {Math.Round(cpuUsage, 3).ToString()}, mem (MB): {Math.Round(memoryUsage, 3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
+                    string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} {processBeingChecked.InstanceName} - cpu (%): {Math.Round(cpuUsage, 3).ToString()}, mem (MB): {Math.Round(memoryUsage, 3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
                     ProcessPerformance processSet = PCM.GetProcessSet(processViewSelectedPid);
                     OnRaiseProcessMeasureEvent(processViewSelectedPid, new ProcessMeasureEventArgs(message, processSet));
                 }
             }
 
+            var totalCpuUsage = PCM.GetTotalCPUUsage(dTime);
+            var totalMemoryUsage = PCM.GetTotalMemoryUsage(dTime);
+
             sb.Append(totalCpuUsage.ToString()).Append(",")
                 .Append(totalMemoryUsage.ToString()).Append(",");
 
-            var freeSpaces = PCM.GetFreeDiskSpace();
-            foreach (var item in freeSpaces)
+            if (warnFlag == false && (totalCpuUsage >= WarnLimitConfig.TotalCpuUsageLimit)
+                || (totalMemoryUsage >= WarnLimitConfig.TotalMemoryUsageLimit))
             {
-                sb.Append(item.ToString()).Append(",");
+                warnFlag = true;
             }
+
+            var freeSpaces = PCM.GetFreeDiskSpace();
+            for(int i=0; i<freeSpaces.Count; i++)
+            {
+                if(warnFlag == false && (freeSpaces[i] >= WarnLimitConfig.DiskSpaceLimit))
+                {
+                    warnFlag = true;
+                }
+                dto.DiskFreeSpacePercent[AppConfiguration.diskNames[i].Trim(':')] = freeSpaces[i];
+
+                sb.Append(freeSpaces[i].ToString()).Append(",");
+            }
+
             string pcPerfMessage = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} - total_cpu (%): {Math.Round(totalCpuUsage, 3)}, total_mem (MB): {Math.Round(totalMemoryUsage, 3)}";
             OnRaisePCMeasureEvent(new PCMeasureEventArgs(pcPerfMessage, freeSpaces,PCM.pcPerformance));
 
             logger.Log(sb.ToString(), dTime);
             sb.Clear();
+
+            if(warnFlag == true)
+            {
+                var pcPerfValues = new Dictionary<string, float>();
+                pcPerfValues[AppConfiguration.totalCPU] = totalCpuUsage;
+                pcPerfValues[AppConfiguration.totalMemory] = totalMemoryUsage;
+                dto.PcPerformanceInfo = pcPerfValues;
+                warnDataRepository.AddWarnData(dto);
+            }
         }
 
         #region For TabControl Handling
@@ -767,5 +830,24 @@ namespace MonitorigProcess
         }
         #endregion
 
+        private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            int number = 1;
+            switch (e.Column)
+            {
+                case 1:
+                    listView1.Items.Clear();
+                    listView1.Items.AddRange(Process.GetProcesses().OrderBy(proc => proc.Id).Select(proc=>new ListViewItem(new string[] { number++.ToString(), proc.Id.ToString(), proc.ProcessName })).ToArray());
+                    break;
+
+                case 2:
+                    listView1.Items.Clear();
+                    listView1.Items.AddRange(Process.GetProcesses().OrderBy(proc => proc.ProcessName).Select(proc => new ListViewItem(new string[] { number++.ToString(), proc.Id.ToString(), proc.ProcessName })).ToArray());
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 }

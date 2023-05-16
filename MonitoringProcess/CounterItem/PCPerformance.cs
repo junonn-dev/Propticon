@@ -1,6 +1,7 @@
 ﻿using MonitorigProcess.Config;
 using MonitorigProcess.CounterItem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace MonitoringProcess.CounterItem
 {
-    public class PCPerformance
+    public class PCPerformance : IEnumerable<Counter>
     {
         public List<Counter> FreeDiskSpaceCounters { get; private set; }
         public Counter TotalCpuUsage { get; }
-        public Counter AvailableMemoryMBytes { get; }
+        public TotalMemoryUsageCounter MemoryUsageMB { get; }
 
         public PCPerformance()
         {
@@ -25,8 +26,22 @@ namespace MonitoringProcess.CounterItem
             }
 
             TotalCpuUsage = new Counter("Processor", "% Processor Time", "_Total");
-            AvailableMemoryMBytes = new Counter("Memory", "Available MBytes", 
-                recordWorstAscd: true);
+            MemoryUsageMB = new TotalMemoryUsageCounter("Memory", "Available MBytes");
+        }
+
+        public IEnumerator<Counter> GetEnumerator()
+        {
+            foreach (Counter item in FreeDiskSpaceCounters)
+            {
+                yield return item;
+            }
+            yield return TotalCpuUsage;
+            yield return MemoryUsageMB;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

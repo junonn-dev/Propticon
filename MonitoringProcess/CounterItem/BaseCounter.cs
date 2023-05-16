@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MonitoringProcess.CounterItem
 {
+    //Deprecated : Counter클래스로 통일하여 추상화 
     public abstract class BaseCounter
     {
         protected float minValue = float.MaxValue;

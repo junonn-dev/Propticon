@@ -90,11 +90,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\AppConfiguration.cs" />
+    <Compile Include="Config\WarnLimitConfig.cs" />
     <Compile Include="CounterItem\BaseCounter.cs" />
     <Compile Include="CounterItem\CpuCounter.cs" />
     <Compile Include="CounterItem\GdiCounter.cs" />
     <Compile Include="CounterItem\PCPerformance.cs" />
+    <Compile Include="CounterItem\TotalMemoryUsageCounter.cs" />
     <Compile Include="Data\Bindings.cs" />
+    <Compile Include="Data\MeasureDataDto.cs" />
     <Compile Include="Data\PCMeasureEventArgs.cs" />
     <Compile Include="Data\SelectedProcess.cs" />
     <Compile Include="Forms\FavoriteForm.cs">
@@ -123,7 +126,6 @@
     <Compile Include="CounterItem\ProcessPerformance.cs" />
     <Compile Include="CounterItem\WorstList.cs" />
     <Compile Include="Data\ProcessMeasureEventArgs.cs" />
-    <Compile Include="Data\Record.cs" />
     <Compile Include="Data\GraphViewerDto.cs" />
     <Compile Include="Data\ResultSnapshot.cs" />
     <Compile Include="Data\StProcess.cs" />
@@ -132,6 +134,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Repository\WarnDataRepository.cs" />
     <Compile Include="UserControls\FreeDiskSpaceViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>

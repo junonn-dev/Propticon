@@ -85,7 +85,8 @@ namespace MonitorigProcess
                         if (isWriting == false)
                         {
                             isWriting = true;
-                            logDirectory = baseLogPath + buffer.Peek().Key.ToString(logPartialDirectoryFormat)+"\\";
+                            logDirectory = baseLogPath + mainFormReference.dtStartDate.ToString(logPartialDirectoryFormat) + "\\";
+                            //logDirectory = baseLogPath + buffer.Peek().Key.ToString(logPartialDirectoryFormat)+"\\";
                             if (!Directory.Exists(logDirectory))
                             {
                                 Directory.CreateDirectory(logDirectory);

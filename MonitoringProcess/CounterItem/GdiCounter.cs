@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MonitoringProcess.CounterItem
 {
-    public class GdiCounter : BaseCounter
+    public class GdiCounter : Counter
     {
         //Process의 GDI 객체 개수 반환
         //hProcess는 프로세스의 핸들 번호,  
@@ -17,9 +17,10 @@ namespace MonitoringProcess.CounterItem
         private extern static int GetGuiResources(IntPtr hProcess, int uiFlags);
 
         private Process process; 
-        public GdiCounter(Process process)
+
+        public GdiCounter(int pid, string counterName, bool recordWorstAscd = false) : base(pid, counterName, recordWorstAscd)
         {
-            this.process = process;
+            process = Process.GetProcessById(pid);
         }
 
         public override float GetNextValue()
@@ -27,7 +28,7 @@ namespace MonitoringProcess.CounterItem
             float value = 0;
             try
             {
-                value = GetGuiResources(this.process.Handle, 0);
+                value = GetGuiResources(process.Handle, 0);
             }
             catch
             {
@@ -35,12 +36,6 @@ namespace MonitoringProcess.CounterItem
             }
             CheckStatisticValue(value);
             return value;
-        }
-
-        public GdiCounter()
-        {
-
-        }
-        
+        }      
     }
 }
