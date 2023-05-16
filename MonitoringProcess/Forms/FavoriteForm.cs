@@ -46,6 +46,7 @@ namespace MonitoringProcess.Forms
 
         private void RefreshFavoriteProcess()
         {
+            ini = new IniFile();
             ini.Load(AppConfiguration.iniPath);
 
             IEnumerable<string> favoriteProcessNames = ini[iniFavoriteSection]
@@ -89,6 +90,7 @@ namespace MonitoringProcess.Forms
         {
             FavoriteManagerForm form = new FavoriteManagerForm();
             form.ShowDialog();
+            RefreshFavoriteProcess();
         }
 
         private void FavoriteForm_Load(object sender, EventArgs e)

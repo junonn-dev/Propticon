@@ -109,8 +109,8 @@ namespace MonitorigProcess
         {
             listView1.View = View.Details;
             columnHeader1.Text = "No";
-            columnHeader2.Text = "PID";
-            columnHeader3.Text = "ProcessName";
+            columnPid.Text = "PID";
+            columnProcessName.Text = "ProcessName";
 
             listViewSelectedProcess.View = View.Details;
             columnHeader4.Text = "PID";
@@ -830,5 +830,24 @@ namespace MonitorigProcess
         }
         #endregion
 
+        private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            int number = 1;
+            switch (e.Column)
+            {
+                case 1:
+                    listView1.Items.Clear();
+                    listView1.Items.AddRange(Process.GetProcesses().OrderBy(proc => proc.Id).Select(proc=>new ListViewItem(new string[] { number++.ToString(), proc.Id.ToString(), proc.ProcessName })).ToArray());
+                    break;
+
+                case 2:
+                    listView1.Items.Clear();
+                    listView1.Items.AddRange(Process.GetProcesses().OrderBy(proc => proc.ProcessName).Select(proc => new ListViewItem(new string[] { number++.ToString(), proc.Id.ToString(), proc.ProcessName })).ToArray());
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 }

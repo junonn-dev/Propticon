@@ -176,7 +176,7 @@ namespace MonitoringProcess.Forms
             // 
             this.textBoxSearch.Location = new System.Drawing.Point(68, 31);
             this.textBoxSearch.Name = "textBoxSearch";
-            this.textBoxSearch.Size = new System.Drawing.Size(137, 21);
+            this.textBoxSearch.Size = new System.Drawing.Size(100, 21);
             this.textBoxSearch.TabIndex = 6;
             this.textBoxSearch.TextChanged += new System.EventHandler(this.textBoxSearch_TextChanged);
             // 
@@ -196,9 +196,9 @@ namespace MonitoringProcess.Forms
             this.buttonRefresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.buttonRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonRefresh.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
-            this.buttonRefresh.Location = new System.Drawing.Point(211, 28);
+            this.buttonRefresh.Location = new System.Drawing.Point(174, 28);
             this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(60, 24);
+            this.buttonRefresh.Size = new System.Drawing.Size(97, 24);
             this.buttonRefresh.TabIndex = 4;
             this.buttonRefresh.Text = "Refresh";
             this.buttonRefresh.UseVisualStyleBackColor = true;

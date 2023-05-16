@@ -23,6 +23,7 @@
         #region Windows Form 디자이너에서 생성한 코드
         private void InitializeComponent()
         {
+            this.freeDiskSpaceViewer1 = new MonitoringProcess.UserControls.FreeDiskSpaceViewer();
             this.commonPanel2 = new MonitorigProcess.UserControls.resources.CommonPanel();
             this.totalViewButton = new MonitorigProcess.UserControls.resources.NormalButton();
             this.subtitleLabel3 = new MonitorigProcess.UserControls.resources.SubtitleLabel();
@@ -48,8 +49,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnPid = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnProcessName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.BtnRemove = new MonitorigProcess.UserControls.resources.NormalButton();
             this.BtnApply = new MonitorigProcess.UserControls.resources.NormalButton();
@@ -57,13 +58,23 @@
             this.guna2ContainerControl1 = new Guna.UI2.WinForms.Guna2ContainerControl();
             this.totalResourceView = new MonitorigProcess.UserControls.uscRealTimeProcessView();
             this.processDetailView = new MonitorigProcess.UserControls.uscRealTimeProcessView();
-            this.freeDiskSpaceViewer1 = new MonitoringProcess.UserControls.FreeDiskSpaceViewer();
             this.commonPanel2.SuspendLayout();
             this.commonPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.commonPanel3.SuspendLayout();
             this.guna2ContainerControl1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // freeDiskSpaceViewer1
+            // 
+            this.freeDiskSpaceViewer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.freeDiskSpaceViewer1.Location = new System.Drawing.Point(0, 600);
+            this.freeDiskSpaceViewer1.Margin = new System.Windows.Forms.Padding(1);
+            this.freeDiskSpaceViewer1.Name = "freeDiskSpaceViewer1";
+            this.freeDiskSpaceViewer1.Size = new System.Drawing.Size(1100, 149);
+            this.freeDiskSpaceViewer1.TabIndex = 18;
             // 
             // commonPanel2
             // 
@@ -345,11 +356,10 @@
             this.listView1.AccessibleRole = System.Windows.Forms.AccessibleRole.Border;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3});
+            this.columnPid,
+            this.columnProcessName});
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
-            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(16, 53);
             this.listView1.MultiSelect = false;
@@ -358,6 +368,7 @@
             this.listView1.TabIndex = 6;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView1_ColumnClick);
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // columnHeader1
@@ -365,14 +376,14 @@
             this.columnHeader1.Text = "No";
             this.columnHeader1.Width = 30;
             // 
-            // columnHeader2
+            // columnPid
             // 
-            this.columnHeader2.Text = "Pid";
+            this.columnPid.Text = "Pid";
             // 
-            // columnHeader3
+            // columnProcessName
             // 
-            this.columnHeader3.Text = "ProcessName";
-            this.columnHeader3.Width = 180;
+            this.columnProcessName.Text = "ProcessName";
+            this.columnProcessName.Width = 180;
             // 
             // textBox1
             // 
@@ -453,17 +464,6 @@
             this.processDetailView.Size = new System.Drawing.Size(913, 417);
             this.processDetailView.TabIndex = 0;
             // 
-            // freeDiskSpaceViewer1
-            // 
-            this.freeDiskSpaceViewer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.freeDiskSpaceViewer1.Location = new System.Drawing.Point(0, 600);
-            this.freeDiskSpaceViewer1.Margin = new System.Windows.Forms.Padding(1);
-            this.freeDiskSpaceViewer1.Name = "freeDiskSpaceViewer1";
-            this.freeDiskSpaceViewer1.Size = new System.Drawing.Size(1100, 149);
-            this.freeDiskSpaceViewer1.TabIndex = 18;
-            // 
             // Measure
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -498,8 +498,8 @@
         private UserControls.resources.ColoredButton BtnMonitorStart;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnPid;
+        private System.Windows.Forms.ColumnHeader columnProcessName;
         private System.Windows.Forms.ListView listViewSelectedProcess;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
