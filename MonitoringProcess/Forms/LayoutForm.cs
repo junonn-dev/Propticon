@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using MonitorigProcess.UserControls.resources;
 using MonitoringProcess.Forms;
@@ -52,6 +53,7 @@ namespace MonitorigProcess.Forms
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+
             this.Close();
             this.Dispose();
             Environment.Exit(Environment.ExitCode);
@@ -96,6 +98,15 @@ namespace MonitorigProcess.Forms
 
         private void guna2ImageButton1_Click(object sender, EventArgs e)
         {
+            if (measure1.bLoopState == true)
+            {
+                MessageBox.Show("모니터링 종료 후 닫을 수 있습니다.");
+                return;
+            }
+            //monitor stop 직후 프로그램을 종료하면 측정 결과 xml파일이 안생길 수 있다.
+            //닫을 시 창 안보이게 하고, 그동안 측정 결과 xml 파일 생기도록 대기하기 위해 sleep 추가
+            this.Visible = false;
+            Thread.Sleep(7777);
             this.Close();
             this.Dispose();
             Environment.Exit(Environment.ExitCode);

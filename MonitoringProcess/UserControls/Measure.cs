@@ -775,7 +775,7 @@ namespace MonitorigProcess
 
         private void SleepForButtonAsync()
         {
-            Thread.Sleep(4000);
+            Thread.Sleep(5000);
         }
 
         #region PC Measure event
