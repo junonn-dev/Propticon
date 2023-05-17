@@ -10,12 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static MonitorigProcess.Program;
 
 namespace MonitoringProcess.UserControls
 {
     public partial class Configuration : UserControl
     {
-        private readonly string iniAppSettingSection = "AppSetting";
         private Measure monitorCheckReference;
         public Configuration()
         {
@@ -35,6 +35,23 @@ namespace MonitoringProcess.UserControls
 
         private void loadSavedConfig()
         {
+            IniFile ini = new IniFile();
+            ini.Load(AppConfiguration.iniPath);
+
+            var options = ini[Constants.iniOptions];
+            if(options.Values.Count!=0)
+            {
+                WarnLimitConfig.WarnDetectionMode = options["WarnDetectionMode"].ToBool();
+                WarnLimitConfig.TotalCpuUsageLimit = options["TotalCpuUsageLimit"].ToInt();
+                WarnLimitConfig.TotalMemoryUsageLimit = options["TotalMemoryUsageLimit"].ToInt();
+                WarnLimitConfig.DiskSpaceLimit = options["DiskSpaceLimit"].ToInt();
+                WarnLimitConfig.ProcessCpuLimit = options["ProcessCpuLimit"].ToInt();
+                WarnLimitConfig.ProcessMemoryLimit = options["ProcessMemoryLimit"].ToInt();
+                WarnLimitConfig.ProcessThreadLimit = options["ProcessThreadLimit"].ToInt();
+                WarnLimitConfig.ProcessHandleLimit = options["ProcessHandleLimit"].ToInt();
+                WarnLimitConfig.ProcessGdiLimit = options["ProcessGdiLimit"].ToInt();
+            }
+
             checkBoxDetectionMode.Checked = WarnLimitConfig.WarnDetectionMode;
             this.textBoxTotalCpuLimit.Text = WarnLimitConfig.TotalCpuUsageLimit.ToString();
             this.textBoxTotalMemoryLimit.Text = WarnLimitConfig.TotalMemoryUsageLimit.ToString();
@@ -127,11 +144,21 @@ namespace MonitoringProcess.UserControls
                 return;
             }
 
-            //TODO: ini 저장
-            //IniFile ini = new IniFile();
-            //ini.Load(AppConfiguration.iniPath);
+            IniFile ini = new IniFile();
+            ini.Load(AppConfiguration.iniPath);
 
-            //ini[iniAppSettingSection]
+            var options = ini[Constants.iniOptions];
+            options["WarnDetectionMode"] = WarnLimitConfig.WarnDetectionMode;
+            options["TotalCpuUsageLimit"] = WarnLimitConfig.TotalCpuUsageLimit.ToString();
+            options["TotalMemoryUsageLimit"] = WarnLimitConfig.TotalMemoryUsageLimit.ToString();
+            options["DiskSpaceLimit"] = WarnLimitConfig.DiskSpaceLimit.ToString();
+            options["ProcessCpuLimit"] = WarnLimitConfig.ProcessCpuLimit.ToString();
+            options["ProcessMemoryLimit"] = WarnLimitConfig.ProcessMemoryLimit.ToString();
+            options["ProcessThreadLimit"] = WarnLimitConfig.ProcessThreadLimit.ToString();
+            options["ProcessHandleLimit"] = WarnLimitConfig.ProcessHandleLimit.ToString();
+            options["ProcessGdiLimit"] = WarnLimitConfig.ProcessGdiLimit.ToString();
+
+            ini.Save(AppConfiguration.iniPath);
 
             MessageBox.Show("저장했습니다.");
         }
