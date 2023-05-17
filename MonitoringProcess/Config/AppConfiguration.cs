@@ -25,6 +25,9 @@ namespace MonitorigProcess.Config
         public static readonly string warnDataFileFormat =
             ConfigurationManager.AppSettings["warnDataFileFormat"];
 
+        public static readonly string warnDataTimeRecordFormat =
+            ConfigurationManager.AppSettings["warnDataTimeRecordFormat"];
+        
         public static readonly string totalCPU =
             ConfigurationManager.AppSettings["totalCPU"];
 

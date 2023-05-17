@@ -100,7 +100,7 @@ namespace MonitoringProcess.Repository
                                 XElement warning = new XElement("Warning");
                                 warningList.Add(warning);
 
-                                XElement time = new XElement("Time", warnData.MeasureTime);
+                                XElement time = new XElement("Time", warnData.MeasureTime.ToString(AppConfiguration.warnDataTimeRecordFormat));
                                 warning.Add(time);
 
                                 //PC 성능 관련, Total CPU, TotalMemory ...
@@ -116,7 +116,7 @@ namespace MonitoringProcess.Repository
                                 XElement diskSpace = new XElement("DiskSpace");
 
                                 var diskSpaceElements = from KeyValuePair<string, float> data
-                                                        in warnData.DiskFreeSpacePercent
+                                                        in warnData.DiskSpacePercent
                                                         select new XElement(data.Key, data.Value);
                                 foreach (XElement item in diskSpaceElements)
                                 {

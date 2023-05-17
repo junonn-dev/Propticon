@@ -189,10 +189,18 @@ namespace MonitorigProcess
                     //v1.2.0 이하 버전 호환을 위한 예외처리
                     break;
                 }
-                   
-                string processName = ini[Constants.iniConfigSection][i.ToString()].ToString();
-                string instanceName = Helper.InstanceNameConvertor.GetProcessInstanceName(pid, processName);
-                Bindings.selectedProcesses.Add(new SelectedProcess(pid, processName, instanceName));
+
+                try
+                {
+                    string processName = ini[Constants.iniConfigSection][i.ToString()].ToString();
+                    string instanceName = Helper.InstanceNameConvertor.GetProcessInstanceName(pid, processName);
+                    Bindings.selectedProcesses.Add(new SelectedProcess(pid, processName, instanceName));
+                }
+                catch
+                {
+                    //실행중이지 않은 프로세스가 발생하면, 바인딩에는 들어가지만, ini에는 남아있게됨.
+                    continue;
+                }
             }
         }
         private void writeConfig()
@@ -761,30 +769,33 @@ namespace MonitorigProcess
 
             var totalCpuUsage = PCM.GetTotalCPUUsage(dTime);
             var totalMemoryUsage = PCM.GetTotalMemoryUsage(dTime);
+            var totalMemoryPercent = PCM.ConvertTotalMemoryUsagePercent(totalMemoryUsage);
 
             sb.Append(totalCpuUsage.ToString()).Append(",")
                 .Append(totalMemoryUsage.ToString()).Append(",");
 
             if (warnFlag == false && (totalCpuUsage >= WarnLimitConfig.TotalCpuUsageLimit)
-                || (totalMemoryUsage >= WarnLimitConfig.TotalMemoryUsageLimit))
+                || (totalMemoryPercent >= WarnLimitConfig.TotalMemoryUsageLimit))
             {
                 warnFlag = true;
             }
 
-            var freeSpaces = PCM.GetFreeDiskSpace();
-            for(int i=0; i<freeSpaces.Count; i++)
+            var freeDiskSpaces = PCM.GetFreeDiskSpace();
+            for(int i=0; i< freeDiskSpaces.Count; i++)
             {
-                if(warnFlag == false && (freeSpaces[i] >= WarnLimitConfig.DiskSpaceLimit))
+                float diskUsagePercent = 100 - freeDiskSpaces[i];
+                if (warnFlag == false && (diskUsagePercent >= WarnLimitConfig.DiskSpaceLimit))
                 {
                     warnFlag = true;
                 }
-                dto.DiskFreeSpacePercent[AppConfiguration.diskNames[i].Trim(':')] = freeSpaces[i];
+                //dto에 100 - freeSpce(%) 전달 -> WarnData에 disk 사용량 %로 감지
+                dto.DiskSpacePercent[AppConfiguration.diskNames[i].Trim(':')] = diskUsagePercent;
 
-                sb.Append(freeSpaces[i].ToString()).Append(",");
+                sb.Append(freeDiskSpaces[i].ToString()).Append(",");
             }
 
             string pcPerfMessage = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} - total_cpu (%): {Math.Round(totalCpuUsage, 3)}, total_mem (MB): {Math.Round(totalMemoryUsage, 3)}";
-            OnRaisePCMeasureEvent(new PCMeasureEventArgs(pcPerfMessage, freeSpaces,PCM.pcPerformance));
+            OnRaisePCMeasureEvent(new PCMeasureEventArgs(pcPerfMessage, freeDiskSpaces, PCM.pcPerformance));
 
             logger.Log(sb.ToString(), dTime);
             sb.Clear();
@@ -793,7 +804,7 @@ namespace MonitorigProcess
             {
                 var pcPerfValues = new Dictionary<string, float>();
                 pcPerfValues[AppConfiguration.totalCPU] = totalCpuUsage;
-                pcPerfValues[AppConfiguration.totalMemory] = totalMemoryUsage;
+                pcPerfValues[AppConfiguration.totalMemory] = totalMemoryPercent;
                 dto.PcPerformanceInfo = pcPerfValues;
                 try
                 {

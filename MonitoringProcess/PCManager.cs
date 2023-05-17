@@ -24,7 +24,7 @@ namespace MonitorigProcess
         private Dictionary<int, ProcessPerformance> mapProcessPerformance;
         public PCPerformance pcPerformance { get; private set; }
 
-        public List<float> FreeSpaceCurrentValues { get; set; }
+        public List<float> DiskSpaceReturnValues { get; set; }
 
         /// <summary>
         /// 내부 필드 초기화만 함, PCManager 생성 후 InitProcessMonitor 호출하여 프로세스 지정해야 함
@@ -33,7 +33,7 @@ namespace MonitorigProcess
         {
             mapProcessPerformance = new Dictionary<int, ProcessPerformance>();
             pcPerformance = new PCPerformance();
-            FreeSpaceCurrentValues = new List<float>();
+            DiskSpaceReturnValues = new List<float>();
 
             long ramSizeKB = 0;
             GetPhysicallyInstalledSystemMemory(out ramSizeKB);
@@ -205,12 +205,23 @@ namespace MonitorigProcess
 
         public List<float> GetFreeDiskSpace()
         {
-            FreeSpaceCurrentValues.Clear();
+            DiskSpaceReturnValues.Clear();
             foreach (Counter item in pcPerformance.FreeDiskSpaceCounters)
             {
-                FreeSpaceCurrentValues.Add(item.GetNextValue());
+                DiskSpaceReturnValues.Add(item.GetNextValue());
             }
-            return FreeSpaceCurrentValues;
+            return DiskSpaceReturnValues;
+        }
+
+        public List<float> GetDiskSpace()
+        {
+            DiskSpaceReturnValues.Clear();
+            foreach (Counter item in pcPerformance.FreeDiskSpaceCounters)
+            {
+                //100% - freeSpace(%)
+                DiskSpaceReturnValues.Add(100 - item.GetNextValue());
+            }
+            return DiskSpaceReturnValues;
         }
 
         public float GetTotalCPUUsage(DateTime timeStamp)
@@ -221,6 +232,12 @@ namespace MonitorigProcess
         public float GetTotalMemoryUsage(DateTime timeStamp)
         {
             return totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetNextValue(timeStamp);
+        }
+
+        //TotalMemory(MB) -> TotalMemory(%)
+        public float ConvertTotalMemoryUsagePercent (float totalMemoryMB)
+        {
+            return (totalMemoryMB / totalPhysicalMemoryMB) * 100;
         }
 
         /// <summary>
@@ -253,7 +270,7 @@ namespace MonitorigProcess
 
             foreach (Counter counter in pcPerformance.FreeDiskSpaceCounters)
             {
-                dto.DiskFreeSpacePercent[counter.CounterName] = counter.GetNextValue();
+                dto.DiskSpacePercent[counter.CounterName] = counter.GetNextValue();
             }
 
             dto.PcPerformanceInfo[pcPerformance.TotalCpuUsage.CounterName] = pcPerformance.TotalCpuUsage.GetNextValue(timeStamp);
