@@ -160,7 +160,6 @@ namespace MonitoringProcess.Forms
             labelProcessCount.Text = $"{listViewSelectedProcess.Items.Count} / {Constants.maxconfig}";
         }
 
-
         #region Mouse Drag
         private void FavoriteForm_MouseDown(object sender, MouseEventArgs e)
         {
@@ -211,7 +210,14 @@ namespace MonitoringProcess.Forms
             {
                 int pid = Int32.Parse(item.SubItems[1].Text);
                 string processName = item.SubItems[0].Text;
-                Bindings.selectedProcesses.Add(new SelectedProcess(pid, processName, InstanceNameConvertor.GetProcessInstanceName(pid, processName)));
+                try
+                {
+                    Bindings.selectedProcesses.Add(new SelectedProcess(pid, processName, InstanceNameConvertor.GetProcessInstanceName(pid, processName)));
+                }
+                catch
+                {
+                    MessageBox.Show($"프로세스가 실행중이 아닙니다. \n PID : {pid}, Process Name : {processName}");
+                }
             }
 
             OnRaiseSelectedProcessSaveEvent(new EventArgs());
