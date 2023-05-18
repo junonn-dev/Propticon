@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,12 @@ namespace MonitoringProcess.UserControls
             loadSavedConfig();
         }
 
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            loadSavedConfig();
+        }
+
         public void setMonitorCheckReference(Measure measure)
         {
             this.monitorCheckReference = measure;
@@ -35,6 +42,12 @@ namespace MonitoringProcess.UserControls
 
         private void loadSavedConfig()
         {
+            if (!File.Exists(AppConfiguration.iniPath))
+            {
+                FileStream fs = File.Create(AppConfiguration.iniPath);
+                fs.Close();
+            }
+
             IniFile ini = new IniFile();
             ini.Load(AppConfiguration.iniPath);
 
@@ -72,6 +85,10 @@ namespace MonitoringProcess.UserControls
             }
             string text = string.Concat(textbox.Text.Where(ch => (ch >= '0' && ch <= '9')));
 
+            if (string.IsNullOrEmpty(textbox.Text))
+            {
+                return;
+            }
 
             int inputValue = 0;
             try
