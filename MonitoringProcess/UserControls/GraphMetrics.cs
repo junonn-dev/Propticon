@@ -43,9 +43,9 @@ namespace MonitorigProcess.UserControls
                 FlowLayoutPanel flp = new FlowLayoutPanel();
                 flp.Dock = DockStyle.Fill;
                 flp.Margin = new Padding(0);
-                guna2TabControl1.TabPages.Add(counterName, counterName);
-                guna2TabControl1.TabPages[counterName].BackColor = Color.White;
-                guna2TabControl1.TabPages[counterName].Controls.Add(flp);
+                tabControl.TabPages.Add(counterName, counterName);
+                tabControl.TabPages[counterName].BackColor = Color.White;
+                tabControl.TabPages[counterName].Controls.Add(flp);
 
                 int processCount = 0;
                 try

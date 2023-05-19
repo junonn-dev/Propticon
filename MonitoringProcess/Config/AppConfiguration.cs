@@ -22,6 +22,21 @@ namespace MonitorigProcess.Config
         public static readonly string xmlDateTimeFormat = 
             ConfigurationManager.AppSettings["xmlDateTimeFormat"];
 
+        public static readonly string warnDataFileFormat =
+            ConfigurationManager.AppSettings["warnDataFileFormat"];
+
+        public static readonly string warnDataTimeRecordFormat =
+            ConfigurationManager.AppSettings["warnDataTimeRecordFormat"];
+        
+        public static readonly string totalCPU =
+            ConfigurationManager.AppSettings["totalCPU"];
+
+        public static readonly string totalMemory =
+            ConfigurationManager.AppSettings["totalMemory"];
+
+        public static readonly string diskSpace =
+           ConfigurationManager.AppSettings["diskSpace"];
+
         public static readonly string processCPU = 
             ConfigurationManager.AppSettings["processCPU"];
 
@@ -52,6 +67,8 @@ namespace MonitorigProcess.Config
         //not-process-counter인 전체 리스트를 포함
         public static readonly List<string> pcCounterNames 
             = new List<string>(diskNames);
+
+        public static readonly string iniPath = System.Windows.Forms.Application.StartupPath + "\\MonitorProcess.ini";
 
     }
 }

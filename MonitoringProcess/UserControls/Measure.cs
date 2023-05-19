@@ -8,23 +8,22 @@ using System.Windows.Forms;
 using MonitorigProcess.CounterItem;
 using MonitorigProcess.Data;
 using MonitorigProcess.Helper;
-using MonitorigProcess.UserControls;
 using static MonitorigProcess.Program;
 using System.IO;
 using MonitorigProcess.Repository;
 using MonitoringProcess.Data;
-using MonitoringProcess.CounterItem;
+using MonitoringProcess.Forms;
+using MonitorigProcess.Config;
+using System.Linq;
 using System.ComponentModel;
+using MonitoringProcess.Config;
+using MonitoringProcess.Repository;
 
 namespace MonitorigProcess
 {
 
     public partial class Measure : UserControl
     {
-        //static class Constants
-        //{
-        //    public const int maxconfig = 10;
-        //}
         #region 
         private int iThreadTime = 2000;  // Thread 주기
         public bool bLoopState { get; set; }  // while문 Loop 여부
@@ -33,32 +32,24 @@ namespace MonitorigProcess
         private bool bMonitorStart = false;
         private bool bStartTimeSet = false;
 
-        private string strPath = System.Windows.Forms.Application.StartupPath + "\\MonitorProcess.ini";
-        //Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\MonitorProcess.ini";
+        private readonly string strPath = AppConfiguration.iniPath;
 
         private PerformanceCounter cpu = new PerformanceCounter("Processor", "% Processor Time", "_Total"); // Total Processor의 정보
         private PerformanceCounter ram = new PerformanceCounter("Memory", "Available MBytes"); // Total Memory 사용량 mb 정보
-
-        //private string process_name;  // 현재 Program의 Process Name
-        //        private PerformanceCounter[] prcess_cpu = new PerformanceCounter[Constants.maxconfig];
-        //private PerformanceCounter[] prcess_mem = new PerformanceCounter[Constants.maxconfig];
 
         List<PerformanceCounter> lpfCounter = new List<PerformanceCounter>();  // 논리 프로세서의 Process 정보를 저장
 
         private Process[] pProcess = new Process[Constants.maxconfig];  // 선택된 프로세스 정보
         #endregion
 
-        private BindingList<SelectedProcess> selectedProcesses = new BindingList<SelectedProcess>();
-
         string message;
         int iSelected;
-        public int iProcessMaxCnt = 0;
         Process[] allProc = Process.GetProcesses();    //시스템의 모든 프로세스 정보 출력
 
-        DateTime dtStartDate;
+        public DateTime dtStartDate { get; private set; }
         DateTime dtEndDate;
         
-        public StProcess[] sProcess = new StProcess[Constants.maxconfig];
+        //public StProcess[] sProcess = new StProcess[Constants.maxconfig];
         StProcess sProcessTemp;
         IniFile ini;
         Logger logger;
@@ -67,6 +58,7 @@ namespace MonitorigProcess
         Thread selectcputhread;
         private int processViewSelectedPid = 0;
 
+        private WarnDataRepository warnDataRepository = new WarnDataRepository(DateTime.Now);
 
         public Measure()
         {
@@ -94,13 +86,11 @@ namespace MonitorigProcess
                 InitListView();
                 UpdateListView();
                 InitSelectedListView();
-
-                processMonitoredList.DataSource = selectedProcesses;
-                processMonitoredList.DisplayMember = "Name";
             }
             processDetailView.InitView(this);
             totalResourceView.InitView(this, true);
-            
+            freeDiskSpaceViewer1.SubscribeEvent(this);
+
             base.OnLoad(e);
         }
 
@@ -119,34 +109,12 @@ namespace MonitorigProcess
         {
             listView1.View = View.Details;
             columnHeader1.Text = "No";
-            columnHeader2.Text = "PID";
-            columnHeader3.Text = "ProcessName";
+            columnPid.Text = "PID";
+            columnProcessName.Text = "ProcessName";
 
-            //listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            //ListView.ColumnHeaderCollection cc = listView1.Columns;
-            //for(int i=0; i<cc.Count; i++)
-            //{
-            //    int colWidth = TextRenderer.MeasureText(cc[i].Text, listView1.Font).Width + 10;
-            //    if(colWidth > cc[i].Width)
-            //    {
-            //        cc[i].Width = colWidth;
-            //    }
-            //}
-
-            listView2.View = View.Details;
+            listViewSelectedProcess.View = View.Details;
             columnHeader4.Text = "PID";
             columnHeader5.Text = "ProcessName";
-
-            //listView2.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            //ListView.ColumnHeaderCollection cclist2 = listView2.Columns;
-            //for (int i = 0; i < cclist2.Count; i++)
-            //{
-            //    int colWidth = TextRenderer.MeasureText(cclist2[i].Text, listView2.Font).Width + 10;
-            //    if (colWidth > cclist2[i].Width)
-            //    {
-            //        cclist2[i].Width = colWidth;
-            //    }
-            //}
         }
 
         private void validateConfig()
@@ -172,12 +140,16 @@ namespace MonitorigProcess
                 try
                 {
                     process = Process.GetProcessById(pid);
-
                 }
                 catch (Exception e)
                 {
                     //pid로 Process 얻어오지 못할 경우 = pid가 실행중이 아닌 경우
                     //예외 발생하고, 아래 진행 없이 loop 진행
+                    continue;
+                }
+                //PID가 실행중이지만 프로세스 이름이 같은 경우
+                if(process.ProcessName != processName)
+                {
                     continue;
                 }
                 StProcess tempProcess = new StProcess();
@@ -205,51 +177,45 @@ namespace MonitorigProcess
 
         private void readConfig()
         {
-            string strsection1;
-            string strsection2;
-            string strkey;
-
-            strsection1 = "Config";
-            strsection2 = "Config-pid";
             ini.Load(strPath);
-            for (int i = 0; i < Constants.maxconfig; i++)
+            
+            for (int i = 0; i < ini[Constants.iniConfigSection].Count; i++)
             {
-                strkey = Convert.ToString(i);
-                sProcess[i].ProcessName = ini[strsection1][strkey].ToString();
-                sProcess[i].Pid = ini[strsection2][strkey].ToInt();
-
-                if (String.IsNullOrEmpty(sProcess[i].ProcessName) == false)
+                //strkey = Convert.ToString(i);
+                int pid = ini[Constants.iniConfigPidSection][i.ToString()].ToInt();
+                if (pid == 0)
                 {
-                    iProcessMaxCnt++;   // 모니터개수 카운트
+                    //v1.2.0 버전까지는 ini파일에 최대 프로세스 개수만큼 값을 0으로 다 저장함
+                    //v1.2.0 이하 버전 호환을 위한 예외처리
+                    break;
+                }
+
+                try
+                {
+                    string processName = ini[Constants.iniConfigSection][i.ToString()].ToString();
+                    string instanceName = Helper.InstanceNameConvertor.GetProcessInstanceName(pid, processName);
+                    Bindings.selectedProcesses.Add(new SelectedProcess(pid, processName, instanceName));
+                }
+                catch
+                {
+                    //실행중이지 않은 프로세스가 발생하면, 바인딩에는 들어가지만, ini에는 남아있게됨.
+                    continue;
                 }
             }
         }
         private void writeConfig()
         {
-            string strsection1;
-            string strsection2;
             string strkey;
-            StringBuilder sb = new StringBuilder();
-
-            strsection1 = "Config";
-            strsection2 = "Config-pid";
-            for (int i = 0; i < Constants.maxconfig; i++)
+            ini.Load(strPath);
+            ini[Constants.iniConfigSection].Clear();
+            ini[Constants.iniConfigPidSection].Clear();
+            for (int i = 0; i < Bindings.selectedProcesses.Count; i++)
             {
                 strkey = Convert.ToString(i);
-                ini[strsection1][strkey] = sProcess[i].ProcessName;
-                ini[strsection2][strkey] = sProcess[i].Pid.ToString();
+                ini[Constants.iniConfigSection][strkey] = Bindings.selectedProcesses[i].Name;
+                ini[Constants.iniConfigPidSection][strkey] = Bindings.selectedProcesses[i].Id;
             }
             ini.Save(strPath);
-        }
-        private void checkProcessId(string strPrcsName, int pId)
-        {
-            for (int i = 0; i < iProcessMaxCnt; i++)
-            {
-                if (strPrcsName == sProcess[i].ProcessName)
-                {
-                    sProcess[i].Pid = pId;
-                }
-            }
         }
 
         private async void initialMonitorProcess()
@@ -280,23 +246,23 @@ namespace MonitorigProcess
                 lvi.SubItems.Add(Convert.ToString(p.Id));
                 lvi.SubItems.Add(p.ProcessName);
                 listView1.Items.Add(lvi);
-                //PID는 ReadConfig할 때 가져오기 때문에 주석처리. 230102 CUS
-                //checkProcessId(p.ProcessName, p.Id);
             }
             listView1.EndUpdate();
         }
 
+        //초기화 과정에서 readConfig에서 Bindings.selectedProcesses에 초기화를 마친 후 
+        //Bindings.selectedProcesses로부터 ListView를 초기화함
+        //더 효율적인 방법은 SelectedProcess를 ListBox로 Databinding하는 것
         private void InitSelectedListView()
         {
-            listView2.Items.Clear();
-            listView2.BeginUpdate();
-            for (int i = 0; i < iProcessMaxCnt; i++)
+            listViewSelectedProcess.Items.Clear();
+            listViewSelectedProcess.BeginUpdate();
+            for (int i = 0; i < Bindings.selectedProcesses.Count; i++)
             {
-                ListViewItem lvi = new ListViewItem(Convert.ToString(sProcess[i].Pid));
-                lvi.SubItems.Add(sProcess[i].ProcessName);
-                listView2.Items.Add(lvi);
+                listViewSelectedProcess.Items.Add(
+                    new ListViewItem(new string[] { Bindings.selectedProcesses[i].Id.ToString(), Bindings.selectedProcesses[i].Name }));
             }
-            listView2.EndUpdate();
+            listViewSelectedProcess.EndUpdate();
         }
 
         private void InsertSelectedListView()
@@ -310,69 +276,47 @@ namespace MonitorigProcess
                 return;
             }
             // 현재 List 같은 것은 예외처리.
-            if (listView2.Items.Count != 0)
+            if (listViewSelectedProcess.Items.Count != 0)
             {
-                for (int i = 0; i < listView2.Items.Count; i++)
+                for (int i = 0; i < listViewSelectedProcess.Items.Count; i++)
                 {
-                    //if (sProcessTemp.ProcessName == listView2.Items[i].SubItems[1].Text)
-                    //{
-                    //    return;
-                    //}
-
                     //pid는 같고 processName은 다른 경우 => readConfig에서 확인하므로 여기 도달하지 않음
                     //pid는 다르고 processName은 같은 경우 => listView2에 추가하는 것이 맞음
                     //pid도 같고 processName도 같은 경우 => 여기 예외처리의 목적
-                    if (sProcessTemp.Pid == int.Parse(listView2.Items[i].SubItems[0].Text)
-                        && sProcessTemp.ProcessName == listView2.Items[i].SubItems[1].Text)
+                    if (sProcessTemp.Pid == int.Parse(listViewSelectedProcess.Items[i].SubItems[0].Text)
+                        && sProcessTemp.ProcessName == listViewSelectedProcess.Items[i].SubItems[1].Text)
                     {
                         return;
                     }
-
                 }
             }
 
-            sProcess[iProcessMaxCnt] = sProcessTemp;
-            //pProcess[iProcessMaxCnt] = Process.GetProcessesByName(sProcessTemp.ProcessName);
-            //Process processbyName = Process.GetProcessesByName(sProcessTemp.ProcessName);
-            //pProcess[iProcessMaxCnt] = Process.GetProcessById(sProcessTemp.Pid);
+            int pid = sProcessTemp.Pid;
+            string processName = sProcessTemp.ProcessName;
+            Bindings.selectedProcesses.Add(new SelectedProcess(pid, processName, Helper.InstanceNameConvertor.GetProcessInstanceName(pid, processName)));
 
-            listView2.BeginUpdate();
-            ListViewItem lvi = new ListViewItem(Convert.ToString(sProcess[iProcessMaxCnt].Pid));
-            //lvi.SubItems.Add(Convert.ToString(allProc[iPid].Id));
-            lvi.SubItems.Add(sProcess[iProcessMaxCnt].ProcessName);
-            listView2.Items.Add(lvi);
-            listView2.EndUpdate();
-            //listView2.Refresh();
-            iProcessMaxCnt++;   // 모니터개수 카운트
+            listViewSelectedProcess.BeginUpdate();
+            listViewSelectedProcess.Items.Add(new ListViewItem(new string[] { sProcessTemp.Pid.ToString(), sProcessTemp.ProcessName }));
+            listViewSelectedProcess.EndUpdate();
 
             writeConfig();
         }
 
         private void RemoveSelectedListView()
         {
-            if (listView2.Items.Count > 0)
+            if (listViewSelectedProcess.Items.Count > 0)
             {
-                foreach (ListViewItem row in listView2.SelectedItems)
+                HashSet<int> toDeletePid = new HashSet<int>();
+                foreach (ListViewItem row in listViewSelectedProcess.SelectedItems)
                 {
-                    int SelectRow = listView2.SelectedItems[0].Index;
-                    string strtemp = listView2.Items[SelectRow].SubItems[1].Text;// == sProcess[])
-                    listView2.Items.Remove(row);
+                    //row.Text가 첫 column을 지칭하고(Pid), column명으로 가져올 방법을 몰라서 그냥 row.Text를 쓴다만,
+                    //column 순서 변경되면 수정해야 하므로 매우 안좋은 코드
+                    toDeletePid.Add(Convert.ToInt32(row.Text));
+                    listViewSelectedProcess.Items.Remove(row);
                 }
 
-                for (int i = 0; i < Constants.maxconfig; i++)
-                {
-                    if (i < listView2.Items.Count)
-                    {
-                        sProcess[i].Pid = Convert.ToInt32(listView2.Items[i].SubItems[0].Text);
-                        sProcess[i].ProcessName = listView2.Items[i].SubItems[1].Text;
-                    }
-                    else
-                    {
-                        sProcess[i].Pid = 0;
-                        sProcess[i].ProcessName = "";
-                    }
-                }
-                iProcessMaxCnt = listView2.Items.Count;
+                Bindings.selectedProcesses = new BindingList<SelectedProcess>(Bindings.selectedProcesses
+                    .Where(selectedProcess => !toDeletePid.Contains(selectedProcess.Id)).ToList());
 
                 writeConfig();
             }
@@ -400,7 +344,7 @@ namespace MonitorigProcess
                 return;
             }
 
-            if (iProcessMaxCnt >= Constants.maxconfig)
+            if (Bindings.selectedProcesses.Count >= Constants.maxconfig)
             {
                 MessageBox.Show($"모니터링 최대개수는 {Constants.maxconfig}개입니다!!!");
                 return;
@@ -417,7 +361,7 @@ namespace MonitorigProcess
                 return;
             }
 
-            if (listView2.SelectedItems.Count == 0)
+            if (listViewSelectedProcess.SelectedItems.Count == 0)
             {
                 MessageBox.Show("선택된 프로세스가 없습니다!");
                 return;
@@ -437,25 +381,23 @@ namespace MonitorigProcess
             }
 
             // 1. Interlock
-            if (iProcessMaxCnt <= 0)
+            if (Bindings.selectedProcesses.Count <= 0)
             {
                 MessageBox.Show("선택된 프로세스가 없습니다!");
                 return;
             }
 
-            // 현재 Program의 Process Name
-            for (int i = 0; i < iProcessMaxCnt; i++)
+            for (int i = 0; i < Bindings.selectedProcesses.Count; i++)
             {
+                SelectedProcess toCheck = Bindings.selectedProcesses[i];
                 try
                 {
-                    pProcess[i] = Process.GetProcessById(sProcess[i].Pid);// Process.GetProcessById(sProcessTemp.Pid);
-                    sProcess[i].InstanceName = InstanceNameConvertor.GetProcessInstanceName(
-                        sProcess[i].Pid, sProcess[i].ProcessName);
+                    pProcess[i] = Process.GetProcessById(toCheck.Id);
                 }
                 catch
                 {
                     MessageBox.Show("실행중이지 않은 프로세스가 있습니다. \n" +
-                        $"PID : {sProcess[i].Pid}, 프로세스명 : {sProcess[i].ProcessName}");
+                        $"PID : {toCheck.Id}, 프로세스명 : {toCheck.Name}");
                     return;
                 }
             }
@@ -476,17 +418,15 @@ namespace MonitorigProcess
                 dtEndDate = DateTime.Now.AddHours(1);
             }
 
-            selectedProcesses.Clear();
-            for (int i = 0; i < iProcessMaxCnt; i++)
-            {
-                StProcess process = sProcess[i];
-                selectedProcesses.Add(new SelectedProcess(process.Pid, process.ProcessName, process.InstanceName));
-            }
-            processViewSelectedPid = selectedProcesses[0].Id;
+            processMonitoredList.DataSource = Bindings.selectedProcesses;
+            processMonitoredList.DisplayMember = "Name";
+            processMonitoredList.SelectedIndex = 0;
+
+            processViewSelectedPid = Bindings.selectedProcesses[0].Id;
             processDetailView.SetPidText(processViewSelectedPid);
 
             OnMonitoringStart(new EventArgs());
-            Thread.Sleep(1000);  // Thread 대기 Time
+            //Thread.Sleep(1000);  // Thread 대기 Time => 없어도 될 것 같은데?
             SelectProcessThread();  // 선택 Process CPU 사용량 Check Thread
         }
 
@@ -532,19 +472,6 @@ namespace MonitorigProcess
         // Thread
         private void fCpuCheck()
         {
-            /*  필요 없고
-            List<PerformanceCounter> lpCpu = new List<PerformanceCounter>();
-
-            foreach (Process item in Process.GetProcesses())
-            {
-                lpCpu.Add(new PerformanceCounter("Process", "% Processor Time", item.ProcessName));
-            }
-
-            foreach (PerformanceCounter item in lpCpu)
-            {
-                //Log(enLogLevel.Info, $"Process Name : {item.CounterName}, CPU Counter : {item.NextValue()}");
-            }
-            */
             while (bLoopState)
             {
                 if (bCheck)
@@ -567,18 +494,10 @@ namespace MonitorigProcess
                     {
                         Log(enLogLevel.Info, sb.ToString());
                     }));
-                    /* Log Function 안으로 invoke 다 묶음
-                    */
                 }
                 Thread.Sleep(iThreadTime);
             }
         }
-        // List Select 값이 변경 될 경우 Process를 새로 등록
-        //private void lboxProcessName_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    // Process를 변경
-        //    prcess_cpu = new PerformanceCounter("Process", "% Processor Time", lboxProcessName.SelectedItem.ToString());
-        //}
 
         // 선택 Process Thread (Program 시작 시 실행)
         private async void SelectProcessThread()
@@ -590,7 +509,28 @@ namespace MonitorigProcess
             {
                 Thread.Sleep(iThreadTime);
             }
-            ReportRepository.CreateReport(dtStartDate, dtEndDate, DateTime.Now, sProcess, iProcessMaxCnt, PCM.GetResultSnapshot(pProcess, iProcessMaxCnt));
+
+            //CreateReport에 Bindings.selectedProcesses 참조를 넣어도 되지만,
+            //CreateReport 진행하는 중 Bindings.selectedProcesses의 내용 변경이 일어날 수 있지 않을까?
+            //그래서 List에 카피를 진행했다. 그런데 List로 Copy 중에도 Bindings.selectedProcesses가 변경된다면?  
+            //Bindings.SelectedProcess에 lock이 필요한가?
+            List<SelectedProcess> selectedProcessList = new List<SelectedProcess>();
+            foreach (SelectedProcess selectedProcess in Bindings.selectedProcesses)
+            {
+                selectedProcessList.Add(selectedProcess);
+            }
+
+            ReportRepository.CreateReport(dtStartDate, dtEndDate, DateTime.Now, selectedProcessList, PCM.GetResultSnapshot(pProcess, Bindings.selectedProcesses.Count));
+
+            try
+            {
+                //DetectionMode 미사용 시 NullReference 예외 발생 가능
+                warnDataRepository.StopWriting();
+            }
+            catch
+            {
+                return;
+            }
         }
 
         private bool checkDateTime(DateTime dtTime)
@@ -610,7 +550,14 @@ namespace MonitorigProcess
             // 시작 하면 Program이 죽을 때 까지 계속 체크
             while (bLoopState)
             {
-                fMonitorAllProcess();
+                if(WarnLimitConfig.WarnDetectionMode == true)
+                {
+                    fMonitorAllProcessDetectionMode();
+                }
+                else
+                {
+                    fMonitorAllProcess();
+                }
                 //Task.Run((Action)fMonitorAllProcess);
                 Thread.Sleep(iThreadTime);  // Thread 대기 Time
                 if (checkDateTime(dtEndDate))
@@ -618,7 +565,6 @@ namespace MonitorigProcess
                     break;
                 }
             }
-            
         }
 
         #region Log Viewer 
@@ -687,15 +633,10 @@ namespace MonitorigProcess
                 MessageBox.Show("Monitor Start 상태에서 List Clear 불가!!!\nMonitor Stop 후 진행하세요");
                 return;
             }
-            ClearListView(listView2);
+            ClearListView(listViewSelectedProcess);
 
-            for (int i = 0; i < Constants.maxconfig; i++)
-            {
-                sProcess[i].Pid = 0;
-                sProcess[i].ProcessName = "";
-            }
+            Bindings.selectedProcesses.Clear();
             writeConfig();
-            iProcessMaxCnt = 0;
         }
 
         private void BtnMonitorEnd_Click(object sender, EventArgs e)
@@ -708,6 +649,10 @@ namespace MonitorigProcess
         private void fMonitorAllProcess()
         {
             DateTime dTime = DateTime.Now;
+
+            //첫 모니터링 시작 시점
+            //StartDate 설정
+            //WarnDataRepository 초기화
             if (!bStartTimeSet)
             {
                 dtStartDate = dTime;
@@ -715,18 +660,16 @@ namespace MonitorigProcess
             }
             sb.Append($"[{dTime:yyyy/MM/dd HH:mm:ss.FFF}],");
 
-            var totalCpuUsage = PCM.GetTotalCPUUsage(dTime);
-            var totalMemoryUsage = PCM.GetTotalMemoryUsage(dTime);
-
-            for (int i = 0; i < iProcessMaxCnt; i++)
+            for (int i = 0; i < Bindings.selectedProcesses.Count; i++)
             {
-                var cpuUsage = PCM.GetProcessCPUUsage(pProcess[i], dTime);
-                var memoryUsage = PCM.GetProcessMemoryUsage(pProcess[i], dTime);
-                var threadCount = PCM.GetProcessThreadCount(pProcess[i]);
-                var handleCount = PCM.GetProcessHandleCount(pProcess[i]);
-                var gdiCount = PCM.GetProcessGdiCount(pProcess[i]);
-                
-                memoryUsage /= 1024*1024;    //memory megabyte 변환
+                SelectedProcess processBeingChecked = Bindings.selectedProcesses[i];
+                int pidBeingChecked = processBeingChecked.Id;
+
+                var cpuUsage = PCM.GetProcessCPUUsage(pidBeingChecked, dTime);
+                var memoryUsage = PCM.GetProcessMemoryUsage(pidBeingChecked, dTime) / (1024 * 1024);  //memory megabyte 변환
+                var threadCount = PCM.GetProcessThreadCount(pidBeingChecked);
+                var handleCount = PCM.GetProcessHandleCount(pidBeingChecked);
+                var gdiCount = PCM.GetProcessGdiCount(pidBeingChecked);
 
                 sb.Append(cpuUsage.ToString()).Append(",")
                     .Append(memoryUsage.ToString()).Append(",")
@@ -734,34 +677,149 @@ namespace MonitorigProcess
                     .Append(handleCount.ToString()).Append(",")
                     .Append(gdiCount.ToString()).Append(",");
 
-                string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} {sProcess[i].InstanceName} - cpu (%): {Math.Round(cpuUsage,3).ToString()}, mem (MB): {Math.Round(memoryUsage,3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
-
-                if(pProcess[i].Id == processViewSelectedPid)
+                if (pidBeingChecked == processViewSelectedPid)
                 {
+                    string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} {processBeingChecked.InstanceName} - cpu (%): {Math.Round(cpuUsage, 3).ToString()}, mem (MB): {Math.Round(memoryUsage, 3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
                     ProcessPerformance processSet = PCM.GetProcessSet(processViewSelectedPid);
                     OnRaiseProcessMeasureEvent(processViewSelectedPid, new ProcessMeasureEventArgs(message, processSet));
                 }
             }
 
+            var totalCpuUsage = PCM.GetTotalCPUUsage(dTime);
+            var totalMemoryUsage = PCM.GetTotalMemoryUsage(dTime);
+
             sb.Append(totalCpuUsage.ToString()).Append(",")
                 .Append(totalMemoryUsage.ToString()).Append(",");
 
             var freeSpaces = PCM.GetFreeDiskSpace();
-            foreach (var item in freeSpaces)
+            for (int i = 0; i < freeSpaces.Count; i++)
             {
-                sb.Append(item.ToString()).Append(",");
+                sb.Append(freeSpaces[i].ToString()).Append(",");
             }
+
             string pcPerfMessage = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} - total_cpu (%): {Math.Round(totalCpuUsage, 3)}, total_mem (MB): {Math.Round(totalMemoryUsage, 3)}";
-            OnRaisePCMeasureEvent(new PCMeasureEventArgs(pcPerfMessage, freeSpaces,PCM.pcPerformance));
+            OnRaisePCMeasureEvent(new PCMeasureEventArgs(pcPerfMessage, freeSpaces, PCM.pcPerformance));
 
             logger.Log(sb.ToString(), dTime);
             sb.Clear();
         }
 
+
+        private void fMonitorAllProcessDetectionMode()
+        {            
+            DateTime dTime = DateTime.Now;
+            MeasureDataDto dto = new MeasureDataDto(dTime);
+
+            //첫 모니터링 시작 시점
+            //StartDate 설정
+            //WarnDataRepository 초기화
+            if (!bStartTimeSet)
+            {
+                dtStartDate = dTime;
+                bStartTimeSet = true;
+                warnDataRepository = new WarnDataRepository(dtStartDate);
+                warnDataRepository.startThread();
+            }
+            sb.Append($"[{dTime:yyyy/MM/dd HH:mm:ss.FFF}],");
+
+            bool warnFlag = false;
+            for (int i = 0; i < Bindings.selectedProcesses.Count; i++)
+            {
+                SelectedProcess processBeingChecked = Bindings.selectedProcesses[i];
+                int pidBeingChecked = processBeingChecked.Id;
+
+                var cpuUsage = PCM.GetProcessCPUUsage(pidBeingChecked, dTime);
+                var memoryUsage = PCM.GetProcessMemoryUsage(pidBeingChecked, dTime) /( 1024 * 1024 );  //memory megabyte 변환
+                var threadCount = PCM.GetProcessThreadCount(pidBeingChecked);
+                var handleCount = PCM.GetProcessHandleCount(pidBeingChecked);
+                var gdiCount = PCM.GetProcessGdiCount(pidBeingChecked);
+
+                if(warnFlag == false && ((cpuUsage >= WarnLimitConfig.ProcessCpuLimit) 
+                    || (memoryUsage >= WarnLimitConfig.ProcessMemoryLimit)
+                    || (threadCount >= WarnLimitConfig.ProcessThreadLimit)
+                    || (handleCount >= WarnLimitConfig.ProcessHandleLimit)
+                    || (gdiCount >= WarnLimitConfig.ProcessGdiLimit)))
+                {
+                    warnFlag = true;
+                }
+
+                var processValues = new Dictionary<string, float>();
+                processValues[AppConfiguration.processCPU] = cpuUsage;
+                processValues[AppConfiguration.processMemory] = memoryUsage;
+                processValues[AppConfiguration.processThread] = threadCount;
+                processValues[AppConfiguration.processHandle] = handleCount;
+                processValues[AppConfiguration.processGDI] = gdiCount;
+                //dto는 측정 중에만 발생되어야 한다. -> Binding은 측정 중에 변경되지 않는다.
+                //이 전제가 맞아야 SelectedProcess 참조 변수를 키로 담을 수 있다.
+                dto.ProcessMeasureInfo[processBeingChecked] = processValues;
+
+                sb.Append(cpuUsage.ToString()).Append(",")
+                    .Append(memoryUsage.ToString()).Append(",")
+                    .Append(threadCount.ToString()).Append(",")
+                    .Append(handleCount.ToString()).Append(",")
+                    .Append(gdiCount.ToString()).Append(",");
+
+                if(pidBeingChecked == processViewSelectedPid)
+                {
+                    string message = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} {processBeingChecked.InstanceName} - cpu (%): {Math.Round(cpuUsage, 3).ToString()}, mem (MB): {Math.Round(memoryUsage, 3).ToString()}, thread (cnt): {threadCount.ToString()}, handle (cnt): {handleCount.ToString()}, GDI (cnt): {gdiCount.ToString()}";
+                    ProcessPerformance processSet = PCM.GetProcessSet(processViewSelectedPid);
+                    OnRaiseProcessMeasureEvent(processViewSelectedPid, new ProcessMeasureEventArgs(message, processSet));
+                }
+            }
+
+            var totalCpuUsage = PCM.GetTotalCPUUsage(dTime);
+            var totalMemoryUsage = PCM.GetTotalMemoryUsage(dTime);
+            var totalMemoryPercent = PCM.ConvertTotalMemoryUsagePercent(totalMemoryUsage);
+
+            sb.Append(totalCpuUsage.ToString()).Append(",")
+                .Append(totalMemoryUsage.ToString()).Append(",");
+
+            if (warnFlag == false && (totalCpuUsage >= WarnLimitConfig.TotalCpuUsageLimit)
+                || (totalMemoryPercent >= WarnLimitConfig.TotalMemoryUsageLimit))
+            {
+                warnFlag = true;
+            }
+
+            var freeDiskSpaces = PCM.GetFreeDiskSpace();
+            for(int i=0; i< freeDiskSpaces.Count; i++)
+            {
+                float diskUsagePercent = 100 - freeDiskSpaces[i];
+                if (warnFlag == false && (diskUsagePercent >= WarnLimitConfig.DiskSpaceLimit))
+                {
+                    warnFlag = true;
+                }
+                //dto에 100 - freeSpce(%) 전달 -> WarnData에 disk 사용량 %로 감지
+                dto.DiskSpacePercent[AppConfiguration.diskNames[i].Trim(':')] = diskUsagePercent;
+
+                sb.Append(freeDiskSpaces[i].ToString()).Append(",");
+            }
+
+            string pcPerfMessage = $"{dTime:yyyy-MM-dd HH:mm:ss.fff} - total_cpu (%): {Math.Round(totalCpuUsage, 3)}, total_mem (MB): {Math.Round(totalMemoryUsage, 3)}";
+            OnRaisePCMeasureEvent(new PCMeasureEventArgs(pcPerfMessage, freeDiskSpaces, PCM.pcPerformance));
+
+            logger.Log(sb.ToString(), dTime);
+            sb.Clear();
+
+            if(warnFlag == true)
+            {
+                var pcPerfValues = new Dictionary<string, float>();
+                pcPerfValues[AppConfiguration.totalCPU] = totalCpuUsage;
+                pcPerfValues[AppConfiguration.totalMemory] = totalMemoryPercent;
+                dto.PcPerformanceInfo = pcPerfValues;
+                try
+                {
+                    warnDataRepository.AddWarnData(dto);
+                }
+                catch
+                {
+                    //warnDataRepository가 null 인 경우에 대한 예외처리 (모니터링 중간에 DetectionMode 변경하면 발생)
+                    return;
+                }
+            }
+        }
+
         #region For TabControl Handling
         //https://stackoverflow.com/questions/2237927/is-there-any-way-to-create-indexed-events-in-c-sharp-or-some-workaround
-
-        //public event EventHandler<DataEventArgs> measureEvent;
         public EventHandler<ProcessMeasureEventArgs> processMeasureEvents;
 
         private void OnRaiseProcessMeasureEvent(int PID, ProcessMeasureEventArgs e)
@@ -777,11 +835,18 @@ namespace MonitorigProcess
                 return;
             }
             processViewSelectedPid = selectedProcess.Id;
-            processDetailView.ShowInformation(processViewSelectedPid, 
-               PCM.GetProcessSet(processViewSelectedPid));
 
             totalResourceView.Visible = false;
             processDetailView.Visible = true;
+            try
+            {
+                processDetailView.ShowInformation(processViewSelectedPid, PCM.GetProcessSet(processViewSelectedPid));
+            }
+            catch (Exception exception)
+            {
+                return;
+            }
+
         }       
 
         #endregion
@@ -803,20 +868,20 @@ namespace MonitorigProcess
 
         private void SleepForButtonAsync()
         {
-            Thread.Sleep(4000);
+            Thread.Sleep(5000);
         }
 
-        #region disk spaces event
-        public EventHandler<PCMeasureEventArgs> pcMeasureEvent;
+        #region PC Measure event
+        public event EventHandler<PCMeasureEventArgs> pcMeasureEvent;
 
         private void OnRaisePCMeasureEvent(PCMeasureEventArgs e)
         {
-            pcMeasureEvent?.BeginInvoke(this, e,null,null);
+            pcMeasureEvent?.Invoke(this, e);
         }
         #endregion
 
         #region Monitoring Start Event
-        public EventHandler<EventArgs> monitoringStartEvent;
+        public event EventHandler<EventArgs> monitoringStartEvent;
 
         private void OnMonitoringStart(EventArgs e)
         {
@@ -830,6 +895,52 @@ namespace MonitorigProcess
         {
             totalResourceView.Visible = true;
             processDetailView.Visible = false;
+        }
+
+        #region Favorite
+        private void buttonFavorite_Click(object sender, EventArgs e)
+        {
+            if (bMonitorStart)
+            {
+                MessageBox.Show("모니터링 종료 후 즐겨찾기 접근 가능합니다.");
+                return;
+            }
+            FavoriteForm form = new FavoriteForm();
+            form.selectedProcessSaveEvent += LoadSelectedProcessBinding;
+            form.ShowDialog();
+        }
+
+        public void LoadSelectedProcessBinding(object sender, EventArgs e)
+        {
+            listViewSelectedProcess.Invoke(new Action(delegate ()
+            {
+                listViewSelectedProcess.Items.Clear();
+                foreach (SelectedProcess item in Bindings.selectedProcesses)
+                {
+                    listViewSelectedProcess.Items.Add(new ListViewItem(new string[] { item.Id.ToString(), item.Name }));
+                }
+            }));
+        }
+        #endregion
+
+        private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            int number = 1;
+            switch (e.Column)
+            {
+                case 1:
+                    listView1.Items.Clear();
+                    listView1.Items.AddRange(Process.GetProcesses().OrderBy(proc => proc.Id).Select(proc=>new ListViewItem(new string[] { number++.ToString(), proc.Id.ToString(), proc.ProcessName })).ToArray());
+                    break;
+
+                case 2:
+                    listView1.Items.Clear();
+                    listView1.Items.AddRange(Process.GetProcesses().OrderBy(proc => proc.ProcessName).Select(proc => new ListViewItem(new string[] { number++.ToString(), proc.Id.ToString(), proc.ProcessName })).ToArray());
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }

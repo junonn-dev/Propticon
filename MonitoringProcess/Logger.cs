@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using MonitorigProcess.Config;
 using MonitorigProcess.Data;
+using MonitoringProcess.Data;
 
 namespace MonitorigProcess
 {
@@ -84,7 +85,8 @@ namespace MonitorigProcess
                         if (isWriting == false)
                         {
                             isWriting = true;
-                            logDirectory = baseLogPath + buffer.Peek().Key.ToString(logPartialDirectoryFormat)+"\\";
+                            logDirectory = baseLogPath + mainFormReference.dtStartDate.ToString(logPartialDirectoryFormat) + "\\";
+                            //logDirectory = baseLogPath + buffer.Peek().Key.ToString(logPartialDirectoryFormat)+"\\";
                             if (!Directory.Exists(logDirectory))
                             {
                                 Directory.CreateDirectory(logDirectory);
@@ -152,18 +154,17 @@ namespace MonitorigProcess
 
         private string GetCurrentLogHeader()
         {
-            StProcess[] sProcess = mainFormReference.sProcess;
-            int iProcessMaxCnt = mainFormReference.iProcessMaxCnt;
+            var selectedProcess = Bindings.selectedProcesses;
             StringBuilder sb = new StringBuilder();
             sb.Append("Time").Append(",");
-            for (int j = 0; j < iProcessMaxCnt; j++)
+            for (int j = 0; j < Bindings.selectedProcesses.Count; j++)
             {
                 sb
-                .Append("cpu_" + sProcess[j].InstanceName).Append(",")
-                .Append("mem_" + sProcess[j].InstanceName).Append(",")
-                .Append("thread_" + sProcess[j].InstanceName).Append(",")
-                .Append("handle_" + sProcess[j].InstanceName).Append(",")
-                .Append("gdi_" + sProcess[j].InstanceName).Append(",");
+                .Append("cpu_" + selectedProcess[j].InstanceName).Append(",")
+                .Append("mem_" + selectedProcess[j].InstanceName).Append(",")
+                .Append("thread_" + selectedProcess[j].InstanceName).Append(",")
+                .Append("handle_" + selectedProcess[j].InstanceName).Append(",")
+                .Append("gdi_" + selectedProcess[j].InstanceName).Append(",");
             }
             sb.Append("cpu_total").Append(",")
                 .Append("mem_total").Append(",");

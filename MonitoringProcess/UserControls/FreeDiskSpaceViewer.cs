@@ -28,9 +28,10 @@ namespace MonitoringProcess.UserControls
         {
             InitializeComponent();
         }
-        public FreeDiskSpaceViewer(Measure form) : base()
+
+        public void SubscribeEvent(Measure control)
         {
-            form.pcMeasureEvent += HandleLogEvent;
+            control.pcMeasureEvent += HandleLogEvent;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -113,8 +114,6 @@ namespace MonitoringProcess.UserControls
                 formsPlot.Plot.XAxis.Label(Math.Round(usedSpace, 1) + " / " + Math.Round(totalSize, 1) + "(GB)", size: 10);
                 formsPlot.Invoke(new Action(delegate () { formsPlot.Render(); }));
             }
-
-
         }
 
         private Color[] GetSliceFillColors(double diskUsagePercent)

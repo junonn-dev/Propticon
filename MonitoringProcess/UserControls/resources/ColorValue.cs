@@ -55,6 +55,19 @@ namespace MonitorigProcess.UserControls.resources
 
     public static class ColorPallete
     {
+        public static Color BrandColor1
+        {
+            get
+            {
+                return GetARGBColor((int)GlobalBrandColor.HighAlpha, GlobalBrandColor.BrandColor1);
+            }
+        }
+        public static Color BrandColor2 { 
+            get 
+            { 
+                return GetARGBColor(255, GlobalBrandColor.BrandColor2); 
+            } 
+        }
         //TODO : aValue도 GlobalBrandColor가져와서 사용하도록 수정 
         public static Color GetARGBColor(int aValue, GlobalBrandColor brandColor)
         {

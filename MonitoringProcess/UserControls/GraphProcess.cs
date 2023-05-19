@@ -56,7 +56,7 @@ namespace MonitorigProcess.UserControls
             {
                 return;
             }
-            guna2TabControl1.Multiline = true;
+            tabControl.Multiline = true;
 
             
             foreach (KeyValuePair<string, Dictionary<string, List<float>>> process in dto.yDataProcessPerformance)
@@ -72,9 +72,9 @@ namespace MonitorigProcess.UserControls
                 flp.Dock = DockStyle.Fill;
                 flp.Margin = new Padding(0);
                 flp.AutoScroll = true;
-                guna2TabControl1.TabPages.Add(processName, processName);
-                guna2TabControl1.TabPages[processName].BackColor = Color.White;
-                guna2TabControl1.TabPages[processName].Controls.Add(flp);
+                tabControl.TabPages.Add(processName, processName);
+                tabControl.TabPages[processName].BackColor = Color.White;
+                tabControl.TabPages[processName].Controls.Add(flp);
 
                 //counter 수에 맞게 plot 생성하여 탭 페이지에 추가
                 for (int i = 0; i < dto.processCounterCount; i++)

@@ -1,4 +1,6 @@
-﻿namespace MonitorigProcess.UserControls
+﻿using System.Windows.Forms;
+
+namespace MonitorigProcess.UserControls
 {
     partial class GraphMetrics
     {
@@ -29,54 +31,33 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.guna2TabControl1 = new Guna.UI2.WinForms.Guna2TabControl();
+            this.tabControl = new System.Windows.Forms.TabControl();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.Controls.Add(this.guna2TabControl1);
+            this.flowLayoutPanel1.Controls.Add(this.tabControl);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(800, 700);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
-            // guna2TabControl1
+            // tabControl
             // 
-            this.guna2TabControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.guna2TabControl1.ItemSize = new System.Drawing.Size(143, 27);
-            this.guna2TabControl1.Location = new System.Drawing.Point(0, 0);
-            this.guna2TabControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.guna2TabControl1.Name = "guna2TabControl1";
-            this.guna2TabControl1.SelectedIndex = 0;
-            this.guna2TabControl1.Size = new System.Drawing.Size(800, 695);
-            this.guna2TabControl1.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
-            this.guna2TabControl1.TabButtonHoverState.FillColor = System.Drawing.Color.White;
-            this.guna2TabControl1.TabButtonHoverState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.guna2TabControl1.TabButtonHoverState.ForeColor = System.Drawing.Color.Black;
-            this.guna2TabControl1.TabButtonHoverState.InnerColor = System.Drawing.Color.Transparent;
-            this.guna2TabControl1.TabButtonIdleState.BorderColor = System.Drawing.Color.Empty;
-            this.guna2TabControl1.TabButtonIdleState.FillColor = System.Drawing.Color.White;
-            this.guna2TabControl1.TabButtonIdleState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.guna2TabControl1.TabButtonIdleState.ForeColor = System.Drawing.Color.Gray;
-            this.guna2TabControl1.TabButtonIdleState.InnerColor = System.Drawing.Color.Transparent;
-            this.guna2TabControl1.TabButtonSelectedState.BorderColor = System.Drawing.Color.Empty;
-            this.guna2TabControl1.TabButtonSelectedState.FillColor = System.Drawing.Color.White;
-            this.guna2TabControl1.TabButtonSelectedState.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.guna2TabControl1.TabButtonSelectedState.ForeColor = System.Drawing.Color.Black;
-            this.guna2TabControl1.TabButtonSelectedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
-            this.guna2TabControl1.TabButtonSize = new System.Drawing.Size(143, 27);
-            this.guna2TabControl1.TabButtonTextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.guna2TabControl1.TabIndex = 1;
-            this.guna2TabControl1.TabMenuBackColor = System.Drawing.Color.White;
-            this.guna2TabControl1.TabMenuOrientation = Guna.UI2.WinForms.TabMenuOrientation.HorizontalTop;
+            this.tabControl.ItemSize = new System.Drawing.Size(143, 27);
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(800, 700);
+            this.tabControl.TabIndex = 0;
             // 
             // GraphMetrics
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "GraphMetrics";
@@ -89,6 +70,6 @@
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private Guna.UI2.WinForms.Guna2TabControl guna2TabControl1;
+        private TabControl tabControl;
     }
 }

@@ -90,12 +90,34 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\AppConfiguration.cs" />
+    <Compile Include="Config\WarnLimitConfig.cs" />
     <Compile Include="CounterItem\BaseCounter.cs" />
     <Compile Include="CounterItem\CpuCounter.cs" />
     <Compile Include="CounterItem\GdiCounter.cs" />
     <Compile Include="CounterItem\PCPerformance.cs" />
+    <Compile Include="CounterItem\TotalMemoryUsageCounter.cs" />
+    <Compile Include="Data\Bindings.cs" />
+    <Compile Include="Data\MeasureDataDto.cs" />
     <Compile Include="Data\PCMeasureEventArgs.cs" />
     <Compile Include="Data\SelectedProcess.cs" />
+    <Compile Include="Forms\FavoriteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FavoriteForm.Designer.cs">
+      <DependentUpon>FavoriteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FavoriteManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FavoriteManagerForm.Designer.cs">
+      <DependentUpon>FavoriteManagerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormBorderShadow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormBorderShadow.Designer.cs">
+      <DependentUpon>FormBorderShadow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper\EnumDescription.cs" />
     <Compile Include="Exception\ErrorCode.cs" />
     <Compile Include="Helper\TotalPhysicalMemory.cs" />
@@ -104,7 +126,6 @@
     <Compile Include="CounterItem\ProcessPerformance.cs" />
     <Compile Include="CounterItem\WorstList.cs" />
     <Compile Include="Data\ProcessMeasureEventArgs.cs" />
-    <Compile Include="Data\Record.cs" />
     <Compile Include="Data\GraphViewerDto.cs" />
     <Compile Include="Data\ResultSnapshot.cs" />
     <Compile Include="Data\StProcess.cs" />
@@ -112,6 +133,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\WarnDataRepository.cs" />
+    <Compile Include="UserControls\Configuration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Configuration.Designer.cs">
+      <DependentUpon>Configuration.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\FreeDiskSpaceViewer.cs">
       <SubType>UserControl</SubType>
@@ -253,8 +281,23 @@
     <Compile Include="UserControls\uscRealTimeProcessView.Designer.cs">
       <DependentUpon>uscRealTimeProcessView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\FavoriteForm.resx">
+      <DependentUpon>FavoriteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FavoriteManagerForm.resx">
+      <DependentUpon>FavoriteManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormBorderShadow.resx">
+      <DependentUpon>FormBorderShadow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Configuration.resx">
+      <DependentUpon>Configuration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\FreeDiskSpaceViewer.resx">
       <DependentUpon>FreeDiskSpaceViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\GraphBase.resx">
+      <DependentUpon>GraphBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\GraphMetrics.resx">
       <DependentUpon>GraphMetrics.cs</DependentUpon>

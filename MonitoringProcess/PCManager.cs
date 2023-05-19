@@ -9,6 +9,7 @@ using MonitorigProcess.CounterItem;
 using MonitorigProcess.Data;
 using MonitorigProcess.Helper;
 using MonitoringProcess.CounterItem;
+using MonitoringProcess.Data;
 
 namespace MonitorigProcess
 {
@@ -23,7 +24,7 @@ namespace MonitorigProcess
         private Dictionary<int, ProcessPerformance> mapProcessPerformance;
         public PCPerformance pcPerformance { get; private set; }
 
-        public List<float> FreeSpaceCurrentValues { get; set; }
+        public List<float> DiskSpaceReturnValues { get; set; }
 
         /// <summary>
         /// 내부 필드 초기화만 함, PCManager 생성 후 InitProcessMonitor 호출하여 프로세스 지정해야 함
@@ -32,7 +33,7 @@ namespace MonitorigProcess
         {
             mapProcessPerformance = new Dictionary<int, ProcessPerformance>();
             pcPerformance = new PCPerformance();
-            FreeSpaceCurrentValues = new List<float>();
+            DiskSpaceReturnValues = new List<float>();
 
             long ramSizeKB = 0;
             GetPhysicallyInstalledSystemMemory(out ramSizeKB);
@@ -77,50 +78,64 @@ namespace MonitorigProcess
             }
         }
 
-        public float GetProcessCPUUsage(Process process, DateTime timeStamp)
+        public float GetProcessCPUUsage(int pid, DateTime timeStamp)
         {
-            if(mapProcessPerformance.ContainsKey(process.Id) is false)
+            if(mapProcessPerformance.ContainsKey(pid) is false)
             {
                 return -1f;
             }
-            return mapProcessPerformance[process.Id].processorTimeCounter.GetNextValue(timeStamp);
+            return mapProcessPerformance[pid].processorTimeCounter.GetNextValue(timeStamp);
         }
 
-        public float GetProcessMemoryUsage(Process process, DateTime timeStamp)
+        public float GetProcessMemoryUsage(int pid, DateTime timeStamp)
         {
-            if (mapProcessPerformance.ContainsKey(process.Id) is false)
+            if (mapProcessPerformance.ContainsKey(pid) is false)
             {
                 return -1f;
             }
-            return mapProcessPerformance[process.Id].workingSetCounter.GetNextValue(timeStamp);
+            return mapProcessPerformance[pid].workingSetCounter.GetNextValue(timeStamp);
         }
 
-        public int GetProcessThreadCount(Process process)
+        public int GetProcessThreadCount(int pid)
         {
-            if (mapProcessPerformance.ContainsKey(process.Id) is false)
+            if (mapProcessPerformance.ContainsKey(pid) is false)
             {
                 return -1;
             }
-            return (int)mapProcessPerformance[process.Id].threadCountCounter.GetNextValue();
+            return (int)mapProcessPerformance[pid].threadCountCounter.GetNextValue();
         }
 
-        public int GetProcessHandleCount(Process process)
+        public int GetProcessHandleCount(int pid)
         {
-            if (mapProcessPerformance.ContainsKey(process.Id) is false)
+            if (mapProcessPerformance.ContainsKey(pid) is false)
             {
                 return -1;
             }
-            return (int)mapProcessPerformance[process.Id].handleCountCounter.GetNextValue();
+            return (int)mapProcessPerformance[pid].handleCountCounter.GetNextValue();
         }
 
         public ProcessPerformance GetProcessSet(Process process)
         {
-            return mapProcessPerformance[process.Id];
+            try
+            {
+                return mapProcessPerformance[process.Id];
+            }
+            catch (Exception)
+            {
+                throw new Exception("측정정보가 없습니다.");
+            }
         }
 
         public ProcessPerformance GetProcessSet(int pid)
         {
-            return mapProcessPerformance[pid];
+            try
+            {
+                return mapProcessPerformance[pid];
+            }
+            catch (Exception)
+            {
+                throw new Exception("측정정보가 없습니다.");
+            }
         }
 
         //map에 현재 측정중인 프로세스 정보만 담겨있으면 processes 주입 필요 없는데,
@@ -172,30 +187,41 @@ namespace MonitorigProcess
                 pcPerformance.TotalCpuUsage.GetAverage());
 
             resultSnapshot.totalMemoryResult = new ResultSnapshot.ResultValues(
-                totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetMaxValue(),
-                totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetMinValue(),
-                totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetAverage());
+                totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetMaxValue(),
+                totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetMinValue(),
+                totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetAverage());
 
             return resultSnapshot;
         }
 
-        public int GetProcessGdiCount(Process process)
+        public int GetProcessGdiCount(int pid)
         {
-            if (mapProcessPerformance.ContainsKey(process.Id) is false)
+            if (mapProcessPerformance.ContainsKey(pid) is false)
             {
                 return -1;
             }
-            return (int)mapProcessPerformance[process.Id].gdiCountCounter.GetNextValue();
+            return (int)mapProcessPerformance[pid].gdiCountCounter.GetNextValue();
         }
 
         public List<float> GetFreeDiskSpace()
         {
-            FreeSpaceCurrentValues.Clear();
+            DiskSpaceReturnValues.Clear();
             foreach (Counter item in pcPerformance.FreeDiskSpaceCounters)
             {
-                FreeSpaceCurrentValues.Add(item.GetNextValue());
+                DiskSpaceReturnValues.Add(item.GetNextValue());
             }
-            return FreeSpaceCurrentValues;
+            return DiskSpaceReturnValues;
+        }
+
+        public List<float> GetDiskSpace()
+        {
+            DiskSpaceReturnValues.Clear();
+            foreach (Counter item in pcPerformance.FreeDiskSpaceCounters)
+            {
+                //100% - freeSpace(%)
+                DiskSpaceReturnValues.Add(100 - item.GetNextValue());
+            }
+            return DiskSpaceReturnValues;
         }
 
         public float GetTotalCPUUsage(DateTime timeStamp)
@@ -205,7 +231,53 @@ namespace MonitorigProcess
 
         public float GetTotalMemoryUsage(DateTime timeStamp)
         {
-            return totalPhysicalMemoryMB - pcPerformance.AvailableMemoryMBytes.GetNextValue(timeStamp);
+            return totalPhysicalMemoryMB - pcPerformance.MemoryUsageMB.GetNextValue(timeStamp);
+        }
+
+        //TotalMemory(MB) -> TotalMemory(%)
+        public float ConvertTotalMemoryUsagePercent (float totalMemoryMB)
+        {
+            return (totalMemoryMB / totalPhysicalMemoryMB) * 100;
+        }
+
+        /// <summary>
+        /// [미완] PCManager에서 측정과 로깅과 Warn전송 모두 하는 방향
+        /// 1. 호출 시점에 측정하는 전체 카운터로 측정
+        /// 2. Log
+        /// 3. 임계값 조사 및 WarnData Buffer에 저장
+        /// 측정 값을 담은 MeasureDataDto를
+        /// </summary>
+        /// <returns></returns>
+        public MeasureDataDto MeasureData()
+        {
+            DateTime timeStamp = DateTime.Now;
+            MeasureDataDto dto = new MeasureDataDto(timeStamp);
+
+            //PID로 프로세스 마다 측정하고 값 담기
+            foreach (KeyValuePair<int, ProcessPerformance> processCounters in mapProcessPerformance)
+            {
+                Dictionary<string, float> values = new Dictionary<string, float>();
+                foreach (Counter counter in processCounters.Value)
+                {
+                    //GetNextValue에 timeStamp가 입력되면 Worst를 기록한다.
+                    //모든 프로세스의 카운터가 Worst를 기록하게 되며,
+                    //Worst 저장 할 필요가 없는 카운터도 Worst 확인 연산을 하게되어 성능 하락 요인이 된다.
+                    values[counter.CounterName] = counter.GetNextValue(timeStamp);
+                }
+                //TODO: DTO의 프로세스 키를 SelectedProcess로 변경함에 따라 SelectedProcess 키를 지정하는 참조를 가져와야 함
+                //dto.ProcessMeasureInfo[processCounters.Key] = values;
+            }
+
+            foreach (Counter counter in pcPerformance.FreeDiskSpaceCounters)
+            {
+                dto.DiskSpacePercent[counter.CounterName] = counter.GetNextValue();
+            }
+
+            dto.PcPerformanceInfo[pcPerformance.TotalCpuUsage.CounterName] = pcPerformance.TotalCpuUsage.GetNextValue(timeStamp);
+
+            dto.PcPerformanceInfo[pcPerformance.MemoryUsageMB.CounterName] = pcPerformance.MemoryUsageMB.GetNextValue(timeStamp);
+
+            return dto;
         }
 
     }
